@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Moni's Munchies — Fresh homemade cookies, brownies, muffins and more. Cottage-made in Port Huron, MI. Order online with secure deposits."/>
+  <title>Moni's Munchies — Homemade Baked Goods | Port Huron, MI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>🍪 FRESH BAKED IN PORT HURON, MI</span><span class="m-star">✦</span>
+      <span>COOKIES &nbsp;•&nbsp; BROWNIES &nbsp;•&nbsp; MUFFINS &nbsp;•&nbsp; DRY MIXES</span><span class="m-star">✦</span>
+      <span>CUSTOM ORDERS AVAILABLE</span><span class="m-star">✦</span>
+      <span>FIND US AT LOCAL FARMERS MARKETS</span><span class="m-star">✦</span>
+      <span>🍪 FRESH BAKED IN PORT HURON, MI</span><span class="m-star">✦</span>
+      <span>COOKIES &nbsp;•&nbsp; BROWNIES &nbsp;•&nbsp; MUFFINS &nbsp;•&nbsp; DRY MIXES</span><span class="m-star">✦</span>
+      <span>CUSTOM ORDERS AVAILABLE</span><span class="m-star">✦</span>
+      <span>FIND US AT LOCAL FARMERS MARKETS</span><span class="m-star">✦</span>
+    </div>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">Moni's Munchies</a>
+
+    <ul class="nav-links">
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="order.html" class="nav-cta">Order Now ✦</a></li>
+    </ul>
+
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile nav drawer -->
+  <nav class="nav-mobile" aria-label="Mobile navigation">
+    <a href="shop.html">🍪 Shop</a>
+    <a href="order.html">📋 Place an Order</a>
+    <a href="about.html">💜 About Us</a>
+    <a href="faq.html">❓ FAQ</a>
+    <a href="contact.html">📬 Contact</a>
+    <a href="order.html" class="nav-cta">Order Now ✦</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+    <div class="hero-stars" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">✦ Port Huron, MI ✦</div>
+      <h1>
+        <span class="hero-line1">Homemade with Love.</span>
+        <span class="hero-line2">Flavored with Fun.</span>
+      </h1>
+      <p class="hero-sub">
+        Fresh-baked cookies, brownies, muffins &amp; more —
+        <strong>straight from the heart of Port Huron, Michigan.</strong>
+        Cottage-made, community-loved.
+      </p>
+      <div class="hero-btns">
+        <a href="shop.html" class="btn btn-primary btn-lg">🍪 Browse the Shop</a>
+        <a href="order.html" class="btn btn-secondary btn-lg">✦ Place a Custom Order</a>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>scroll down</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M9 12L3 6h12L9 12z"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED PRODUCTS ===== -->
+  <section class="section-dark" style="padding: var(--section-pad);">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 2.5rem;">
+        <span class="section-label">✦ Our Menu</span>
+        <h2 class="section-title">Fresh <span class="accent">Baked Goodness</span></h2>
+        <div class="divider centered"></div>
+        <p class="section-desc" style="margin: 0 auto 2rem;">Everything made fresh to order. Up to 10 items at a time — check back for seasonal specials.</p>
+
+        <div class="category-bar">
+          <div class="cat-tag active" data-filter="all">All</div>
+          <div class="cat-tag" data-filter="cookie">🍪 Cookies</div>
+          <div class="cat-tag" data-filter="brownie">🍫 Brownies</div>
+          <div class="cat-tag" data-filter="muffin">🧁 Muffins</div>
+          <div class="cat-tag" data-filter="mix">🥄 Dry Mixes</div>
+          <div class="cat-tag" data-filter="kit">🎁 Kits</div>
+        </div>
+      </div>
+
+      <div class="product-grid">
+
+        <div class="product-card fade-up" data-category="cookie">
+          <div class="product-img">
+            <span>🍪</span>
+            <div class="product-badge popular">Popular</div>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Cookies</div>
+            <div class="product-name">Chocolate Chip</div>
+            <div class="product-desc">Classic, golden, loaded with chips. The one that started it all.</div>
+            <div class="product-footer">
+              <span class="product-price">$12 / doz</span>
+              <a href="order.html?product=chocolate-chip" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card fade-up" data-category="cookie">
+          <div class="product-img">
+            <span>🤯</span>
+            <div class="product-badge popular">Fan Fave</div>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Cookies</div>
+            <div class="product-name">Kitchen Sink</div>
+            <div class="product-desc">Chips, pretzels, marshmallow, butterscotch, caramel & Better Made. Yes, all of it.</div>
+            <div class="product-footer">
+              <span class="product-price">$15 / doz</span>
+              <a href="order.html?product=kitchen-sink" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card fade-up" data-category="brownie">
+          <div class="product-img"><span>🍫</span></div>
+          <div class="product-info">
+            <div class="product-category">Brownies</div>
+            <div class="product-name">Fudge Brownie</div>
+            <div class="product-desc">Dense, rich, ultra-fudgy. The brownie all others wish they were.</div>
+            <div class="product-footer">
+              <span class="product-price">$14 / doz</span>
+              <a href="order.html?product=fudge-brownie" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card fade-up" data-category="brownie">
+          <div class="product-img">
+            <span>🧂</span>
+            <div class="product-badge new">New</div>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Brownies</div>
+            <div class="product-name">Salted Caramel</div>
+            <div class="product-desc">Fudgy brownie, gooey caramel, a hit of sea salt. Sweet &amp; salty perfection.</div>
+            <div class="product-footer">
+              <span class="product-price">$16 / doz</span>
+              <a href="order.html?product=salted-caramel" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card fade-up" data-category="muffin">
+          <div class="product-img"><span>🫐</span></div>
+          <div class="product-info">
+            <div class="product-category">Muffins</div>
+            <div class="product-name">Blueberry Muffin</div>
+            <div class="product-desc">Bursting with real blueberries. Tender crumb, just like grandma made.</div>
+            <div class="product-footer">
+              <span class="product-price">$10 / 6-pk</span>
+              <a href="order.html?product=blueberry-muffin" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card fade-up" data-category="kit">
+          <div class="product-img">
+            <span>🎁</span>
+            <div class="product-badge new">New</div>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Kit</div>
+            <div class="product-name">Sugar Cookie Kit</div>
+            <div class="product-desc">Everything you need to decorate your own cookies. Perfect for families or parties!</div>
+            <div class="product-footer">
+              <span class="product-price">$18 / kit</span>
+              <a href="order.html?product=sugar-kit" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="text-center" style="margin-top: 2.5rem;">
+        <a href="shop.html" class="btn btn-outline">View Full Shop &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW ORDERING WORKS ===== -->
+  <section>
+    <div class="container">
+      <div class="cta-banner fade-up">
+        <div class="neon-pill neon-pill-pink">
+          <span class="pulse-dot"></span>
+          Secure Deposits via Stripe
+        </div>
+        <h2>Ready to <span class="text-pink">Order?</span> Here's How It Works.</h2>
+        <p>Custom orders are confirmed with a small deposit — the rest is due at pickup. Easy, simple, and secure.</p>
+        <div class="deposit-steps">
+          <div class="dep-step"><div class="dep-num">1</div>Fill out the order form</div>
+          <div class="dep-step"><div class="dep-num">2</div>Pay your deposit via Stripe</div>
+          <div class="dep-step"><div class="dep-num">3</div>Monica bakes fresh</div>
+          <div class="dep-step"><div class="dep-num">4</div>Pick up &amp; pay remainder</div>
+        </div>
+        <a href="order.html" class="btn btn-primary btn-lg">Place a Custom Order &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT TEASER ===== -->
+  <section class="section-dark">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-placeholder fade-up">
+          <span>🧁</span>
+          <p>Photo Coming Soon</p>
+        </div>
+        <div class="about-text fade-up">
+          <span class="section-label">✦ Our Story</span>
+          <h2 class="section-title">Baked with<br><span class="accent">Heart &amp; Soul</span></h2>
+          <div class="divider"></div>
+          <p>Moni's Munchies started the way all great things do — with a love for baking and neighbors who kept asking for "just one more" cookie.</p>
+          <p><strong>Monica Worobi</strong> is the heart and hands behind every batch. Based in Port Huron, MI, she brings homemade quality to every order — no shortcuts, no preservatives, just real baked love.</p>
+          <p>From farmers markets to custom orders, Moni's Munchies is a community-first brand built on one simple idea: <strong>everyone deserves a little something delicious.</strong></p>
+          <a href="about.html" class="btn btn-secondary" style="margin-top: 0.5rem;">Read Our Full Story &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR ===== -->
+  <div class="trust-bar">
+    <div class="trust-grid">
+      <div class="trust-item fade-up">
+        <div class="trust-icon" style="color: var(--yellow);">🏡</div>
+        <h4>Cottage Made</h4>
+        <p>Home-kitchen baked in compliance with Michigan Cottage Food Law</p>
+      </div>
+      <div class="trust-item fade-up">
+        <div class="trust-icon" style="color: var(--pink);">💳</div>
+        <h4>Secure Deposits</h4>
+        <p>Powered by Stripe — industry-standard payment security</p>
+      </div>
+      <div class="trust-item fade-up">
+        <div class="trust-icon" style="color: var(--blue);">📍</div>
+        <h4>Port Huron Local</h4>
+        <p>Proudly serving Port Huron and surrounding communities</p>
+      </div>
+      <div class="trust-item fade-up">
+        <div class="trust-icon" style="color: var(--purple);">🎪</div>
+        <h4>Farmers Markets</h4>
+        <p>Find us live at local markets and community events</p>
+      </div>
+      <div class="trust-item fade-up">
+        <div class="trust-icon" style="color: var(--yellow);">⚡</div>
+        <h4>Fast Response</h4>
+        <p>We typically respond to all inquiries within 24 hours</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FAQ PREVIEW ===== -->
+  <section>
+    <div class="container" style="max-width: 760px;">
+      <div class="text-center" style="margin-bottom: 2.5rem;">
+        <span class="section-label">✦ Questions</span>
+        <h2 class="section-title">Got <span class="accent">Questions?</span></h2>
+        <div class="divider centered"></div>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-question">
+            How do I place an order?
+            <i class="faq-icon">+</i>
+          </button>
+          <div class="faq-answer" style="max-height: 300px;">
+            <div class="faq-answer-inner">Fill out the order form on our Order page, pay your deposit via Stripe, and we'll confirm your order within 24 hours. Easy as pie — or cookies, rather!</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is the deposit, and when is the rest due?
+            <i class="faq-icon">+</i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Deposits vary by order size: $5 for small orders under $20, $10 for orders $20–$50, or 50% for larger custom orders. The remainder is collected at pickup.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How far in advance should I order?
+            <i class="faq-icon">+</i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">We ask for at least 3–5 days notice on most orders, and 7–10 days for large or heavily customized orders. Rush orders may be available — just ask!</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I request custom flavors or special dietary options?
+            <i class="faq-icon">+</i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Absolutely! Use the "special requests" field on the order form. We'll do our best to accommodate. Note: our kitchen also processes nuts, dairy, eggs, and wheat.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 2rem;">
+        <a href="faq.html" class="btn btn-outline">See All FAQs &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Moni's Munchies</a>
+        <p>Homemade baked goods made with love in Port Huron, Michigan. Find us at farmers markets, or order directly online.</p>
+        <div class="social-links">
+          <a href="https://facebook.com/monismunchies" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="social-btn" aria-label="Instagram">&#9752;</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="order.html">Custom Order</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Products</h5>
+        <ul>
+          <li><a href="shop.html">Cookies</a></li>
+          <li><a href="shop.html">Brownies</a></li>
+          <li><a href="shop.html">Muffins</a></li>
+          <li><a href="shop.html">Dry Mixes</a></li>
+          <li><a href="shop.html">Kits</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:orders@monismunchies.com">orders@monismunchies.com</a></li>
+          <li><a href="contact.html">Port Huron, MI</a></li>
+          <li><a href="https://facebook.com/monismunchies" target="_blank" rel="noopener">Facebook Page</a></li>
+          <li><a href="contact.html">Response: within 24hrs</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cottage-notice">
+      ⚠️ <strong>Michigan Cottage Food Notice:</strong> Products sold by Moni's Munchies are made in a home kitchen not inspected by the Michigan Department of Agriculture and Rural Development. This operation complies with Michigan's Cottage Food Law. Products may contain common allergens including wheat, eggs, dairy, and tree nuts.
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Moni's Munchies &middot; Port Huron, MI</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
