@@ -199,16 +199,36 @@ const MM_CONFIG = {
 
 
   /* ──────────────────────────────────────────────────────────────
-     STRIPE PAYMENT LINKS
-     Replace these with your actual Stripe Payment Link URLs
-     once your Stripe account is set up at stripe.com
+     STRIPE CHECKOUT API
+     The site now uses Stripe Checkout (dynamic amounts) via the
+     Node.js backend in server.js.
+     Set STRIPE_SECRET_KEY in the .env file on the VPS.
+
+     STRIPE_PUBLISHABLE_KEY goes here (safe to expose in frontend):
+     Get from: stripe.com → Developers → API Keys → Publishable key
      ────────────────────────────────────────────────────────────── */
   stripe: {
-    links: {
-      5:      'https://buy.stripe.com/REPLACE_WITH_$5_LINK',
-      10:     'https://buy.stripe.com/REPLACE_WITH_$10_LINK',
-      custom: 'https://buy.stripe.com/REPLACE_WITH_CUSTOM_LINK',
-    },
+    publishableKey: 'pk_test_REPLACE_WITH_YOUR_PUBLISHABLE_KEY',
+    // API endpoint — served by server.js via Nginx proxy
+    checkoutEndpoint: '/api/create-checkout-session',
+  },
+
+
+  /* ──────────────────────────────────────────────────────────────
+     MAILCHIMP EMAIL LIST
+     Used by the newsletter popup and order opt-in.
+     The actual subscription call goes through server.js (/api/subscribe)
+     so your API key stays private on the server.
+
+     Set MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID, MAILCHIMP_SERVER
+     in the .env file on the VPS.
+
+     The values below are just for display/reference — they are
+     not secret and are safe to leave as-is until you're ready.
+     ────────────────────────────────────────────────────────────── */
+  mailchimp: {
+    subscribeEndpoint: '/api/subscribe',  // proxied through Nginx to server.js
+    listName:          "Moni's Munchies Updates",
   },
 
 

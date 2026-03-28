@@ -31,6 +31,8 @@
 
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="custom-order.html">Custom Order</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="faq.html">FAQ</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -45,6 +47,8 @@
   <!-- Mobile nav drawer -->
   <nav class="nav-mobile" aria-label="Mobile navigation">
     <a href="shop.html">🍪 Shop</a>
+    <a href="order.html">📋 Menu Order</a>
+    <a href="custom-order.html">✨ Custom Order</a>
     <a href="about.html">💜 About Us</a>
     <a href="faq.html">❓ FAQ</a>
     <a href="contact.html">📬 Contact</a>
@@ -327,6 +331,28 @@
     </div>
   </section>
 
+  <!-- ===== NEWSLETTER SIGNUP ===== -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-card fade-up">
+        <div class="newsletter-icon" aria-hidden="true">🍪</div>
+        <div class="newsletter-text">
+          <span class="section-label">✦ Stay in the Loop</span>
+          <h2 class="newsletter-title">Get Fresh Drop <span class="accent">Alerts</span></h2>
+          <p class="newsletter-desc">Be the first to know about new flavors, market dates, and exclusive deals. No spam — just delicious updates.</p>
+        </div>
+        <form id="newsletter-form" class="newsletter-form" novalidate>
+          <div class="newsletter-inputs">
+            <input type="text" name="fname" placeholder="First name" class="form-input newsletter-fname" autocomplete="given-name">
+            <input type="email" name="email" placeholder="Your email address" class="form-input newsletter-email" required autocomplete="email">
+            <button type="submit" class="btn btn-primary newsletter-btn">Subscribe ✦</button>
+          </div>
+          <p class="newsletter-fine">No spam, ever. Unsubscribe anytime. Powered by Mailchimp.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <div class="footer-grid">
@@ -383,6 +409,23 @@
     </div>
   </footer>
 
+  <!-- ===== NEWSLETTER POPUP ===== -->
+  <div id="newsletter-popup" class="newsletter-popup" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+    <div class="popup-card">
+      <button class="popup-close" aria-label="Close popup">&times;</button>
+      <div class="popup-icon" aria-hidden="true">🍪</div>
+      <h3 class="popup-title">Want <span class="accent">Sweet</span> Alerts?</h3>
+      <p class="popup-desc">New flavors, market dates, secret drops — straight to your inbox. Zero spam.</p>
+      <form id="popup-signup-form" novalidate>
+        <input type="text" name="fname" placeholder="First name (optional)" class="form-input popup-input" autocomplete="given-name">
+        <input type="email" name="email" placeholder="Your email address" class="form-input popup-input" required autocomplete="email">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 0.75rem;">Yes! Keep Me Posted ✦</button>
+      </form>
+      <button class="popup-skip" onclick="document.getElementById('newsletter-popup').classList.remove('visible'); localStorage.setItem('mm_popup_dismissed', Date.now());">No thanks, I'll miss out</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

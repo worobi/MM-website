@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Place a custom order with Moni's Munchies. Secure deposits via Stripe. Fresh-baked in Port Huron, MI."/>
-  <title>Place an Order — Moni's Munchies</title>
+  <meta name="description" content="Order from Moni's Munchies menu — cookies, brownies, muffins, dry mixes. Build your cart and pay a secure deposit. Fresh-baked in Port Huron, MI."/>
+  <title>Order from Menu — Moni's Munchies</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Flatpickr calendar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -22,8 +21,6 @@
       <span>FIND US AT LOCAL FARMERS MARKETS</span><span class="m-star">✦</span>
       <span>🍪 FRESH BAKED IN PORT HURON, MI</span><span class="m-star">✦</span>
       <span>COOKIES &nbsp;•&nbsp; BROWNIES &nbsp;•&nbsp; MUFFINS &nbsp;•&nbsp; DRY MIXES</span><span class="m-star">✦</span>
-      <span>CUSTOM ORDERS AVAILABLE</span><span class="m-star">✦</span>
-      <span>FIND US AT LOCAL FARMERS MARKETS</span><span class="m-star">✦</span>
     </div>
   </div>
 
@@ -32,8 +29,9 @@
     <a href="index.html" class="nav-logo">Moni's Munchies</a>
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="custom-order.html">Custom Order</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="faq.html">FAQ</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="order.html" class="nav-cta">Order Now ✦</a></li>
     </ul>
@@ -43,6 +41,8 @@
   </nav>
   <nav class="nav-mobile" aria-label="Mobile navigation">
     <a href="shop.html">🍪 Shop</a>
+    <a href="order.html">🛒 Order from Menu</a>
+    <a href="custom-order.html">✨ Custom Order</a>
     <a href="about.html">💜 About Us</a>
     <a href="faq.html">❓ FAQ</a>
     <a href="contact.html">📬 Contact</a>
@@ -52,9 +52,9 @@
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="page-header-grid" aria-hidden="true"></div>
-    <span class="section-label">✦ Place Your Order</span>
-    <h1>Order <span class="text-pink glow-pink">Fresh</span> Today</h1>
-    <p>Build your cart, pick a weekend, and pay a small deposit to lock it in. Monica bakes fresh — you pick up and pay the rest.</p>
+    <span class="section-label">✦ Menu Order</span>
+    <h1>Build Your <span class="text-pink glow-pink">Cart</span></h1>
+    <p>Add items, pick a weekend, and pay one deposit to lock in your whole order. Monica bakes fresh — you pick up and pay the rest.</p>
   </div>
 
   <!-- HOW IT WORKS STRIP -->
@@ -65,6 +65,12 @@
       <div class="dep-step"><div class="dep-num">3</div>Monica bakes fresh</div>
       <div class="dep-step"><div class="dep-num">4</div>Pick up &amp; pay remainder</div>
     </div>
+  </div>
+
+  <!-- CUSTOM ORDER BANNER -->
+  <div class="custom-order-banner">
+    <span>✨ Need something special?</span>
+    <a href="custom-order.html" class="btn btn-outline btn-sm">Custom Order →</a>
   </div>
 
   <!-- ORDER FORM + SUMMARY -->
@@ -81,29 +87,15 @@
 
       <div class="order-layout">
 
-        <!-- ═══════════════════════════════════════════════════════
-             MAIN FORM CARD
-             ═══════════════════════════════════════════════════════ -->
-        <div class="order-form-card fade-up">
+        <!-- FORM -->
+        <div class="order-form-card fade-up" style="border-radius: 16px;">
 
-          <!-- ORDER TYPE TABS -->
-          <div class="order-tabs" role="tablist" aria-label="Order type">
-            <button class="order-tab active" role="tab" data-tab="menu" aria-selected="true" aria-controls="tab-menu">
-              🍪 Order from Menu
-            </button>
-            <button class="order-tab" role="tab" data-tab="custom" aria-selected="false" aria-controls="tab-custom">
-              ✨ Custom Order
-            </button>
-          </div>
-
-          <!-- ─── SHARED FORM (customer info + date — used by both tabs) ─── -->
           <form id="order-form" novalidate>
             <input type="hidden" id="deposit-hidden" name="deposit-hidden" value="0">
             <input type="hidden" id="order-type-hidden" name="order-type" value="menu">
 
             <!-- Customer Info -->
             <h3 class="form-section-label">Your Info</h3>
-
             <div class="form-row">
               <div class="form-group">
                 <label for="customer-name">Full Name <span class="required">*</span></label>
@@ -116,7 +108,6 @@
                        placeholder="(810) 555-0000" required autocomplete="tel">
               </div>
             </div>
-
             <div class="form-group">
               <label for="customer-email">Email Address <span class="required">*</span></label>
               <input type="email" id="customer-email" name="customer-email" class="form-input"
@@ -124,190 +115,80 @@
               <p class="form-note">Order confirmation will be sent here.</p>
             </div>
 
-            <!-- ═══════════════ TAB: MENU ORDER ═══════════════ -->
-            <div class="tab-panel" id="tab-menu" role="tabpanel">
+            <!-- Cart Builder -->
+            <h3 class="form-section-label" style="margin-top: 1.75rem;">Your Items</h3>
 
-              <h3 class="form-section-label" style="margin-top: 1.5rem;">Your Items</h3>
-
-              <!-- ADD TO CART ROW -->
-              <div class="cart-builder">
-                <div class="cart-builder-selects">
-                  <div class="form-group" style="flex: 1; min-width: 0;">
-                    <label for="order-product">Product</label>
-                    <select id="order-product" name="order-product-picker" class="form-select">
-                      <option value="">— Choose a product —</option>
-                    </select>
-                  </div>
-                  <div class="form-group cart-qty-group">
-                    <label for="order-qty">Qty</label>
-                    <input type="number" id="order-qty" name="order-qty-picker" class="form-input"
-                           min="1" max="50" value="1">
-                  </div>
-                </div>
-
-                <!-- Qty warning + unit note -->
-                <div style="display:flex; gap: 0.5rem; align-items: flex-start; flex-wrap: wrap; margin-bottom: 0.5rem;">
-                  <p class="form-note" id="qty-unit-note" style="flex:1; margin:0;">Select a product to see unit info.</p>
-                  <div class="qty-warning" id="qty-warning">
-                    <span>⚠️</span>
-                    <span id="qty-warning-text">Max available this weekend: —</span>
-                  </div>
-                </div>
-
-                <button type="button" class="btn btn-secondary btn-add-cart" id="add-to-cart-btn">
-                  + Add to Cart
-                </button>
-              </div>
-
-              <!-- CART LIST -->
-              <div class="cart-list-wrap" id="cart-list-wrap">
-                <p class="cart-empty" id="cart-empty">Your cart is empty — add items above.</p>
-                <div id="cart-items"></div>
-
-                <!-- Cart subtotal (hidden until items added) -->
-                <div class="cart-subtotal" id="cart-subtotal-section" style="display:none;">
-                  <div class="cart-subtotal-row">
-                    <span>Subtotal</span>
-                    <span id="cart-subtotal">$0</span>
-                  </div>
-                  <div class="cart-subtotal-row deposit-row">
-                    <span>Deposit due today</span>
-                    <span id="cart-deposit-inline" class="text-pink">—</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pickup Date (menu tab) -->
-              <h3 class="form-section-label" style="margin-top: 1.5rem;">Pickup Details</h3>
-
-              <div class="form-group">
-                <label for="pickup-date">Pickup Date <span class="required">*</span></label>
-                <div class="date-input-wrap">
-                  <input type="text" id="pickup-date" name="pickup-date" class="form-input"
-                         placeholder="Select a weekend date…" required readonly>
-                  <span class="cal-icon" aria-hidden="true">📅</span>
-                </div>
-                <p class="form-note">Weekend pickup only · Orders close Wed midnight</p>
-              </div>
-
-              <div class="form-group">
-                <label for="special-requests">Special Requests / Notes</label>
-                <textarea id="special-requests" name="special-requests" class="form-textarea"
-                          placeholder="Any allergy notes, flavor tweaks, or packaging requests? Let us know!"></textarea>
-              </div>
-
-            </div><!-- /tab-menu -->
-
-
-            <!-- ═══════════════ TAB: CUSTOM ORDER ═══════════════ -->
-            <div class="tab-panel hidden" id="tab-custom" role="tabpanel">
-
-              <div class="custom-order-callout">
-                <span class="custom-callout-icon">✨</span>
-                <div>
-                  <strong>Custom orders are our specialty!</strong> Have something specific in mind? Tell us everything — we'll reach out within 24 hours with a quote and availability.
-                </div>
-              </div>
-
-              <h3 class="form-section-label" style="margin-top: 1.5rem;">About Your Custom Order</h3>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="custom-type">Type of Baked Good <span class="required">*</span></label>
-                  <select id="custom-type" name="custom-type" class="form-select">
-                    <option value="">— Select type —</option>
-                    <optgroup label="🍪 Cookies">
-                      <option value="custom-cookies-decorated">Decorated Sugar Cookies</option>
-                      <option value="custom-cookies-themed">Themed Cookies (custom design)</option>
-                      <option value="custom-cookies-assorted">Assorted Cookie Box</option>
-                    </optgroup>
-                    <optgroup label="🍫 Brownies">
-                      <option value="custom-brownie-tray">Custom Brownie Tray</option>
-                      <option value="custom-brownie-box">Gift Box of Brownies</option>
-                    </optgroup>
-                    <optgroup label="🧁 Muffins">
-                      <option value="custom-muffin-basket">Custom Muffin Basket</option>
-                    </optgroup>
-                    <optgroup label="🎁 Gift / Event">
-                      <option value="custom-gift-box">Gift / Favor Box (mixed)</option>
-                      <option value="custom-event-platter">Event Platter (large qty)</option>
-                      <option value="custom-kit">Custom Decorating Kit</option>
-                    </optgroup>
-                    <option value="custom-other">Something else — I'll describe below</option>
+            <div class="cart-builder">
+              <div class="cart-builder-selects">
+                <div class="form-group" style="flex: 1; min-width: 0;">
+                  <label for="order-product">Product</label>
+                  <select id="order-product" name="order-product-picker" class="form-select">
+                    <option value="">— Choose a product —</option>
                   </select>
                 </div>
-                <div class="form-group">
-                  <label for="custom-occasion">Occasion <span class="required">*</span></label>
-                  <select id="custom-occasion" name="custom-occasion" class="form-select">
-                    <option value="">— Select occasion —</option>
-                    <option value="birthday">🎂 Birthday</option>
-                    <option value="wedding">💍 Wedding / Bridal Shower</option>
-                    <option value="baby-shower">👶 Baby Shower</option>
-                    <option value="graduation">🎓 Graduation</option>
-                    <option value="holiday">🎄 Holiday / Seasonal</option>
-                    <option value="office">💼 Office / Corporate Event</option>
-                    <option value="farmers-market">🌽 Farmers Market Bulk</option>
-                    <option value="just-because">💜 Just Because</option>
-                    <option value="other">Other</option>
-                  </select>
+                <div class="form-group cart-qty-group">
+                  <label for="order-qty">Qty</label>
+                  <input type="number" id="order-qty" name="order-qty-picker" class="form-input"
+                         min="1" max="50" value="1">
                 </div>
               </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="custom-qty">Approximate Quantity <span class="required">*</span></label>
-                  <input type="text" id="custom-qty" name="custom-qty" class="form-input"
-                         placeholder="e.g. 3 dozen, 50 pieces, 2 trays">
-                </div>
-                <div class="form-group">
-                  <label for="custom-budget">Estimated Budget</label>
-                  <select id="custom-budget" name="custom-budget" class="form-select">
-                    <option value="">— Select range —</option>
-                    <option value="under-25">Under $25</option>
-                    <option value="25-50">$25 – $50</option>
-                    <option value="50-100">$50 – $100</option>
-                    <option value="100-200">$100 – $200</option>
-                    <option value="200+">$200+</option>
-                    <option value="flexible">Flexible — give me your best price</option>
-                  </select>
+              <div style="display:flex; gap: 0.5rem; align-items: flex-start; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                <p class="form-note" id="qty-unit-note" style="flex:1; margin:0;">Select a product to see unit info.</p>
+                <div class="qty-warning" id="qty-warning">
+                  <span>⚠️</span>
+                  <span id="qty-warning-text">Max available this weekend: —</span>
                 </div>
               </div>
+              <button type="button" class="btn btn-secondary btn-add-cart" id="add-to-cart-btn">
+                + Add to Cart
+              </button>
+            </div>
 
-              <div class="form-group">
-                <label for="custom-date">Date Needed By <span class="required">*</span></label>
-                <div class="date-input-wrap">
-                  <input type="text" id="custom-date" name="custom-date" class="form-input"
-                         placeholder="Select a date…" required readonly>
-                  <span class="cal-icon" aria-hidden="true">📅</span>
+            <!-- Cart List -->
+            <div class="cart-list-wrap" id="cart-list-wrap">
+              <p class="cart-empty" id="cart-empty">Your cart is empty — add items above.</p>
+              <div id="cart-items"></div>
+              <div class="cart-subtotal" id="cart-subtotal-section" style="display:none;">
+                <div class="cart-subtotal-row">
+                  <span>Subtotal</span>
+                  <span id="cart-subtotal">$0</span>
                 </div>
-                <p class="form-note">We'll confirm availability when we reach out. Weekend pickup preferred.</p>
-              </div>
-
-              <div class="form-group">
-                <label for="custom-description">Describe Your Vision <span class="required">*</span></label>
-                <textarea id="custom-description" name="custom-description" class="form-textarea" rows="5"
-                          placeholder="Tell us everything! Colors, themes, flavors, specific designs, dietary needs, how it will be used, inspiration ideas, anything you have in mind. The more detail the better!"></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="custom-inspiration">Inspiration / Reference Link <span style="color: var(--text-faint); font-weight: 400;">(optional)</span></label>
-                <input type="url" id="custom-inspiration" name="custom-inspiration" class="form-input"
-                       placeholder="https://pinterest.com/... or any image link">
-                <p class="form-note">Link to a Pinterest pin, photo, or website that shows what you have in mind.</p>
-              </div>
-
-              <div class="custom-deposit-note">
-                <span>💳</span>
-                <div>
-                  <strong>Custom order deposit:</strong> A $10 deposit holds your spot while we prepare your quote. Once we confirm details together, the deposit applies to your total. No extra charge if you cancel before we confirm.
+                <div class="cart-subtotal-row deposit-row">
+                  <span>Deposit due today</span>
+                  <span id="cart-deposit-inline" class="text-pink">—</span>
                 </div>
               </div>
+            </div>
 
-            </div><!-- /tab-custom -->
+            <!-- Pickup Details -->
+            <h3 class="form-section-label" style="margin-top: 1.75rem;">Pickup Details</h3>
+            <div class="form-group">
+              <label for="pickup-date">Pickup Date <span class="required">*</span></label>
+              <div class="date-input-wrap">
+                <input type="text" id="pickup-date" name="pickup-date" class="form-input"
+                       placeholder="Select a weekend date…" required readonly>
+                <span class="cal-icon" aria-hidden="true">📅</span>
+              </div>
+              <p class="form-note">Weekend pickup only · Orders close Wednesday midnight</p>
+            </div>
 
+            <div class="form-group">
+              <label for="special-requests">Special Requests / Notes</label>
+              <textarea id="special-requests" name="special-requests" class="form-textarea"
+                        placeholder="Allergy notes, flavor tweaks, packaging requests, anything we should know!"></textarea>
+            </div>
 
-            <!-- ─── SHARED BOTTOM FIELDS ─── -->
-            <div class="form-group" style="margin-top: 1.5rem;" id="how-heard-group">
+            <!-- Email opt-in -->
+            <div class="form-group" style="margin-top: 1rem;">
+              <label style="display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;">
+                <input type="checkbox" name="email-optin" id="email-optin"
+                       style="width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--pink);">
+                <span>Sign me up for updates — new products, market dates, and seasonal specials. (Optional)</span>
+              </label>
+            </div>
+
+            <!-- How heard -->
+            <div class="form-group" style="margin-top: 0.75rem;">
               <label for="how-heard">How did you hear about us?</label>
               <select id="how-heard" name="how-heard" class="form-select">
                 <option value="">— Select one (optional) —</option>
@@ -320,7 +201,7 @@
               </select>
             </div>
 
-            <!-- Deposit acknowledgment -->
+            <!-- Deposit agreement -->
             <div class="form-group" style="margin-top: 1.25rem;">
               <label style="display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;">
                 <input type="checkbox" name="deposit-agree" id="deposit-agree" required
@@ -329,7 +210,6 @@
               </label>
             </div>
 
-            <!-- Submit -->
             <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;" id="submit-btn">
               Continue to Pay Deposit &rarr;
             </button>
@@ -339,47 +219,21 @@
               <span>Your payment info is never stored on our servers.</span>
             </div>
           </form>
-        </div><!-- /order-form-card -->
+        </div>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             SIDEBAR
-             ═══════════════════════════════════════════════════════ -->
+        <!-- SIDEBAR -->
         <div>
-
           <!-- Order Summary -->
           <div class="order-summary-card fade-up">
             <h3>Order Summary</h3>
-
-            <!-- Menu order summary (shown in menu tab) -->
-            <div id="summary-menu-items">
-              <p class="cart-empty" id="summary-empty" style="font-size: 0.85rem; color: var(--text-faint); margin: 0.5rem 0 1rem;">Add items to your cart to see your summary.</p>
-              <div id="summary-cart-lines"></div>
-            </div>
-
-            <!-- Custom order summary (shown in custom tab) -->
-            <div id="summary-custom" style="display:none;">
-              <div class="summary-row">
-                <span class="label">Type</span>
-                <span class="value" id="summary-custom-type">—</span>
-              </div>
-              <div class="summary-row">
-                <span class="label">Occasion</span>
-                <span class="value" id="summary-custom-occasion">—</span>
-              </div>
-              <div class="summary-row">
-                <span class="label">Quantity</span>
-                <span class="value" id="summary-custom-qty">—</span>
-              </div>
-            </div>
-
+            <p class="cart-empty" id="summary-empty" style="font-size: 0.85rem; color: var(--text-faint); margin: 0.5rem 0 1rem;">Add items to your cart to see your summary.</p>
+            <div id="summary-cart-lines"></div>
             <div class="summary-row">
-              <span class="label">Pickup / Need By</span>
+              <span class="label">Pickup Date</span>
               <span class="value" id="summary-date">—</span>
             </div>
-
             <hr class="summary-divider">
-            <div class="summary-row" id="summary-total-row">
+            <div class="summary-row">
               <span class="label">Estimated Total</span>
               <span class="value" id="order-total">—</span>
             </div>
@@ -388,17 +242,15 @@
               <span class="deposit-amount" id="deposit-amount">—</span>
             </div>
             <div style="font-size: 0.82rem; color: var(--text-faint); line-height: 1.6; margin-bottom: 1.25rem;">
-              Remainder collected at pickup. We'll confirm your order within 24 hours after your deposit is received.
+              Remainder collected at pickup. We'll confirm your order within 24 hours.
             </div>
             <a href="faq.html#deposits" class="btn btn-ghost btn-sm btn-block">Questions about deposits?</a>
           </div>
 
           <!-- Upcoming pickup dates -->
-          <div class="order-summary-card fade-up" style="margin-top: 1.25rem;" id="pickup-schedule-card">
+          <div class="order-summary-card fade-up" style="margin-top: 1.25rem;">
             <h3 style="font-size: 1rem; margin-bottom: 1rem;">📅 Upcoming Pickup Weekends</h3>
-            <div class="pickup-schedule" id="pickup-schedule">
-              <!-- Populated by JS -->
-            </div>
+            <div class="pickup-schedule" id="pickup-schedule"></div>
             <p style="font-size: 0.78rem; color: var(--text-faint); margin-top: 0.5rem; line-height: 1.5;">
               Orders close <strong style="color: var(--yellow);">Wednesday at midnight</strong> for the following weekend.
             </p>
@@ -420,17 +272,20 @@
                 <span class="label">Orders over $50</span>
                 <span class="value text-yellow">50% deposit</span>
               </div>
-              <div class="summary-row" style="border-top: 1px solid var(--border); padding-top: 0.5rem; margin-top: 0.25rem;">
-                <span class="label">Custom orders</span>
-                <span class="value text-yellow">$10 flat</span>
-              </div>
             </div>
           </div>
 
-        </div><!-- /sidebar -->
+          <!-- Custom order CTA -->
+          <div class="order-summary-card fade-up" style="margin-top: 1.25rem; border-color: rgba(0,212,255,0.2); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">✨</div>
+            <h3 style="font-size: 1rem; color: var(--blue);">Need Something Custom?</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Decorated cookies, event platters, themed gift boxes — if it's not on the menu, we can still make it happen.</p>
+            <a href="custom-order.html" class="btn btn-outline btn-sm btn-block">Request Custom Order →</a>
+          </div>
+        </div>
 
-      </div><!-- /order-layout -->
-    </div><!-- /container -->
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
@@ -449,7 +304,8 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="shop.html">Shop</a></li>
-          <li><a href="order.html">Custom Order</a></li>
+          <li><a href="order.html">Order from Menu</a></li>
+          <li><a href="custom-order.html">Custom Order</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="faq.html">FAQ</a></li>
           <li><a href="contact.html">Contact</a></li>
@@ -487,7 +343,21 @@
     </div>
   </footer>
 
-  <!-- Scripts: config first, then Flatpickr, then main -->
+  <div id="newsletter-popup" class="newsletter-popup" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+    <div class="popup-card">
+      <button class="popup-close" aria-label="Close popup">&times;</button>
+      <div class="popup-icon" aria-hidden="true">🍪</div>
+      <h3 class="popup-title">Want <span class="accent">Sweet</span> Alerts?</h3>
+      <p class="popup-desc">New flavors, market dates, secret drops — straight to your inbox. Zero spam.</p>
+      <form id="popup-signup-form" novalidate>
+        <input type="text" name="fname" placeholder="First name (optional)" class="form-input popup-input" autocomplete="given-name">
+        <input type="email" name="email" placeholder="Your email address" class="form-input popup-input" required autocomplete="email">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 0.75rem;">Yes! Keep Me Posted ✦</button>
+      </form>
+      <button class="popup-skip" onclick="document.getElementById('newsletter-popup').classList.remove('visible'); localStorage.setItem('mm_popup_dismissed', Date.now());">No thanks, I'll miss out</button>
+    </div>
+  </div>
+
   <script src="js/config.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
   <script src="js/main.js"></script>

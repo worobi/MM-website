@@ -30,6 +30,8 @@
     <a href="index.html" class="nav-logo">Moni's Munchies</a>
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="custom-order.html">Custom Order</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="faq.html">FAQ</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -41,7 +43,8 @@
   </nav>
   <nav class="nav-mobile" aria-label="Mobile navigation">
     <a href="shop.html">🍪 Shop</a>
-    <a href="order.html">📋 Place an Order</a>
+    <a href="order.html">📋 Menu Order</a>
+    <a href="custom-order.html">✨ Custom Order</a>
     <a href="about.html">💜 About Us</a>
     <a href="faq.html">❓ FAQ</a>
     <a href="contact.html">📬 Contact</a>
@@ -225,6 +228,23 @@
     </div>
   </footer>
 
+  <!-- Newsletter popup -->
+  <div id="newsletter-popup" class="newsletter-popup" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+    <div class="popup-card">
+      <button class="popup-close" aria-label="Close popup">&times;</button>
+      <div class="popup-icon" aria-hidden="true">🍪</div>
+      <h3 class="popup-title">Want <span class="accent">Sweet</span> Alerts?</h3>
+      <p class="popup-desc">New flavors, market dates, secret drops — straight to your inbox. Zero spam.</p>
+      <form id="popup-signup-form" novalidate>
+        <input type="text" name="fname" placeholder="First name (optional)" class="form-input popup-input" autocomplete="given-name">
+        <input type="email" name="email" placeholder="Your email address" class="form-input popup-input" required autocomplete="email">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 0.75rem;">Yes! Keep Me Posted ✦</button>
+      </form>
+      <button class="popup-skip" onclick="document.getElementById('newsletter-popup').classList.remove('visible'); localStorage.setItem('mm_popup_dismissed', Date.now());">No thanks, I'll miss out</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

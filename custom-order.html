@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Place a custom order with Moni's Munchies — decorated cookies, event platters, gift boxes, and more. Fresh-baked in Port Huron, MI."/>
+  <title>Custom Order — Moni's Munchies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>✨ CUSTOM ORDERS — TELL US YOUR VISION</span><span class="m-star">✦</span>
+      <span>DECORATED COOKIES &nbsp;•&nbsp; EVENT PLATTERS &nbsp;•&nbsp; GIFT BOXES</span><span class="m-star">✦</span>
+      <span>BIRTHDAYS &nbsp;•&nbsp; WEDDINGS &nbsp;•&nbsp; SHOWERS &nbsp;•&nbsp; HOLIDAYS</span><span class="m-star">✦</span>
+      <span>🍪 FRESH BAKED IN PORT HURON, MI</span><span class="m-star">✦</span>
+      <span>✨ CUSTOM ORDERS — TELL US YOUR VISION</span><span class="m-star">✦</span>
+      <span>DECORATED COOKIES &nbsp;•&nbsp; EVENT PLATTERS &nbsp;•&nbsp; GIFT BOXES</span><span class="m-star">✦</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">Moni's Munchies</a>
+    <ul class="nav-links">
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="custom-order.html">Custom Order</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="order.html" class="nav-cta">Order Now ✦</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <nav class="nav-mobile" aria-label="Mobile navigation">
+    <a href="shop.html">🍪 Shop</a>
+    <a href="order.html">🛒 Order from Menu</a>
+    <a href="custom-order.html">✨ Custom Order</a>
+    <a href="about.html">💜 About Us</a>
+    <a href="faq.html">❓ FAQ</a>
+    <a href="contact.html">📬 Contact</a>
+    <a href="order.html" class="nav-cta">Order Now ✦</a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-grid" aria-hidden="true"></div>
+    <span class="section-label">✦ Something Special</span>
+    <h1>Custom <span class="text-pink glow-pink">Orders</span></h1>
+    <p>Have a vision? We'll make it happen. Decorated cookies, event platters, gift boxes — describe what you want and we'll quote you within 24 hours.</p>
+  </div>
+
+  <!-- HOW CUSTOM ORDERS WORK -->
+  <div style="background: var(--darker); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem;">
+    <div class="deposit-steps" style="margin-bottom: 0;">
+      <div class="dep-step"><div class="dep-num">1</div>Describe your vision</div>
+      <div class="dep-step"><div class="dep-num">2</div>We send a quote</div>
+      <div class="dep-step"><div class="dep-num">3</div>Pay $10 to confirm</div>
+      <div class="dep-step"><div class="dep-num">4</div>Pick up &amp; pay remainder</div>
+    </div>
+  </div>
+
+  <!-- CUSTOM ORDER EXAMPLES -->
+  <section style="padding: 3rem 0 2rem;">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <span class="section-label">✦ What We Can Do</span>
+        <h2>Popular Custom Requests</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="custom-example-card">
+          <div class="custom-example-icon">🎂</div>
+          <h4>Birthday Orders</h4>
+          <p>Themed cookies, cupcakes, custom treat boxes for any age</p>
+        </div>
+        <div class="custom-example-card">
+          <div class="custom-example-icon">💍</div>
+          <h4>Weddings &amp; Showers</h4>
+          <p>Elegant favors, dessert tables, personalized packaging</p>
+        </div>
+        <div class="custom-example-card">
+          <div class="custom-example-icon">🎁</div>
+          <h4>Gift Boxes</h4>
+          <p>Curated assortments — perfect for holidays, thank-yous, &amp; clients</p>
+        </div>
+        <div class="custom-example-card">
+          <div class="custom-example-icon">🌽</div>
+          <h4>Market Bulk</h4>
+          <p>Large qty orders for events, pop-ups, or farmers market resale</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOM ORDER FORM -->
+  <section style="padding: 0 0 4rem;">
+    <div class="container">
+      <div class="order-layout">
+
+        <!-- FORM -->
+        <div class="order-form-card fade-up" style="border-radius: 16px;">
+          <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Tell Us About Your Order</h2>
+          <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.75rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+            Fill in as much detail as possible — the more we know, the faster we can quote you.
+          </p>
+
+          <div id="custom-order-success" style="display:none; text-align:center; padding: 3rem 1rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+            <h3 style="color: var(--pink); margin-bottom: 0.75rem;">Request Received!</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">We'll reach out within 24 hours with your quote. Check your email (and spam folder just in case).</p>
+            <a href="index.html" class="btn btn-primary">Back to Home</a>
+          </div>
+
+          <form id="custom-order-form" novalidate>
+            <input type="hidden" id="custom-deposit-hidden" name="deposit-hidden" value="10">
+
+            <!-- Contact Info -->
+            <h3 class="form-section-label">Your Info</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="co-name">Full Name <span class="required">*</span></label>
+                <input type="text" id="co-name" name="customer-name" class="form-input"
+                       placeholder="Monica Worobi" required autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label for="co-phone">Phone <span class="required">*</span></label>
+                <input type="tel" id="co-phone" name="customer-phone" class="form-input"
+                       placeholder="(810) 555-0000" required autocomplete="tel">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="co-email">Email Address <span class="required">*</span></label>
+              <input type="email" id="co-email" name="customer-email" class="form-input"
+                     placeholder="you@example.com" required autocomplete="email">
+              <p class="form-note">Your quote will be sent here within 24 hours.</p>
+            </div>
+
+            <!-- Order Details -->
+            <h3 class="form-section-label" style="margin-top: 1.75rem;">Order Details</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="co-type">Type of Baked Good <span class="required">*</span></label>
+                <select id="co-type" name="custom-type" class="form-select" required>
+                  <option value="">— Select type —</option>
+                  <optgroup label="🍪 Cookies">
+                    <option value="Decorated Sugar Cookies">Decorated Sugar Cookies</option>
+                    <option value="Themed Cookies (custom design)">Themed Cookies (custom design)</option>
+                    <option value="Assorted Cookie Box">Assorted Cookie Box</option>
+                  </optgroup>
+                  <optgroup label="🍫 Brownies">
+                    <option value="Custom Brownie Tray">Custom Brownie Tray</option>
+                    <option value="Gift Box of Brownies">Gift Box of Brownies</option>
+                  </optgroup>
+                  <optgroup label="🧁 Muffins">
+                    <option value="Custom Muffin Basket">Custom Muffin Basket</option>
+                  </optgroup>
+                  <optgroup label="🎁 Gift / Event">
+                    <option value="Gift / Favor Box (mixed)">Gift / Favor Box (mixed)</option>
+                    <option value="Event Platter (large qty)">Event Platter (large qty)</option>
+                    <option value="Custom Decorating Kit">Custom Decorating Kit</option>
+                  </optgroup>
+                  <option value="Other — described below">Something else — I'll describe below</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="co-occasion">Occasion <span class="required">*</span></label>
+                <select id="co-occasion" name="custom-occasion" class="form-select" required>
+                  <option value="">— Select occasion —</option>
+                  <option value="Birthday">🎂 Birthday</option>
+                  <option value="Wedding / Bridal Shower">💍 Wedding / Bridal Shower</option>
+                  <option value="Baby Shower">👶 Baby Shower</option>
+                  <option value="Graduation">🎓 Graduation</option>
+                  <option value="Holiday / Seasonal">🎄 Holiday / Seasonal</option>
+                  <option value="Office / Corporate">💼 Office / Corporate</option>
+                  <option value="Farmers Market Bulk">🌽 Farmers Market Bulk</option>
+                  <option value="Just Because">💜 Just Because</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="co-qty">Approximate Quantity <span class="required">*</span></label>
+                <input type="text" id="co-qty" name="custom-qty" class="form-input"
+                       placeholder="e.g. 3 dozen, 50 pieces, 2 trays" required>
+              </div>
+              <div class="form-group">
+                <label for="co-budget">Estimated Budget</label>
+                <select id="co-budget" name="custom-budget" class="form-select">
+                  <option value="">— Select range —</option>
+                  <option value="Under $25">Under $25</option>
+                  <option value="$25 – $50">$25 – $50</option>
+                  <option value="$50 – $100">$50 – $100</option>
+                  <option value="$100 – $200">$100 – $200</option>
+                  <option value="$200+">$200+</option>
+                  <option value="Flexible">Flexible — give me your best price</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="co-date">Date Needed By <span class="required">*</span></label>
+              <div class="date-input-wrap">
+                <input type="text" id="co-date" name="custom-date" class="form-input"
+                       placeholder="Select a date…" required readonly>
+                <span class="cal-icon" aria-hidden="true">📅</span>
+              </div>
+              <p class="form-note">We'll confirm availability when we reach out. Weekend pickup preferred.</p>
+            </div>
+
+            <div class="form-group">
+              <label for="co-desc">Describe Your Vision <span class="required">*</span></label>
+              <textarea id="co-desc" name="custom-description" class="form-textarea" rows="5" required
+                        placeholder="Tell us everything! Colors, themes, flavors, designs, dietary needs, event details, inspiration ideas… The more detail, the better!"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="co-inspiration">Inspiration / Reference Link <span style="color: var(--text-faint); font-weight: 400;">(optional)</span></label>
+              <input type="url" id="co-inspiration" name="custom-inspiration" class="form-input"
+                     placeholder="https://pinterest.com/... or any photo link">
+              <p class="form-note">Link to Pinterest, a photo, or anything that shows what you have in mind.</p>
+            </div>
+
+            <!-- Email opt-in -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label style="display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;">
+                <input type="checkbox" name="email-optin" id="co-optin"
+                       style="width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--pink);">
+                <span>Sign me up for Moni's Munchies updates — new products, market dates, and seasonal specials. (Optional)</span>
+              </label>
+            </div>
+
+            <div class="custom-deposit-note" style="margin: 1.25rem 0;">
+              <span>💳</span>
+              <div>
+                <strong>$10 deposit holds your spot</strong> while we prepare your quote. The deposit applies toward your total once we confirm details together. No charge if you cancel before we confirm.
+              </div>
+            </div>
+
+            <!-- Deposit agreement -->
+            <div class="form-group">
+              <label style="display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;">
+                <input type="checkbox" name="deposit-agree" id="co-agree" required
+                       style="width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--pink);">
+                <span>I understand the $10 deposit holds my spot while you prepare a quote. I'll be contacted within 24 hours. <span class="required">*</span></span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;" id="co-submit-btn">
+              Submit Request &amp; Pay $10 Deposit &rarr;
+            </button>
+
+            <div class="stripe-note" style="justify-content: center; margin-top: 1rem;">
+              <span class="stripe-badge">🔒 Secured by Stripe</span>
+              <span>Your payment info is never stored on our servers.</span>
+            </div>
+          </form>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div>
+          <!-- Summary -->
+          <div class="order-summary-card fade-up">
+            <h3>Request Summary</h3>
+            <div class="summary-row">
+              <span class="label">Type</span>
+              <span class="value" id="co-sum-type">—</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Occasion</span>
+              <span class="value" id="co-sum-occasion">—</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Quantity</span>
+              <span class="value" id="co-sum-qty">—</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Date Needed</span>
+              <span class="value" id="co-sum-date">—</span>
+            </div>
+            <hr class="summary-divider">
+            <div class="summary-row">
+              <span class="label">Estimated Total</span>
+              <span class="value" style="color: var(--text-muted);">TBD — we'll quote you</span>
+            </div>
+            <div class="summary-total">
+              <span class="label">Deposit Due Today</span>
+              <span class="deposit-amount">$10</span>
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-faint); line-height: 1.6; margin-bottom: 1.25rem;">
+              We'll send your full quote by email within 24 hours of receiving your request.
+            </div>
+            <a href="faq.html" class="btn btn-ghost btn-sm btn-block">Questions? See our FAQ</a>
+          </div>
+
+          <!-- Why custom? -->
+          <div class="order-summary-card fade-up" style="margin-top: 1.25rem;">
+            <h3 style="font-size: 1rem; color: var(--yellow);">✦ Why Custom Orders?</h3>
+            <div style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div>🎨 <strong style="color: var(--text);">Your design, your colors</strong> — we match your theme exactly</div>
+              <div>📦 <strong style="color: var(--text);">Any quantity</strong> — from a dozen to hundreds</div>
+              <div>🤝 <strong style="color: var(--text);">Personal touch</strong> — Monica personally handles every custom order</div>
+              <div>💌 <strong style="color: var(--text);">Quote within 24hrs</strong> — fast turnaround on pricing</div>
+            </div>
+          </div>
+
+          <!-- Lead time note -->
+          <div class="order-summary-card fade-up" style="margin-top: 1.25rem; border-color: rgba(255,45,120,0.2);">
+            <h3 style="font-size: 1rem; color: var(--pink);">⏱ Lead Time</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+              <div class="summary-row">
+                <span class="label">Standard custom</span>
+                <span class="value">5–7 days</span>
+              </div>
+              <div class="summary-row">
+                <span class="label">Large / complex</span>
+                <span class="value">7–14 days</span>
+              </div>
+              <div class="summary-row">
+                <span class="label">Rush available?</span>
+                <span class="value" style="color: var(--yellow);">Ask us!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Moni's Munchies</a>
+        <p>Homemade baked goods made with love in Port Huron, Michigan.</p>
+        <div class="social-links">
+          <a href="https://facebook.com/monismunchies" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="social-btn" aria-label="Instagram">&#9752;</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="order.html">Order from Menu</a></li>
+          <li><a href="custom-order.html">Custom Order</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Products</h5>
+        <ul>
+          <li><a href="shop.html">Cookies</a></li>
+          <li><a href="shop.html">Brownies</a></li>
+          <li><a href="shop.html">Muffins</a></li>
+          <li><a href="shop.html">Dry Mixes</a></li>
+          <li><a href="shop.html">Kits</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:orders@monismunchies.com">orders@monismunchies.com</a></li>
+          <li><a href="contact.html">Port Huron, MI</a></li>
+          <li><a href="https://facebook.com/monismunchies" target="_blank" rel="noopener">Facebook Page</a></li>
+          <li><a href="contact.html">Response: within 24hrs</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="cottage-notice">
+      ⚠️ <strong>Michigan Cottage Food Notice:</strong> Products sold by Moni's Munchies are made in a home kitchen not inspected by the Michigan Department of Agriculture and Rural Development. This operation complies with Michigan's Cottage Food Law. Products may contain common allergens including wheat, eggs, dairy, and tree nuts.
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Moni's Munchies &middot; Port Huron, MI</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="newsletter-popup" class="newsletter-popup" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+    <div class="popup-card">
+      <button class="popup-close" aria-label="Close popup">&times;</button>
+      <div class="popup-icon" aria-hidden="true">🍪</div>
+      <h3 class="popup-title">Want <span class="accent">Sweet</span> Alerts?</h3>
+      <p class="popup-desc">New flavors, market dates, secret drops — straight to your inbox. Zero spam.</p>
+      <form id="popup-signup-form" novalidate>
+        <input type="text" name="fname" placeholder="First name (optional)" class="form-input popup-input" autocomplete="given-name">
+        <input type="email" name="email" placeholder="Your email address" class="form-input popup-input" required autocomplete="email">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 0.75rem;">Yes! Keep Me Posted ✦</button>
+      </form>
+      <button class="popup-skip" onclick="document.getElementById('newsletter-popup').classList.remove('visible'); localStorage.setItem('mm_popup_dismissed', Date.now());">No thanks, I'll miss out</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
