@@ -1,0 +1,43 @@
+# ============================================================
+#  Moni's Munchies — Auto Deploy via GitHub Actions
+#
+#  Every time you push to the main branch, this workflow
+#  automatically SSHes into your VPS and pulls the latest code.
+#
+#  SETUP REQUIRED (one-time, in GitHub):
+#    1. Go to your repo → Settings → Secrets and variables → Actions
+#    2. Add these Repository Secrets:
+#         VPS_HOST     → your VPS IP address (e.g. 123.456.789.10)
+#         VPS_USER     → ssh username (usually: root)
+#         VPS_SSH_KEY  → your PRIVATE SSH key (see guide for how to generate)
+# ============================================================
+
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main   # Fires on every push to main branch
+
+jobs:
+  deploy:
+    name: Deploy to monismunchies.com
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /var/www/monismunchies
+            git pull origin main
+            chown -R www-data:www-data /var/www/monismunchies
+            chmod -R 755 /var/www/monismunchies
+            systemctl reload nginx
+            echo "✅ Deploy complete"
