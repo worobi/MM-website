@@ -2437,10 +2437,10 @@ input.flatpickr-input.form-input {
    NEWSLETTER POPUP MODAL
    ================================================================ */
 .newsletter-popup {
+  display: none;
   position: fixed;
   inset: 0;
   z-index: 9999;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
@@ -2448,13 +2448,12 @@ input.flatpickr-input.form-input {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   opacity: 0;
-  pointer-events: none;
   transition: opacity 0.35s ease;
 }
 
 .newsletter-popup.visible {
+  display: flex;
   opacity: 1;
-  pointer-events: auto;
 }
 
 .popup-card {

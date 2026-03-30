@@ -249,7 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function dismissPopup() {
-      popupEl.classList.remove('visible');
+      popupEl.style.opacity = '0';
+      setTimeout(() => popupEl.classList.remove('visible'), 350);
       localStorage.setItem(POPUP_KEY, Date.now());
     }
 
