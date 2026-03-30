@@ -437,11 +437,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const qtyUnitNote    = document.getElementById('qty-unit-note');
 
     const PRODUCT_GROUPS = {
-      cookie:  { label: '🍪 Cookies',   keys: ['chocolate-chip','devils-food','kitchen-sink'] },
-      brownie: { label: '🍫 Brownies',  keys: ['fudge-brownie','blondie','marble-brownie','salted-caramel'] },
-      muffin:  { label: '🧁 Muffins',   keys: ['blueberry-muffin','choc-chip-muffin','banana-nut-muffin'] },
-      mix:     { label: '🥄 Dry Mixes', keys: ['sugar-mix','snickerdoodle-mix','chocolate-mix','dark-cocoa-mix','milk-cocoa-mix','mint-cocoa-mix'] },
-      kit:     { label: '🎁 Kits',      keys: ['sugar-kit'] },
+      cookie:  { label: '🍪 Cookies',   keys: ['chocolate-chip','devils-food','sugar-cookie','yin-yang-cookie','kitchen-sink'] },
+      pastry:  { label: '🥐 Pastries',  keys: ['cinnamon-roll'] },
+      brownie: { label: '🍫 Brownies',  keys: ['fudge-brownie','blondie'] },
+      muffin:  { label: '🧁 Muffins',   keys: ['blueberry-muffin','choc-chip-muffin','banana-nut-muffin','snickerdoodle-muffin'] },
+      mix:     { label: '🥄 Dry Mixes', keys: ['sugar-mix','snickerdoodle-mix','choc-chip-cookie-mix','devils-food-cookie-mix','dark-cocoa-mix','milk-cocoa-mix'] },
     };
 
     if (productSelect && CFG) {
@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const unitMap = { dozen: 'dozens', '6-pack': '6-packs', bag: 'bags', kit: 'kits' };
+      const unitMap = { dozen: 'dozens', '6-pack': '6-packs', '4-pack': '4-packs', bag: 'bags', kit: 'kits' };
       if (qtyUnitNote) qtyUnitNote.textContent = `Ordered in ${unitMap[item.unit] || item.unit}. $${item.price} per ${item.unit}.`;
 
       if (item.maxQty !== null) {
