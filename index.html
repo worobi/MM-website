@@ -31,12 +31,16 @@
 
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
-      <li><a href="order.html">Order</a></li>
-      <li><a href="custom-order.html">Custom Order</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="faq.html">FAQ</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="order.html" class="nav-cta">Order Now ✦</a></li>
+      <li class="nav-order-dropdown">
+        <a href="order.html" class="nav-cta">Order Now ✦</a>
+        <div class="nav-order-menu">
+          <a href="order.html">📋 Menu Order</a>
+          <a href="custom-order.html">✨ Custom Order</a>
+        </div>
+      </li>
     </ul>
 
     <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
@@ -52,7 +56,6 @@
     <a href="about.html">💜 About Us</a>
     <a href="faq.html">❓ FAQ</a>
     <a href="contact.html">📬 Contact</a>
-    <a href="order.html" class="nav-cta">Order Now ✦</a>
   </nav>
 
   <!-- ===== HERO ===== -->
@@ -96,7 +99,6 @@
           <div class="cat-tag" data-filter="cookie">🍪 Cookies</div>
           <div class="cat-tag" data-filter="brownie">🍫 Brownies</div>
           <div class="cat-tag" data-filter="muffin">🧁 Muffins</div>
-          <div class="cat-tag" data-filter="mix">🥄 Dry Mixes</div>
           <div class="cat-tag" data-filter="pastry">🥐 Pastries</div>
           <div class="cat-tag" data-filter="mix">🥄 Dry Mixes</div>
         </div>
@@ -328,28 +330,6 @@
 
       <div class="text-center" style="margin-top: 2rem;">
         <a href="faq.html" class="btn btn-outline">See All FAQs &rarr;</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== NEWSLETTER SIGNUP ===== -->
-  <section class="newsletter-section">
-    <div class="container">
-      <div class="newsletter-card fade-up">
-        <div class="newsletter-icon" aria-hidden="true">🍪</div>
-        <div class="newsletter-text">
-          <span class="section-label">✦ Stay in the Loop</span>
-          <h2 class="newsletter-title">Get Fresh Drop <span class="accent">Alerts</span></h2>
-          <p class="newsletter-desc">Be the first to know about new flavors, market dates, and exclusive deals. No spam — just delicious updates.</p>
-        </div>
-        <form id="newsletter-form" class="newsletter-form" novalidate>
-          <div class="newsletter-inputs">
-            <input type="text" name="fname" placeholder="First name" class="form-input newsletter-fname" autocomplete="given-name">
-            <input type="email" name="email" placeholder="Your email address" class="form-input newsletter-email" required autocomplete="email">
-            <button type="submit" class="btn btn-primary newsletter-btn">Subscribe ✦</button>
-          </div>
-          <p class="newsletter-fine">No spam, ever. Unsubscribe anytime. Powered by Mailchimp.</p>
-        </form>
       </div>
     </div>
   </section>
