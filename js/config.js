@@ -70,33 +70,10 @@ const MM_CONFIG = {
       maxQty:  null,
       soldOut: false,
     },
-    'sugar-cookie': {
-      label:   'Sugar Cookies',
-      price:   12,
-      unit:    'dozen',
-      maxQty:  null,
-      soldOut: false,
-    },
-    'yin-yang-cookie': {
-      label:   'Yin & Yang Cookies',
-      price:   14,
-      unit:    'dozen',
-      maxQty:  null,
-      soldOut: false,
-    },
     'kitchen-sink': {
       label:   'Kitchen Sink Cookies',
       price:   15,
       unit:    'dozen',
-      maxQty:  null,
-      soldOut: false,
-    },
-
-    /* ── PASTRIES ── */
-    'cinnamon-roll': {
-      label:   'Cinnamon Rolls',
-      price:   10,
-      unit:    '4-pack',
       maxQty:  null,
       soldOut: false,
     },
@@ -112,6 +89,20 @@ const MM_CONFIG = {
     'blondie': {
       label:   'Blondie',
       price:   13,
+      unit:    'dozen',
+      maxQty:  null,
+      soldOut: false,
+    },
+    'marble-brownie': {
+      label:   'Marble Brownie',
+      price:   14,
+      unit:    'dozen',
+      maxQty:  null,
+      soldOut: false,
+    },
+    'salted-caramel': {
+      label:   'Salted Caramel Brownie',
+      price:   16,
       unit:    'dozen',
       maxQty:  null,
       soldOut: false,
@@ -139,13 +130,6 @@ const MM_CONFIG = {
       maxQty:  null,
       soldOut: false,
     },
-    'snickerdoodle-muffin': {
-      label:   'Snickerdoodle Muffin',
-      price:   10,
-      unit:    '6-pack',
-      maxQty:  null,
-      soldOut: false,
-    },
 
     /* ── DRY MIXES ── */
     'sugar-mix': {
@@ -162,15 +146,8 @@ const MM_CONFIG = {
       maxQty:  null,
       soldOut: false,
     },
-    'choc-chip-cookie-mix': {
-      label:   'Chocolate Chip Cookie Mix',
-      price:   8,
-      unit:    'bag',
-      maxQty:  null,
-      soldOut: false,
-    },
-    'devils-food-cookie-mix': {
-      label:   "Devil's Food Cookie Mix",
+    'chocolate-mix': {
+      label:   'Chocolate Cookie Mix',
       price:   8,
       unit:    'bag',
       maxQty:  null,
@@ -187,6 +164,22 @@ const MM_CONFIG = {
       label:   'Milk Hot Cocoa Mix',
       price:   9,
       unit:    'bag',
+      maxQty:  null,
+      soldOut: false,
+    },
+    'mint-cocoa-mix': {
+      label:   'Andes Mint Cocoa Mix',
+      price:   9,
+      unit:    'bag',
+      maxQty:  null,
+      soldOut: false,
+    },
+
+    /* ── KITS ── */
+    'sugar-kit': {
+      label:   'Sugar Cookie Decorating Kit',
+      price:   18,
+      unit:    'kit',
       maxQty:  null,
       soldOut: false,
     },
@@ -215,7 +208,7 @@ const MM_CONFIG = {
      Get from: stripe.com → Developers → API Keys → Publishable key
      ────────────────────────────────────────────────────────────── */
   stripe: {
-    publishableKey: 'pk_test_REPLACE_WITH_YOUR_PUBLISHABLE_KEY',
+    publishableKey: 'pk_test_51TG27mC3BumD9fERpXKd45g1s6sMJDdSZGMxx3YRcdf1AxRKzm6J2Xy9GfDU7uwyA5AabddnHn2dALwGMkTJ8pwT00AycRd9la',
     // API endpoint — served by server.js via Nginx proxy
     checkoutEndpoint: '/api/create-checkout-session',
   },
