@@ -28,8 +28,52 @@ const PORT = process.env.PORT || 3000;
 const SITE = process.env.SITE_URL || 'https://monismunchies.com';
 
 // ── Middleware ────────────────────────────────────────────────────
-app.use(express.json());
 app.use(cors({ origin: [SITE, 'http://localhost'] }));
+
+/* ================================================================
+   POST /api/stripe-webhook
+   Stripe calls this after a checkout completes. We verify the
+   signature, then email an order notification via Resend.
+
+   IMPORTANT: this route MUST be mounted BEFORE express.json(),
+   because Stripe signature verification needs the raw request body.
+   ================================================================ */
+app.post(
+  '/api/stripe-webhook',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    const sig           = req.headers['stripe-signature'];
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!webhookSecret) {
+      console.error('[webhook] STRIPE_WEBHOOK_SECRET not configured');
+      return res.status(500).send('Webhook not configured');
+    }
+
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } catch (err) {
+      console.error('[webhook] Signature verification failed:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // We only care about completed checkouts right now
+    if (event.type === 'checkout.session.completed') {
+      try {
+        await sendOrderEmail(event.data.object);
+      } catch (err) {
+        // Never let an email failure block Stripe — just log it loudly
+        console.error('[webhook] sendOrderEmail failed:', err);
+      }
+    }
+
+    res.json({ received: true });
+  }
+);
+
+// JSON parser for every OTHER route (webhook needed raw body above)
+app.use(express.json());
 
 // ── Deposit calculation (mirrors config.js tiers) ─────────────────
 function calcDeposit(cartTotal) {
@@ -210,6 +254,108 @@ app.post('/api/subscribe', async (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', site: SITE });
 });
+
+
+/* ================================================================
+   sendOrderEmail — formats the Stripe session metadata into a
+   human-readable order summary and sends it via Resend.
+   ================================================================ */
+async function sendOrderEmail(session) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const to     = process.env.ORDER_NOTIFY_EMAIL || 'orders@monismunchies.com';
+  const from   = process.env.ORDER_FROM_EMAIL   || `Moni's Munchies Orders <orders@monismunchies.com>`;
+
+  if (!apiKey) {
+    console.error('[webhook] RESEND_API_KEY missing — cannot send order email');
+    console.log('[webhook] Would have emailed. Metadata:', session.metadata);
+    return;
+  }
+
+  const m         = session.metadata || {};
+  const orderType = m.order_type || 'unknown';
+  const depositPaid = ((session.amount_total || 0) / 100).toFixed(2);
+
+  const subject = orderType === 'custom'
+    ? `NEW CUSTOM ORDER — ${m.customer_name || 'Customer'} ($${depositPaid} deposit)`
+    : `NEW ORDER — ${m.customer_name || 'Customer'} ($${depositPaid} deposit)`;
+
+  const html = buildOrderEmailHtml(session, m);
+
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization:  `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from,
+      to:       [to],
+      subject,
+      html,
+      reply_to: m.customer_email || undefined,
+    }),
+  });
+
+  if (!r.ok) {
+    const errText = await r.text();
+    console.error('[webhook] Resend send failed:', r.status, errText);
+  } else {
+    console.log(`[webhook] Order email sent to ${to} for session ${session.id}`);
+  }
+}
+
+
+/* ================================================================
+   buildOrderEmailHtml — returns the email body for an order.
+   Plain HTML, no external assets, safe for any mail client.
+   ================================================================ */
+function buildOrderEmailHtml(session, m) {
+  const depositPaid = ((session.amount_total || 0) / 100).toFixed(2);
+  const orderType   = m.order_type || 'unknown';
+
+  if (orderType === 'custom') {
+    return `
+      <h2>New Custom Order</h2>
+      <p><strong>Deposit paid:</strong> $${depositPaid}</p>
+      <hr>
+      <p><strong>Customer:</strong> ${m.customer_name || ''}<br>
+         <strong>Email:</strong> ${m.customer_email || ''}<br>
+         <strong>Phone:</strong> ${m.customer_phone || ''}<br>
+         <strong>Pickup date:</strong> ${m.custom_date || m.pickup_date || ''}</p>
+      <hr>
+      <p><strong>Type:</strong> ${m.custom_type || ''}<br>
+         <strong>Occasion:</strong> ${m.custom_occasion || ''}<br>
+         <strong>Qty:</strong> ${m.custom_qty || ''}<br>
+         <strong>Budget:</strong> ${m.custom_budget || ''}</p>
+      <p><strong>Details:</strong><br>${String(m.custom_description || '').replace(/\n/g, '<br>')}</p>
+      <hr>
+      <p><em>Balance due at pickup.</em></p>
+      <p style="color:#888;font-size:12px;">Stripe session: ${session.id}</p>
+    `;
+  }
+
+  const cartTotalNum  = parseFloat(m.cart_total || 0);
+  const depositNum    = parseFloat(depositPaid);
+  const balanceDue    = Math.max(0, cartTotalNum - depositNum).toFixed(2);
+
+  return `
+    <h2>New Order</h2>
+    <p><strong>Deposit paid:</strong> $${depositPaid}<br>
+       <strong>Cart total:</strong> $${cartTotalNum.toFixed(2)}<br>
+       <strong>Balance due at pickup:</strong> $${balanceDue}</p>
+    <hr>
+    <p><strong>Customer:</strong> ${m.customer_name || ''}<br>
+       <strong>Email:</strong> ${m.customer_email || ''}<br>
+       <strong>Phone:</strong> ${m.customer_phone || ''}<br>
+       <strong>Pickup date:</strong> ${m.pickup_date || ''}</p>
+    <hr>
+    <p><strong>Items:</strong><br>${String(m.cart_summary || '').replace(/,\s*/g, '<br>')}</p>
+    <p><strong>Special notes:</strong><br>${String(m.special_notes || '').replace(/\n/g, '<br>')}</p>
+    <hr>
+    <p style="color:#888;font-size:12px;">Stripe session: ${session.id}</p>
+  `;
+}
+
 
 app.listen(PORT, () => {
   console.log(`Moni's Munchies API running on port ${PORT}`);
