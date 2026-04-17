@@ -23,6 +23,11 @@ const express = require('express');
 const cors    = require('cors');
 const stripe  = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// Server-authoritative menu (same file the browser uses — dual-exported).
+// Any price the client sends is ignored; we look up price from here.
+const MM_CONFIG = require('./js/config.js');
+const MENU      = MM_CONFIG.inventory;
+
 const app  = express();
 const PORT = process.env.PORT || 3000;
 const SITE = process.env.SITE_URL || 'https://monismunchies.com';
@@ -83,6 +88,76 @@ function calcDeposit(cartTotal) {
   return Math.round(cartTotal * 0.5 * 100) / 100; // 50%, rounded to cents
 }
 
+/* ================================================================
+   validateCart(clientCart)
+   ----------------------------------------------------------------
+   Takes the cart the client sent and REBUILDS it from the server's
+   own menu — client prices are ignored entirely. This is what stops
+   a customer from editing the browser JS to check out for $0.01.
+
+   Returns { ok: true, cart, cartTotal } on success,
+           { ok: false, error: '...' } on any validation failure.
+   Rules:
+     - Each item must have a `key` that exists in MENU
+     - Item must not be soldOut
+     - qty must be a positive integer between 1 and 50
+     - If maxQty is set, a single order can't exceed it
+     - Price + label + unit come from MENU, never from the client
+   ================================================================ */
+function validateCart(clientCart) {
+  if (!Array.isArray(clientCart) || clientCart.length === 0) {
+    return { ok: false, error: 'Cart is empty' };
+  }
+
+  // Cap total distinct line items — stops giant cart DoS
+  if (clientCart.length > 50) {
+    return { ok: false, error: 'Too many items in cart' };
+  }
+
+  const trustedCart = [];
+  let   cartTotal   = 0;
+
+  for (const raw of clientCart) {
+    const key = typeof raw?.key === 'string' ? raw.key : null;
+    const qty = Number.isFinite(+raw?.qty) ? Math.floor(+raw.qty) : 0;
+
+    if (!key || !MENU[key]) {
+      return { ok: false, error: `Unknown product: ${key || 'missing key'}` };
+    }
+    if (qty < 1 || qty > 50) {
+      return { ok: false, error: `Invalid quantity for ${key}` };
+    }
+
+    const item = MENU[key];
+    if (item.soldOut) {
+      return { ok: false, error: `${item.label} is sold out` };
+    }
+    if (item.maxQty && qty > item.maxQty) {
+      return {
+        ok: false,
+        error: `${item.label} — only ${item.maxQty} ${item.unit} available`,
+      };
+    }
+
+    const price = Number(item.price);
+    const line  = Math.round(qty * price * 100) / 100;
+
+    trustedCart.push({
+      key,
+      label: item.label,
+      unit:  item.unit,
+      qty,
+      price,       // server price, never client price
+      line,
+    });
+
+    cartTotal += line;
+  }
+
+  cartTotal = Math.round(cartTotal * 100) / 100;
+  return { ok: true, cart: trustedCart, cartTotal };
+}
+
 
 /* ================================================================
    POST /api/create-checkout-session
@@ -102,9 +177,10 @@ app.post('/api/create-checkout-session', async (req, res) => {
       return res.status(400).json({ error: 'orderType is required' });
     }
 
-    let lineItems = [];
+    let lineItems    = [];
     let depositCents = 0;
     let description  = '';
+    let trustedCart  = null;   // populated below for menu orders only
 
     if (orderType === 'custom') {
       // Custom orders: flat $10 deposit
@@ -124,16 +200,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
       }];
 
     } else {
-      // Menu orders: calculated deposit based on cart total
-      if (!Array.isArray(cart) || cart.length === 0) {
-        return res.status(400).json({ error: 'Cart is empty' });
+      // Menu orders: validate cart server-side, ignore client prices
+      const check = validateCart(cart);
+      if (!check.ok) {
+        return res.status(400).json({ error: check.error });
       }
+      // Trusted cart from server — these numbers are authoritative
+      trustedCart      = check.cart;
+      const cartTotal  = check.cartTotal;
+      const deposit    = calcDeposit(cartTotal);
+      depositCents     = Math.round(deposit * 100);
 
-      const cartTotal = cart.reduce((sum, item) => sum + (item.line || 0), 0);
-      const deposit   = calcDeposit(cartTotal);
-      depositCents    = Math.round(deposit * 100);
-
-      const itemList = cart.map(c => `${c.label} × ${c.qty} ${c.unit}`).join(', ');
+      const itemList = trustedCart.map(c => `${c.label} × ${c.qty} ${c.unit}`).join(', ');
       description    = `Order Deposit · ${itemList}`;
 
       lineItems = [{
@@ -141,7 +219,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
           currency:     'usd',
           product_data: {
             name:        "Order Deposit — Moni's Munchies",
-            description: `Items: ${itemList} · Cart Total: $${cartTotal} · Deposit: $${deposit}`.substring(0, 200),
+            description: `Items: ${itemList} · Cart Total: $${cartTotal.toFixed(2)} · Deposit: $${deposit.toFixed(2)}`.substring(0, 200),
           },
           unit_amount: depositCents,
         },
@@ -159,10 +237,11 @@ app.post('/api/create-checkout-session', async (req, res) => {
     };
 
     if (orderType === 'menu') {
-      metadata.cart_summary  = cart.map(c => `${c.qty}×${c.label}`).join(', ').substring(0, 400);
-      metadata.cart_total    = String(cart.reduce((s, c) => s + c.line, 0));
-      metadata.deposit_amount = String(depositCents / 100);
-      metadata.special_notes = (orderData?.['special-requests'] || '').substring(0, 400);
+      // Use trustedCart (server-authoritative) — NOT the client's original cart
+      metadata.cart_summary   = trustedCart.map(c => `${c.qty}×${c.label}`).join(', ').substring(0, 400);
+      metadata.cart_total     = String(trustedCart.reduce((s, c) => s + c.line, 0).toFixed(2));
+      metadata.deposit_amount = String((depositCents / 100).toFixed(2));
+      metadata.special_notes  = (orderData?.['special-requests'] || '').substring(0, 400);
     } else {
       metadata.custom_type       = (orderData?.['custom-type']        || '').substring(0, 100);
       metadata.custom_occasion   = (orderData?.['custom-occasion']    || '').substring(0, 100);

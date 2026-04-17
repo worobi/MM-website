@@ -246,3 +246,16 @@ const MM_CONFIG = {
   formspree: 'REPLACE_WITH_YOUR_FORM_ID',
 
 };
+
+/* ================================================================
+   DUAL EXPORT — same file works in the browser AND in Node.
+   ----------------------------------------------------------------
+   Browser: MM_CONFIG is already a global `const` above.
+   Node   : server.js does `require('./js/config.js')` and gets
+            the same object back. This means the server uses the
+            EXACT SAME prices the frontend displays — no duplicate
+            price list to keep in sync.
+   ================================================================ */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = MM_CONFIG;
+}
