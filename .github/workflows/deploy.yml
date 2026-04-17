@@ -39,7 +39,11 @@ jobs:
             git pull origin master
             npm install --production
             chown -R www-data:www-data /var/www/monismunchies
+            # Permissions: 755 on everything, then lock down .env to 600
+            # (chmod -R 755 would otherwise expose secrets to any user on the box)
             chmod -R 755 /var/www/monismunchies
+            chmod 600 /var/www/monismunchies/.env 2>/dev/null || true
+            chown root:root /var/www/monismunchies/.env 2>/dev/null || true
             pm2 restart monismunchies
             systemctl reload nginx
             echo "✅ Deploy complete"

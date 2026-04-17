@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Moni's Munchies Brand Guidelines — Logo, colors, typography and usage."/>
+  <title>Brand Guidelines — Moni's Munchies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Brand page overrides ── */
+    .brand-hero {
+      padding: 80px 2rem 60px;
+      text-align: center;
+      background: linear-gradient(135deg, #1a0a00 0%, #0d0022 50%, #070028 100%);
+      border-bottom: 2px solid rgba(255,122,65,0.2);
+    }
+    .brand-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      background: linear-gradient(90deg, #FF7A41, #FF9B60, #B87AFF, #745BFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .brand-hero p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.1rem;
+    }
+
+    /* ── Layout ── */
+    .brand-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 2rem 100px;
+    }
+    .brand-section {
+      margin-bottom: 72px;
+    }
+    .brand-section-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #FF7A41;
+      margin-bottom: 10px;
+    }
+    .brand-section h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .brand-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,122,65,0.4), rgba(116,91,255,0.4), transparent);
+      margin-bottom: 40px;
+    }
+
+    /* ── Logo Display ── */
+    .logo-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .logo-card {
+      border-radius: 20px;
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo-card img {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+    }
+    .logo-card-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .logo-card.on-dark  { background: #0d0022; }
+    .logo-card.on-warm  { background: linear-gradient(135deg, #2a0a00, #1a0a00); }
+    .logo-card.on-light { background: #fff9f4; }
+    .logo-card.on-gradient { background: linear-gradient(135deg, #FF7A41, #B87AFF, #745BFF); }
+
+    /* ── Clear Space ── */
+    .clearspace-demo {
+      background: #1a0033;
+      border: 1px solid rgba(255,122,65,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .clearspace-inner {
+      position: relative;
+      display: inline-block;
+    }
+    .clearspace-inner img {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+    .clearspace-box {
+      position: absolute;
+      inset: -32px;
+      border: 2px dashed rgba(255,122,65,0.5);
+      border-radius: 4px;
+      z-index: 1;
+    }
+    .clearspace-label {
+      position: absolute;
+      top: -44px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FF7A41;
+      white-space: nowrap;
+    }
+    .clearspace-side {
+      position: absolute;
+      right: -80px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.5);
+      white-space: nowrap;
+    }
+
+    /* ── Color Palette ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    .color-swatch {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .swatch-block {
+      height: 100px;
+      width: 100%;
+    }
+    .swatch-info {
+      background: #1a0a2a;
+      padding: 14px 16px;
+    }
+    .swatch-name {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .swatch-hex {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 2px;
+    }
+    .swatch-use {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── Gradient Swatch ── */
+    .gradient-swatch {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .gradient-block {
+      height: 100px;
+    }
+    .gradient-info {
+      background: #1a0a2a;
+      padding: 14px 16px;
+    }
+
+    /* ── Typography ── */
+    .type-samples {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .type-sample {
+      background: #1a0033;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 16px;
+      align-items: center;
+    }
+    .type-sample-meta {
+      text-align: right;
+    }
+    .type-meta-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 4px;
+    }
+    .type-meta-val {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .type-sample-h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #FF7A41, #745BFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .type-sample-h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      color: #fff;
+    }
+    .type-sample-h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: #FF7A41;
+    }
+    .type-sample-body {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+    }
+    .type-sample-caption {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+    }
+
+    /* ── Logo Don'ts ── */
+    .donts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .dont-card {
+      border-radius: 16px;
+      border: 1px solid rgba(255,60,60,0.25);
+      overflow: hidden;
+      background: #1a0033;
+    }
+    .dont-preview {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .dont-preview img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+    .dont-preview.stretched img { transform: scaleX(1.5); }
+    .dont-preview.rotated img { transform: rotate(30deg); }
+    .dont-preview.low-contrast { background: #888; }
+    .dont-preview.squished img { transform: scaleY(0.5); }
+    .dont-label {
+      padding: 14px 16px;
+    }
+    .dont-label .x {
+      color: #FF4444;
+      font-weight: 900;
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+    }
+    .dont-label p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* ── Voice & Tone ── */
+    .voice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .voice-card {
+      background: #1a0033;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .voice-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .voice-card h4 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: #FF7A41;
+      margin-bottom: 8px;
+    }
+    .voice-card p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    /* ── Download Assets ── */
+    .asset-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .asset-card {
+      background: #1a0033;
+      border: 1px solid rgba(255,122,65,0.2);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      transition: all 0.22s ease;
+    }
+    .asset-card:hover {
+      border-color: rgba(255,122,65,0.5);
+      background: #250045;
+      transform: translateY(-2px);
+    }
+    .asset-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .asset-info strong {
+      display: block;
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .asset-info span {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .type-sample { grid-template-columns: 1fr; }
+      .type-sample-meta { text-align: left; }
+      .clearspace-side { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>🍪 FRESH BAKED IN PORT HURON, MI</span><span class="m-star">✦</span>
+      <span>COOKIES &nbsp;•&nbsp; BROWNIES &nbsp;•&nbsp; MUFFINS &nbsp;•&nbsp; DRY MIXES</span><span class="m-star">✦</span>
+      <span>CUSTOM ORDERS AVAILABLE</span><span class="m-star">✦</span>
+      <span>FIND US AT LOCAL FARMERS MARKETS</span><span class="m-star">✦</span>
+      <span>🍪 FRESH BAKED IN PORT HURON, MI</span><span class="m-star">✦</span>
+      <span>COOKIES &nbsp;•&nbsp; BROWNIES &nbsp;•&nbsp; MUFFINS &nbsp;•&nbsp; DRY MIXES</span><span class="m-star">✦</span>
+      <span>CUSTOM ORDERS AVAILABLE</span><span class="m-star">✦</span>
+      <span>FIND US AT LOCAL FARMERS MARKETS</span><span class="m-star">✦</span>
+    </div>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo-new.svg" alt="Moni's Munchies" class="nav-logo-img">
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="brand.html" class="nav-active">Brand</a></li>
+      <li class="nav-order-dropdown">
+        <a href="order.html" class="nav-cta">Order Now ✦</a>
+        <div class="nav-order-menu">
+          <a href="order.html">📋 Menu Order</a>
+          <a href="custom-order.html">✨ Custom Order</a>
+        </div>
+      </li>
+    </ul>
+
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile nav drawer -->
+  <nav class="nav-mobile" aria-label="Mobile navigation">
+    <a href="shop.html">🍪 Shop</a>
+    <a href="order.html">📋 Menu Order</a>
+    <a href="custom-order.html">✨ Custom Order</a>
+    <a href="about.html">💜 About Us</a>
+    <a href="faq.html">❓ FAQ</a>
+    <a href="contact.html">📬 Contact</a>
+    <a href="brand.html">🎨 Brand</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="brand-hero">
+    <div class="brand-section-label">Moni's Munchies</div>
+    <h1>Brand Guidelines</h1>
+    <p>Logo, colors, typography & voice — everything you need to represent us consistently.</p>
+  </div>
+
+  <!-- ===== BRAND BODY ===== -->
+  <div class="brand-body">
+
+    <!-- 1. LOGO -->
+    <section class="brand-section">
+      <div class="brand-section-label">01 — Identity</div>
+      <h2>The Logo</h2>
+      <div class="brand-divider"></div>
+
+      <div class="logo-showcase">
+        <div class="logo-card on-dark">
+          <img src="images/logo-new.svg" alt="Moni's Munchies logo on dark background">
+          <span class="logo-card-label">On Dark (Primary Use)</span>
+        </div>
+        <div class="logo-card on-warm">
+          <img src="images/logo-new.svg" alt="Moni's Munchies logo on warm dark">
+          <span class="logo-card-label">On Warm Dark</span>
+        </div>
+        <div class="logo-card on-gradient">
+          <img src="images/logo-new.svg" alt="Moni's Munchies logo on gradient">
+          <span class="logo-card-label">On Brand Gradient</span>
+        </div>
+        <div class="logo-card on-light">
+          <img src="images/logo-new.svg" alt="Moni's Munchies logo on light background">
+          <span class="logo-card-label">On Light (Packaging / Print)</span>
+        </div>
+      </div>
+
+      <!-- Clear Space -->
+      <h3 style="font-family:'Fredoka One',cursive; color:#fff; font-size:1.2rem; margin-bottom:16px;">Clear Space</h3>
+      <p style="color:rgba(255,255,255,0.55); font-size:0.9rem; margin-bottom:24px;">
+        Always give the logo breathing room. Maintain a minimum clear zone equal to the height of the cookie icon on all four sides. Never crowd the logo with other elements.
+      </p>
+      <div class="clearspace-demo">
+        <div class="clearspace-inner">
+          <span class="clearspace-label">Minimum clear zone on all sides</span>
+          <div class="clearspace-box"></div>
+          <img src="images/logo-new.svg" alt="Logo clear space demo">
+          <span class="clearspace-side">≥ 1× icon height</span>
+        </div>
+      </div>
+
+      <!-- Min size -->
+      <p style="color:rgba(255,255,255,0.45); font-size:0.82rem; margin-top:20px; text-align:center;">
+        Minimum size: <strong style="color:#FF7A41;">60px wide</strong> on screen &nbsp;|&nbsp; <strong style="color:#FF7A41;">0.75 inch</strong> in print
+      </p>
+    </section>
+
+    <!-- 2. WHAT NOT TO DO -->
+    <section class="brand-section">
+      <div class="brand-section-label">02 — Logo Usage</div>
+      <h2>What Not To Do</h2>
+      <div class="brand-divider"></div>
+
+      <div class="donts-grid">
+        <div class="dont-card">
+          <div class="dont-preview stretched">
+            <img src="images/logo-new.svg" alt="">
+          </div>
+          <div class="dont-label">
+            <div class="x">✕ Don't Stretch</div>
+            <p>Never distort the logo's proportions horizontally or vertically.</p>
+          </div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview squished">
+            <img src="images/logo-new.svg" alt="">
+          </div>
+          <div class="dont-label">
+            <div class="x">✕ Don't Squish</div>
+            <p>Always scale uniformly — hold Shift when resizing.</p>
+          </div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview rotated">
+            <img src="images/logo-new.svg" alt="">
+          </div>
+          <div class="dont-label">
+            <div class="x">✕ Don't Rotate</div>
+            <p>Keep the logo upright at all times.</p>
+          </div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview low-contrast">
+            <img src="images/logo-new.svg" alt="">
+          </div>
+          <div class="dont-label">
+            <div class="x">✕ Don't Use Low-Contrast Backgrounds</div>
+            <p>Avoid placing the logo on backgrounds similar in color to the gradient.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. COLOR PALETTE -->
+    <section class="brand-section">
+      <div class="brand-section-label">03 — Colors</div>
+      <h2>Color Palette</h2>
+      <div class="brand-divider"></div>
+
+      <div style="margin-bottom:24px;">
+        <div class="gradient-swatch">
+          <div class="gradient-block" style="background: linear-gradient(90deg, #FF7A41, #FF9B60, #C580FF, #745BFF);"></div>
+          <div class="gradient-info">
+            <div class="swatch-name">Brand Gradient</div>
+            <div class="swatch-hex">#FF7A41 → #745BFF</div>
+            <div class="swatch-use">Primary gradient — logo, headings, accent elements</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#FF7A41;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Munchie Orange</div>
+            <div class="swatch-hex">#FF7A41</div>
+            <div class="swatch-use">Primary / CTAs / Highlights</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#FF9B60;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Peach Fuzz</div>
+            <div class="swatch-hex">#FF9B60</div>
+            <div class="swatch-use">Gradient mid / Hover states</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#C580FF;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Cookie Lavender</div>
+            <div class="swatch-hex">#C580FF</div>
+            <div class="swatch-use">Gradient bridge / Accents</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#745BFF;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Blueberry Batter</div>
+            <div class="swatch-hex">#745BFF</div>
+            <div class="swatch-use">Secondary / Links / Tags</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#6f5004;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Brown Sugar</div>
+            <div class="swatch-hex">#6F5004</div>
+            <div class="swatch-use">Logo detail / Dark outlines</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#FFF8F0; border-bottom:1px solid rgba(0,0,0,0.08);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Cream</div>
+            <div class="swatch-hex">#FFF8F0</div>
+            <div class="swatch-use">Light background / Print</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#1A0033;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Midnight Dough</div>
+            <div class="swatch-hex">#1A0033</div>
+            <div class="swatch-use">Primary background (web)</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#0D0022;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Oven Dark</div>
+            <div class="swatch-hex">#0D0022</div>
+            <div class="swatch-use">Deeper sections / Footer</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TYPOGRAPHY -->
+    <section class="brand-section">
+      <div class="brand-section-label">04 — Typography</div>
+      <h2>Type System</h2>
+      <div class="brand-divider"></div>
+
+      <div class="type-samples">
+        <div class="type-sample">
+          <div class="type-sample-h1">Homemade with Love.</div>
+          <div class="type-sample-meta">
+            <div class="type-meta-label">Hero Heading</div>
+            <div class="type-meta-val">Fredoka One<br>44–56px<br>Gradient fill</div>
+          </div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample-h2">Fresh from the Oven</div>
+          <div class="type-sample-meta">
+            <div class="type-meta-label">Section Heading</div>
+            <div class="type-meta-val">Fredoka One<br>28–36px<br>#FFFFFF</div>
+          </div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample-h3">Kitchen Sink Cookies</div>
+          <div class="type-sample-meta">
+            <div class="type-meta-label">Card / Product Title</div>
+            <div class="type-meta-val">Fredoka One<br>20–24px<br>#FF7A41</div>
+          </div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample-body">Fresh-baked cookies, brownies, muffins & more — straight from the heart of Port Huron, Michigan. Cottage-made, community-loved.</div>
+          <div class="type-sample-meta">
+            <div class="type-meta-label">Body Copy</div>
+            <div class="type-meta-val">Nunito SemiBold<br>16px / 1.6 line-height<br>rgba(255,255,255,0.8)</div>
+          </div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample-caption">Port Huron, MI &nbsp;✦&nbsp; Cottage Food Bakery</div>
+          <div class="type-sample-meta">
+            <div class="type-meta-label">Labels / Captions</div>
+            <div class="type-meta-val">Nunito Bold<br>11–13px<br>Uppercase / tracked</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:28px; background:#1a0033; border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:24px 28px;">
+        <p style="font-size:0.85rem; color:rgba(255,255,255,0.5); margin-bottom:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;">Google Fonts Import</p>
+        <code style="font-size:0.82rem; color:#FF9B60; background:#0d0022; display:block; padding:14px 18px; border-radius:10px; line-height:1.8;">
+          &lt;link href="https://fonts.googleapis.com/css2?<br>
+          &nbsp;&nbsp;family=Fredoka+One&amp;<br>
+          &nbsp;&nbsp;family=Nunito:wght@400;600;700;800;900<br>
+          &nbsp;&nbsp;&display=swap" rel="stylesheet"&gt;
+        </code>
+      </div>
+    </section>
+
+    <!-- 5. VOICE & TONE -->
+    <section class="brand-section">
+      <div class="brand-section-label">05 — Voice & Tone</div>
+      <h2>How We Sound</h2>
+      <div class="brand-divider"></div>
+
+      <div class="voice-grid">
+        <div class="voice-card">
+          <div class="icon">🏠</div>
+          <h4>Homemade & Warm</h4>
+          <p>We speak like a neighbor, not a corporation. Friendly, genuine, and always welcoming.</p>
+        </div>
+        <div class="voice-card">
+          <div class="icon">🎉</div>
+          <h4>Playful & Fun</h4>
+          <p>Bakery should be joyful. Use light humor, exclamation points when earned, and never be stiff.</p>
+        </div>
+        <div class="voice-card">
+          <div class="icon">🏡</div>
+          <h4>Community-First</h4>
+          <p>We're Port Huron proud. Reference local landmarks, shout out the community, celebrate events.</p>
+        </div>
+        <div class="voice-card">
+          <div class="icon">✨</div>
+          <h4>Honest & Simple</h4>
+          <p>No marketing fluff. Real ingredients, real people, real baking. Let the product speak.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:28px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div style="background:#0d2200; border:1px solid rgba(80,220,80,0.2); border-radius:16px; padding:20px 24px;">
+          <p style="font-size:0.7rem; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; color:#39FF14; margin-bottom:12px;">✓ Sound Like This</p>
+          <ul style="font-size:0.85rem; color:rgba(255,255,255,0.7); line-height:2.0; list-style:disc; padding-left:16px;">
+            <li>"Fresh out of the oven just for you 🍪"</li>
+            <li>"Baked in Port Huron, loved everywhere."</li>
+            <li>"Grab a dozen — they won't last long!"</li>
+          </ul>
+        </div>
+        <div style="background:#220000; border:1px solid rgba(255,60,60,0.2); border-radius:16px; padding:20px 24px;">
+          <p style="font-size:0.7rem; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; color:#FF4444; margin-bottom:12px;">✕ Not Like This</p>
+          <ul style="font-size:0.85rem; color:rgba(255,255,255,0.7); line-height:2.0; list-style:disc; padding-left:16px;">
+            <li>"Our artisanal confectioneries..."</li>
+            <li>"Leveraging premium baked goods solutions."</li>
+            <li>"Purchase our inventory-available SKUs."</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. BRAND ASSETS -->
+    <section class="brand-section">
+      <div class="brand-section-label">06 — Assets</div>
+      <h2>Download Brand Assets</h2>
+      <div class="brand-divider"></div>
+
+      <div class="asset-list">
+        <a href="images/logo-new.svg" download="MonsMunchies_Logo.svg" class="asset-card">
+          <span class="asset-icon">🖼️</span>
+          <div class="asset-info">
+            <strong>Logo — SVG (Primary)</strong>
+            <span>Scalable vector · Full color gradient · For all screen use</span>
+          </div>
+        </a>
+        <a href="images/MonsMunchies_Logo.svg" download="MonsMunchies_Logo_Original.svg" class="asset-card">
+          <span class="asset-icon">🏷️</span>
+          <div class="asset-info">
+            <strong>Logo — SVG (Original)</strong>
+            <span>Previous version kept for reference</span>
+          </div>
+        </a>
+        <div class="asset-card" style="opacity:0.5; cursor:default;">
+          <span class="asset-icon">🖨️</span>
+          <div class="asset-info">
+            <strong>Logo — PNG (300 DPI)</strong>
+            <span>Coming soon · For print and packaging</span>
+          </div>
+        </div>
+        <div class="asset-card" style="opacity:0.5; cursor:default;">
+          <span class="asset-icon">📦</span>
+          <div class="asset-info">
+            <strong>Label Templates</strong>
+            <span>Coming soon · Cottage food compliant labels</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- end .brand-body -->
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">Moni's Munchies</p>
+      <p class="footer-copy">© 2025 Moni's Munchies · Port Huron, MI · Cottage Food Bakery</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="brand.html">Brand</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
