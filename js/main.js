@@ -668,8 +668,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentAltNotice   = document.getElementById('payment-alt-notice');
     const stripeSecurityNote = document.getElementById('stripe-security-note');
     const submitBtn          = document.getElementById('submit-btn');
+    const cashHandleCard     = document.getElementById('cash-handle-card');
     const cashappHandleCard  = document.getElementById('cashapp-handle-card');
     const venmoHandleCard    = document.getElementById('venmo-handle-card');
+    const cashNotice         = document.getElementById('payment-cash-notice');
 
     // Populate handles from config
     if (CFG?.payments) {
@@ -694,11 +696,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePaymentUI() {
-      const method = getSelectedPaymentMethod();
-      const isAlt  = method === 'cashapp' || method === 'venmo';
+      const method    = getSelectedPaymentMethod();
+      const isAlt     = method === 'cashapp' || method === 'venmo';
+      const isCash    = method === 'cash';
+      const isStripe  = method === 'stripe';
 
-      if (paymentAltNotice)   paymentAltNotice.style.display  = isAlt ? 'flex' : 'none';
-      if (stripeSecurityNote) stripeSecurityNote.style.display = isAlt ? 'none' : 'flex';
+      if (paymentAltNotice)   paymentAltNotice.style.display  = isAlt   ? 'flex'  : 'none';
+      if (cashNotice)         cashNotice.style.display         = isCash  ? 'flex'  : 'none';
+      if (stripeSecurityNote) stripeSecurityNote.style.display = isStripe ? 'flex' : 'none';
+      if (cashHandleCard)     cashHandleCard.style.display     = isCash              ? 'block' : 'none';
       if (cashappHandleCard)  cashappHandleCard.style.display  = method === 'cashapp' ? 'block' : 'none';
       if (venmoHandleCard)    venmoHandleCard.style.display    = method === 'venmo'   ? 'block' : 'none';
 
@@ -711,6 +717,10 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.textContent       = 'Submit Order — Pay via Venmo →';
           submitBtn.style.background  = 'linear-gradient(135deg,#0074de,#005cb3)';
           submitBtn.style.boxShadow   = '0 0 18px rgba(0,116,222,0.4)';
+        } else if (method === 'cash') {
+          submitBtn.textContent       = 'Submit Order — Pay Cash at Pickup →';
+          submitBtn.style.background  = 'linear-gradient(135deg,#b8860b,#daa520)';
+          submitBtn.style.boxShadow   = '0 0 18px rgba(218,165,32,0.4)';
         } else {
           submitBtn.textContent       = 'Continue to Pay Deposit →';
           submitBtn.style.background  = '';
@@ -792,6 +802,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (submitBtn) { submitBtn.textContent = 'Securing your order…'; submitBtn.disabled = true; }
 
+        /* ── Cash at Pickup path ── */
+        if (paymentMethod === 'cash') {
+          try {
+            const res  = await fetch('/api/submit-order', {
+              method:  'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body:    JSON.stringify({
+                orderType: 'menu', cart: cartPayload,
+                customerEmail, orderData: formData, paymentMethod: 'cash',
+              }),
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) throw new Error(data.error || 'Order submission failed');
+            const params = new URLSearchParams({ payment: 'cash', name: customerName });
+            window.location.href = `thankyou.html?${params.toString()}`;
+          } catch (err) {
+            console.error('Cash order error:', err);
+            if (submitBtn) {
+              submitBtn.textContent  = 'Error — please try again';
+              submitBtn.style.background = '#aa0000';
+              setTimeout(() => { updatePaymentUI(); submitBtn.disabled = false; }, 3000);
+            }
+          }
+          return;
+        }
+
         /* ── CashApp / Venmo path ── */
         if (paymentMethod === 'cashapp' || paymentMethod === 'venmo') {
           try {
@@ -807,8 +843,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!res.ok || !data.success) throw new Error(data.error || 'Order submission failed');
 
             const handle = paymentMethod === 'cashapp'
-              ? (CFG?.payments?.cashapp?.handle || '$MonisM')
-              : (CFG?.payments?.venmo?.handle   || '@MonisM');
+              ? (CFG?.payments?.cashapp?.handle || '$MonisMunchiesBakery')
+              : (CFG?.payments?.venmo?.handle   || '@MonisMunchiesBakery');
             const params = new URLSearchParams({
               payment: paymentMethod,
               deposit: (data.depositAmount || 0).toFixed(2),

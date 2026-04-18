@@ -2576,7 +2576,7 @@ input.flatpickr-input.form-input {
 
 .payment-method-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
@@ -2622,6 +2622,12 @@ input.flatpickr-input.form-input {
   border-color: #008cff;
   background: rgba(0, 140, 255, 0.08);
   box-shadow: 0 0 0 3px rgba(0, 140, 255, 0.15);
+}
+
+.payment-option[data-method="cash"] input[type="radio"]:checked + .payment-option-inner {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.08);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
 }
 
 .payment-option-inner:hover {
@@ -2672,13 +2678,18 @@ input.flatpickr-input.form-input {
   color: var(--yellow);
 }
 
-/* CashApp/Venmo handle display panel (in sidebar) */
+/* Payment handle display panels (sidebar) */
 .pay-handle-card {
   border-radius: var(--radius);
   padding: 1rem 1.25rem;
   margin-bottom: 1.25rem;
   text-align: center;
   display: none;
+}
+
+.pay-handle-card.cash-card {
+  background: rgba(255, 215, 0, 0.07);
+  border: 1px solid rgba(255, 215, 0, 0.3);
 }
 
 .pay-handle-card.cashapp-card {
@@ -2690,6 +2701,42 @@ input.flatpickr-input.form-input {
   background: rgba(0, 140, 255, 0.07);
   border: 1px solid rgba(0, 140, 255, 0.3);
 }
+
+/* QR Code placeholder */
+.qr-placeholder {
+  width: 154px;
+  height: 154px;
+  margin: 0.85rem auto 0.75rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.cashapp-qr { border: 2px dashed rgba(0, 214, 50, 0.4); }
+.venmo-qr   { border: 2px dashed rgba(0, 140, 255, 0.4); }
+
+.qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.qr-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.7rem;
+  padding: 0.5rem;
+  line-height: 1.4;
+}
+.qr-fallback span { font-size: 1.6rem; margin-bottom: 0.15rem; }
 
 .pay-handle-label {
   font-size: 0.8rem;
@@ -2716,7 +2763,7 @@ input.flatpickr-input.form-input {
 
 @media (max-width: 480px) {
   .payment-method-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
   }
   .payment-option-inner {
@@ -2725,6 +2772,7 @@ input.flatpickr-input.form-input {
   .payment-icon { font-size: 1.25rem; }
   .payment-name { font-size: 0.82rem; }
   .payment-sub  { font-size: 0.65rem; }
+  .qr-placeholder { width: 130px; height: 130px; }
 }
 
 

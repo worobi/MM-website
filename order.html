@@ -218,13 +218,21 @@
             </div>
 
             <!-- Payment Method -->
-            <h3 class="form-section-label" style="margin-top: 1.75rem;">How would you like to pay your deposit?</h3>
+            <h3 class="form-section-label" style="margin-top: 1.75rem;">How would you like to pay?</h3>
             <div class="payment-method-grid" id="payment-method-grid">
+              <label class="payment-option" data-method="cash">
+                <input type="radio" name="deposit-payment-method" value="cash">
+                <div class="payment-option-inner">
+                  <span class="payment-icon">💵</span>
+                  <span class="payment-name">Cash</span>
+                  <span class="payment-sub">Pay at Pickup</span>
+                </div>
+              </label>
               <label class="payment-option" data-method="stripe">
                 <input type="radio" name="deposit-payment-method" value="stripe" checked>
                 <div class="payment-option-inner">
                   <span class="payment-icon">💳</span>
-                  <span class="payment-name">Card</span>
+                  <span class="payment-name">Debit / Credit</span>
                   <span class="payment-sub">Stripe · Secure</span>
                 </div>
               </label>
@@ -233,7 +241,7 @@
                 <div class="payment-option-inner">
                   <span class="payment-icon">💚</span>
                   <span class="payment-name">CashApp</span>
-                  <span class="payment-sub" id="cashapp-handle-sub">$MonisM</span>
+                  <span class="payment-sub" id="cashapp-handle-sub">$MonisMunchiesBakery</span>
                 </div>
               </label>
               <label class="payment-option" data-method="venmo" id="payment-opt-venmo">
@@ -241,7 +249,7 @@
                 <div class="payment-option-inner">
                   <span class="payment-icon">💙</span>
                   <span class="payment-name">Venmo</span>
-                  <span class="payment-sub" id="venmo-handle-sub">@MonisM</span>
+                  <span class="payment-sub" id="venmo-handle-sub">@MonisMunchiesBakery</span>
                 </div>
               </label>
             </div>
@@ -252,6 +260,15 @@
               <div>
                 <strong>Deposit must be sent within 24 hours</strong> or your order will be automatically canceled.
                 Your payment handle and deposit amount will be shown on the confirmation page.
+              </div>
+            </div>
+
+            <!-- Cash notice (shown when Cash selected) -->
+            <div class="payment-alt-notice payment-cash-notice" id="payment-cash-notice" style="display:none; border-color: rgba(255,215,0,0.4); background: rgba(255,215,0,0.06);">
+              <div class="alt-notice-icon">💵</div>
+              <div>
+                <strong style="color: #FFD700;">No deposit required</strong> — pay the full balance in cash at pickup.
+                Your order will be reserved once submitted.
               </div>
             </div>
 
@@ -292,17 +309,42 @@
             <a href="faq.html#deposits" class="btn btn-ghost btn-sm btn-block">Questions about deposits?</a>
           </div>
 
+          <!-- Cash card (shown when Cash selected) -->
+          <div class="pay-handle-card cash-card" id="cash-handle-card" style="display:none;">
+            <div class="pay-handle-label">💵 Pay at Pickup</div>
+            <div class="pay-handle-value" style="color:#FFD700; font-size:1.5rem;">Full Balance Due</div>
+            <div class="pay-handle-warning" style="border-color:rgba(255,215,0,0.3); color:#FFD700;">No deposit required · Bring cash to pickup</div>
+          </div>
+
           <!-- CashApp handle card (shown when CashApp selected) -->
-          <div class="pay-handle-card cashapp-card" id="cashapp-handle-card">
+          <div class="pay-handle-card cashapp-card" id="cashapp-handle-card" style="display:none;">
             <div class="pay-handle-label">Send your deposit to CashApp</div>
-            <div class="pay-handle-value" id="cashapp-handle-display">$MonisM</div>
+            <div class="pay-handle-value" id="cashapp-handle-display">$MonisMunchiesBakery</div>
+            <div class="qr-placeholder cashapp-qr">
+              <img src="images/qr-cashapp.png" alt="CashApp QR Code" class="qr-img"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <div class="qr-fallback">
+                <span>📲</span>
+                <small>Scan to Pay</small>
+                <small>Upload: images/qr-cashapp.png</small>
+              </div>
+            </div>
             <div class="pay-handle-warning">⚠️ Pay within 24 hrs or order is canceled</div>
           </div>
 
           <!-- Venmo handle card (shown when Venmo selected) -->
-          <div class="pay-handle-card venmo-card" id="venmo-handle-card">
+          <div class="pay-handle-card venmo-card" id="venmo-handle-card" style="display:none;">
             <div class="pay-handle-label">Send your deposit to Venmo</div>
-            <div class="pay-handle-value" id="venmo-handle-display">@MonisM</div>
+            <div class="pay-handle-value" id="venmo-handle-display">@MonisMunchiesBakery</div>
+            <div class="qr-placeholder venmo-qr">
+              <img src="images/qr-venmo.png" alt="Venmo QR Code" class="qr-img"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <div class="qr-fallback">
+                <span>📲</span>
+                <small>Scan to Pay</small>
+                <small>Upload: images/qr-venmo.png</small>
+              </div>
+            </div>
             <div class="pay-handle-warning">⚠️ Pay within 24 hrs or order is canceled</div>
           </div>
 

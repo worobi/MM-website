@@ -227,14 +227,42 @@
       const params  = new URLSearchParams(window.location.search);
       const payment = params.get('payment'); // 'cashapp' | 'venmo' | null
 
-      if (payment === 'cashapp' || payment === 'venmo') {
+      if (payment === 'cash') {
+        // Cash at pickup — swap to altpay panel with cash-specific content
+        document.getElementById('thankyou-stripe').style.display  = 'none';
+        const altPanel = document.getElementById('thankyou-altpay');
+        altPanel.style.display = 'flex';
+
+        document.getElementById('altpay-icon').textContent         = '💵';
+        document.getElementById('altpay-method-label').textContent = 'Pay at Pickup';
+        document.getElementById('altpay-handle').textContent       = 'Cash at Pickup';
+        document.getElementById('altpay-deposit').textContent      = '$0 due now';
+        document.getElementById('altpay-appname').textContent      = 'cash';
+        document.getElementById('altpay-deposit-step').textContent = 'the full balance';
+        document.getElementById('altpay-handle-step').textContent  = 'pickup';
+
+        // Style the handle card for cash (gold)
+        const card = document.getElementById('altpay-handle-card');
+        card.style.borderColor = '#FFD700';
+        document.getElementById('altpay-handle').style.color = '#FFD700';
+        document.getElementById('altpay-handle-step').style.color = '#FFD700';
+
+        // Hide the 24hr deadline warning (not applicable for cash)
+        const warningBox = altPanel.querySelector('div[style*="rgba(255,60,0"]');
+        if (warningBox) warningBox.style.display = 'none';
+
+        // Update h2 subtitle
+        const subtitle = altPanel.querySelector('h2');
+        if (subtitle) subtitle.textContent = 'Your order is reserved — bring cash to pickup.';
+
+      } else if (payment === 'cashapp' || payment === 'venmo') {
         // Swap panels
         document.getElementById('thankyou-stripe').style.display  = 'none';
         const altPanel = document.getElementById('thankyou-altpay');
         altPanel.style.display = 'flex';
 
         const deposit = params.get('deposit') || '—';
-        const handle  = params.get('handle')  || (payment === 'cashapp' ? '$MonisM' : '@MonisM');
+        const handle  = params.get('handle')  || (payment === 'cashapp' ? '$MonisMunchiesBakery' : '@MonisMunchiesBakery');
         const appName = payment === 'cashapp' ? 'CashApp' : 'Venmo';
         const icon    = payment === 'cashapp' ? '💚' : '💙';
 

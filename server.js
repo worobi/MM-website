@@ -289,7 +289,7 @@ app.post('/api/submit-order', async (req, res) => {
   try {
     const { orderType, cart, customerEmail, orderData, paymentMethod } = req.body;
 
-    if (!['cashapp', 'venmo'].includes(paymentMethod)) {
+    if (!['cashapp', 'venmo', 'cash'].includes(paymentMethod)) {
       return res.status(400).json({ error: 'Invalid payment method for this endpoint.' });
     }
     if (!orderType) {
@@ -345,8 +345,10 @@ async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, custome
   }
 
   const m      = orderData || {};
-  const method = paymentMethod === 'cashapp' ? 'CashApp' : 'Venmo';
-  const subject = `⏳ PENDING ${method} DEPOSIT — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)})`;
+  const method = paymentMethod === 'cashapp' ? 'CashApp' : paymentMethod === 'venmo' ? 'Venmo' : 'Cash at Pickup';
+  const subject = paymentMethod === 'cash'
+    ? `💵 CASH ORDER — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)} total)`
+    : `⏳ PENDING ${method} DEPOSIT — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)})`;
 
   let itemsHtml = '';
   if (orderType === 'menu' && trustedCart) {
