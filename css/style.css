@@ -35,12 +35,12 @@
   /* Brand gradient (matches logo) */
   --brand-gradient: linear-gradient(90deg, #7B52E8, #E8457A, #F07040);
 
-  /* Backgrounds — rich deep navy-purple */
-  --dark:        #18182E;
-  --darker:      #0F0F22;
-  --card-bg:     #242448;
-  --card-hover:  #2E2E5A;
-  --input-bg:    #1C1C38;
+  /* Backgrounds — vivid purple-gradient-matched dark */
+  --dark:        #100B28;
+  --darker:      #08051A;
+  --card-bg:     #1E1640;
+  --card-hover:  #2A2058;
+  --input-bg:    #180E32;
 
   /* Text */
   --text:        #FFFFFF;
@@ -94,6 +94,10 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--dark);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(123, 82, 232, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(232, 69, 122, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 30% at 50% 50%, rgba(240, 112, 64, 0.06) 0%, transparent 70%);
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
@@ -390,7 +394,7 @@ section {
    MARQUEE BAR (top of every page)
    ================================================================ */
 .marquee-bar {
-  background: var(--pink);
+  background: linear-gradient(90deg, #7B52E8 0%, #E8457A 50%, #F07040 100%);
   padding: 8px 0;
   overflow: hidden;
   white-space: nowrap;
@@ -424,8 +428,8 @@ section {
   position: sticky;
   top: 0;
   z-index: 9000;
-  height: 112px;
-  background: rgba(13, 0, 34, 0.96);
+  height: 180px;
+  background: rgba(8, 5, 26, 0.97);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 2px solid var(--purple);
@@ -454,7 +458,7 @@ section {
 
 /* Logo image version */
 .nav-logo-img {
-  height: 96px;
+  height: 160px;
   width: auto;
   display: block;
   filter:
@@ -559,7 +563,7 @@ section {
 
 .nav-order-menu {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 2px);
   right: 0;
   background: rgba(13,0,34,0.98);
   border: 1px solid rgba(232,69,122,0.45);
@@ -576,8 +580,8 @@ section {
   z-index: 200;
 }
 
-/* Show on hover OR keyboard focus-within */
-.nav-order-dropdown:hover .nav-order-menu,
+/* Show on JS-toggled .open class OR keyboard focus-within */
+.nav-order-dropdown.open .nav-order-menu,
 .nav-order-dropdown:focus-within .nav-order-menu {
   opacity: 1;
   pointer-events: auto;

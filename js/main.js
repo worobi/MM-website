@@ -47,6 +47,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==============================================================
+     ORDER NOW DROPDOWN — click-toggle (replaces CSS-only hover)
+     ============================================================== */
+  const orderDropdown = document.querySelector('.nav-order-dropdown');
+  if (orderDropdown) {
+    const orderCta = orderDropdown.querySelector('.nav-cta');
+    orderCta && orderCta.addEventListener('click', (e) => {
+      e.preventDefault();
+      orderDropdown.classList.toggle('open');
+    });
+    // Close when clicking a menu link
+    orderDropdown.querySelectorAll('.nav-order-menu a').forEach(link => {
+      link.addEventListener('click', () => orderDropdown.classList.remove('open'));
+    });
+    // Close when clicking anywhere outside
+    document.addEventListener('click', (e) => {
+      if (!orderDropdown.contains(e.target)) {
+        orderDropdown.classList.remove('open');
+      }
+    });
+  }
+
+
+  /* ==============================================================
      ACTIVE NAV LINK
      ============================================================== */
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
