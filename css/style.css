@@ -35,12 +35,12 @@
   /* Brand gradient (matches logo) */
   --brand-gradient: linear-gradient(90deg, #7B52E8, #E8457A, #F07040);
 
-  /* Backgrounds — dark/black from logo */
-  --dark:        #111118;
-  --darker:      #080810;
-  --card-bg:     #1C1C2E;
-  --card-hover:  #252540;
-  --input-bg:    #161628;
+  /* Backgrounds — rich deep navy-purple */
+  --dark:        #18182E;
+  --darker:      #0F0F22;
+  --card-bg:     #242448;
+  --card-hover:  #2E2E5A;
+  --input-bg:    #1C1C38;
 
   /* Text */
   --text:        #FFFFFF;
@@ -48,9 +48,9 @@
   --text-faint:  rgba(255, 255, 255, 0.35);
 
   /* Borders */
-  --border:        rgba(123, 82, 232, 0.25);
-  --border-hover:  rgba(232, 69, 122, 0.6);
-  --border-input:  rgba(123, 82, 232, 0.4);
+  --border:        rgba(123, 82, 232, 0.4);
+  --border-hover:  rgba(232, 69, 122, 0.75);
+  --border-input:  rgba(123, 82, 232, 0.55);
 
   /* Glow Effects */
   --glow-pink:   0 0 12px #E8457A, 0 0 32px rgba(232, 69, 122, 0.5);
@@ -424,7 +424,7 @@ section {
   position: sticky;
   top: 0;
   z-index: 9000;
-  height: 96px;
+  height: 112px;
   background: rgba(13, 0, 34, 0.96);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -454,7 +454,7 @@ section {
 
 /* Logo image version */
 .nav-logo-img {
-  height: 84px;
+  height: 96px;
   width: auto;
   display: block;
   filter:
