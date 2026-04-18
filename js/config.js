@@ -224,11 +224,11 @@ const MM_CONFIG = {
     },
     cashapp: {
       enabled: true,
-      handle:  '$MonisM',     // ← Replace with your actual CashApp $cashtag
+      handle:  '$MonisMunchiesBakery',
     },
     venmo: {
       enabled: true,
-      handle:  '@MonisM',     // ← Replace with your actual Venmo username
+      handle:  '@MonisMunchiesBakery',
     },
     // Hours customer has to send the deposit before order is auto-canceled
     depositDeadlineHours: 24,
