@@ -1228,4 +1228,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ==============================================================
+     EVENTS PAGE — render event cards from config + notify form
+     ============================================================== */
+  const eventGrid  = document.getElementById('event-grid');
+  const eventEmpty = document.getElementById('event-empty');
+
+  if (eventGrid) {
+    const events = (typeof MM_CONFIG !== 'undefined' && Array.isArray(MM_CONFIG.events))
+      ? MM_CONFIG.events
+      : [];
+
+    // Filter to future events only, sorted soonest-first
+    const today = new Date(); today.setHours(0,0,0,0);
+    const upcoming = events
+      .map(ev => ({ ...ev, _d: new Date(ev.date) }))
+      .filter(ev => ev._d >= today)
+      .sort((a, b) => a._d - b._d);
+
+    if (upcoming.length === 0) {
+      // Show empty state
+      eventGrid.style.display = 'none';
+      if (eventEmpty) eventEmpty.style.display = '';
+    } else {
+      if (eventEmpty) eventEmpty.style.display = 'none';
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      upcoming.forEach(ev => {
+        const card = document.createElement('div');
+        card.className = 'event-card fade-up';
+        card.innerHTML = `
+          <div class="event-date-block">
+            <span class="event-month">${MONTHS[ev._d.getUTCMonth()]}</span>
+            <span class="event-day">${ev._d.getUTCDate()}</span>
+          </div>
+          <div class="event-details">
+            <div class="event-title">${ev.title}</div>
+            <div class="event-meta">
+              <span>📍 ${ev.location}</span>
+              ${ev.hours ? `<span>🕘 ${ev.hours}</span>` : ''}
+            </div>
+            ${ev.description ? `<p class="event-desc">${ev.description}</p>` : ''}
+            ${ev.tag ? `<span class="event-tag">${ev.tag}</span>` : ''}
+          </div>`;
+        eventGrid.appendChild(card);
+      });
+
+      // Trigger fade-in for newly-added cards
+      requestAnimationFrame(() => {
+        eventGrid.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+      });
+    }
+  }
+
+  // Notify me form (events page)
+  const notifyForm    = document.getElementById('notify-form');
+  const notifySuccess = document.getElementById('notify-success');
+  const notifyError   = document.getElementById('notify-error');
+
+  if (notifyForm) {
+    notifyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('notify-email')?.value?.trim();
+      if (!email) return;
+
+      const btn = notifyForm.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ email, tags: ['events-notify'] }),
+        });
+        if (res.ok) {
+          if (notifySuccess) notifySuccess.style.display = '';
+          notifyForm.querySelector('.notify-fields').style.display = 'none';
+        } else {
+          throw new Error('non-ok');
+        }
+      } catch {
+        if (notifyError) notifyError.style.display = '';
+        btn.disabled = false;
+        btn.textContent = original;
+      }
+    });
+  }
+
 }); // end DOMContentLoaded

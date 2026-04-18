@@ -282,6 +282,36 @@ const MM_CONFIG = {
      ────────────────────────────────────────────────────────────── */
   formspree: 'REPLACE_WITH_YOUR_FORM_ID',
 
+
+  /* ──────────────────────────────────────────────────────────────
+     UPCOMING EVENTS
+     ──────────────────────────────────────────────────────────────
+     Add events here to display them on the Events page.
+     Leave the array empty ([]) to show the "no events yet" state.
+
+     Each event object:
+       date        — ISO date string, e.g. '2026-06-07'
+       title       — name of the event
+       location    — venue / address
+       hours       — e.g. '9 AM – 2 PM'
+       description — short blurb (optional)
+       tag         — label badge: 'Farmers Market', 'Flea Market', 'Community Event', etc.
+
+     Example:
+       {
+         date:        '2026-06-07',
+         title:       'Port Huron Farmers Market',
+         location:    'Downtown Port Huron, MI',
+         hours:       '9 AM – 2 PM',
+         description: "Find us at our regular spot near the main entrance — we'll have cookies, brownies, and mixes!",
+         tag:         'Farmers Market',
+       },
+     ────────────────────────────────────────────────────────────── */
+  events: [
+    // Add confirmed events here — see format above.
+    // Leave empty to show the "check back soon" state on events.html.
+  ],
+
 };
 
 /* ================================================================
