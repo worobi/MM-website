@@ -16,7 +16,7 @@ echo "🍪 Moni's Munchies — Deploying..."
 echo "=================================="
 
 # Pull latest changes from GitHub
-git pull origin main
+git pull origin master
 
 # Fix permissions (in case new files were added)
 chown -R www-data:www-data /var/www/monismunchies
