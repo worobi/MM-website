@@ -35,7 +35,6 @@
       <li><a href="about.html">About</a></li>
       <li><a href="faq.html">FAQ</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="brand.html">Brand</a></li>
       <li class="nav-order-dropdown">
         <a href="order.html" class="nav-cta">Order Now ✦</a>
         <div class="nav-order-menu">
@@ -188,6 +187,30 @@
             <div class="product-footer">
               <span class="product-price">$15 / doz</span>
               <a href="order.html?product=kitchen-sink" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rocky Road Cookie -->
+        <div class="product-card fade-up" data-category="cookie">
+          <div class="product-img">
+            <span>🍫</span>
+            <div class="product-badge new">New</div>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Cookies</div>
+            <div class="product-name">Rocky Road</div>
+            <div class="product-desc">Rich chocolate cookie loaded with mini marshmallows, walnuts, and chocolate chips. Like the ice cream, but better.</div>
+            <button class="label-toggle-btn">📋 Label Info <span class="toggle-arrow">▾</span></button>
+            <div class="label-info-panel"><div class="label-info-inner">
+              <p><strong>Net Wt.:</strong> approx. 13 oz (369 g) per dozen</p>
+              <p><strong>Ingredients:</strong> Enriched flour (wheat flour, niacin, reduced iron, thiamine mononitrate, riboflavin, folic acid), butter (cream, salt), granulated sugar, brown sugar, Dutch-process cocoa powder, semi-sweet chocolate chips (sugar, chocolate liquor, cocoa butter, milkfat, soy lecithin, vanilla extract), mini marshmallows (sugar, modified corn starch, dextrose, gelatin), walnuts, eggs, vanilla extract, baking soda, salt.</p>
+              <p><strong>Contains:</strong> Wheat, Eggs, Milk, Soy, Tree Nuts (Walnuts).</p>
+              <p class="label-cottage-notice">Made in a home kitchen not inspected by the Michigan Dept. of Agriculture and Rural Development. — Monica Worobi, Port Huron, MI 48060</p>
+            </div></div>
+            <div class="product-footer">
+              <span class="product-price">$13 / doz</span>
+              <a href="order.html?product=rocky-road" class="btn-order">Order</a>
             </div>
           </div>
         </div>
@@ -541,11 +564,21 @@
     <div class="footer-bottom">
       <p>&copy; 2026 Moni's Munchies &middot; Port Huron, MI</p>
       <div class="footer-links">
+        <a href="brand.html">Brand</a>
         <a href="#">Privacy Policy</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
   </footer>
+
+  <!-- Label Info Modal -->
+  <div id="label-modal" class="label-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="label-modal-title">
+    <div class="label-modal-card">
+      <button class="label-modal-close" id="label-modal-close" aria-label="Close">&times;</button>
+      <div class="label-modal-title" id="label-modal-title">📋 Label Info</div>
+      <div class="label-modal-body" id="label-modal-body"></div>
+    </div>
+  </div>
 
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>

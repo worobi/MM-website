@@ -92,6 +92,13 @@ const MM_CONFIG = {
       maxQty:  null,
       soldOut: false,
     },
+    'rocky-road': {
+      label:   'Rocky Road Cookies',
+      price:   13,
+      unit:    'dozen',
+      maxQty:  null,
+      soldOut: false,
+    },
 
     /* ── PASTRIES ── */
     'cinnamon-roll': {

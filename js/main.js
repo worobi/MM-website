@@ -143,15 +143,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==============================================================
-     SHOP PAGE — Label info toggle
+     SHOP PAGE — Label info modal popup
+     (product-card has overflow:hidden so inline dropdown can't work)
      ============================================================== */
-  document.querySelectorAll('.label-toggle-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const panel = btn.nextElementSibling;
-      const open  = panel.classList.toggle('open');
-      btn.classList.toggle('open', open);
+  const labelModal      = document.getElementById('label-modal');
+  const labelModalBody  = document.getElementById('label-modal-body');
+  const labelModalTitle = document.getElementById('label-modal-title');
+  const labelModalClose = document.getElementById('label-modal-close');
+
+  function closeLabelModal() {
+    if (labelModal) {
+      labelModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (labelModal) {
+    document.querySelectorAll('.label-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel       = btn.nextElementSibling;
+        const productName = btn.closest('.product-info')?.querySelector('.product-name')?.textContent || 'Product';
+        if (labelModalTitle) labelModalTitle.textContent = `📋 ${productName} — Label Info`;
+        if (labelModalBody)  labelModalBody.innerHTML    = panel?.querySelector('.label-info-inner')?.innerHTML || '';
+        labelModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
     });
-  });
+
+    if (labelModalClose) labelModalClose.addEventListener('click', closeLabelModal);
+    labelModal.addEventListener('click', e => { if (e.target === labelModal) closeLabelModal(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && labelModal.classList.contains('open')) closeLabelModal();
+    });
+  }
 
 
   /* ==============================================================

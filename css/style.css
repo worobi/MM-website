@@ -2828,14 +2828,76 @@ input.flatpickr-input.form-input {
   transform: rotate(180deg);
 }
 
-.label-info-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
-}
+/* Panel is hidden inline — content is read by the modal JS */
+.label-info-panel { display: none; }
 
-.label-info-panel.open {
-  max-height: 600px;
+/* ── Label Info Modal ── */
+.label-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.label-modal-overlay.open {
+  display: flex;
+}
+.label-modal-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(123, 82, 232, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  max-width: 540px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 0 40px rgba(123, 82, 232, 0.25);
+  animation: label-modal-in 0.2s ease;
+}
+@keyframes label-modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+.label-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.label-modal-close:hover { color: var(--text); }
+.label-modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--yellow);
+  margin-bottom: 1.25rem;
+  padding-right: 2rem;
+}
+.label-modal-body p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+}
+.label-modal-body strong { color: var(--text); }
+.label-modal-body .label-cottage-notice {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .label-info-inner {
