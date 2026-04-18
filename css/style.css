@@ -556,6 +556,59 @@ section {
 }
 
 /* ── ORDER DROPDOWN ── */
+/* Shop nav dropdown (hover-triggered) */
+.nav-dropdown {
+  position: relative;
+  list-style: none;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  background: rgba(13,0,34,0.98);
+  border: 1px solid rgba(123,82,232,0.45);
+  border-radius: 12px;
+  min-width: 168px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 20px rgba(123,82,232,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 200;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nav-dropdown-menu a {
+  padding: 12px 18px;
+  color: var(--text-muted) !important;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none;
+}
+
+.nav-dropdown-menu a:last-child { border-bottom: none; }
+
+.nav-dropdown-menu a:hover {
+  background: rgba(123,82,232,0.12);
+  color: var(--lavender) !important;
+}
+
+.nav-dropdown-menu a::after { display: none !important; }
+
+/* Order Now CTA dropdown (click-triggered) */
 .nav-order-dropdown {
   position: relative;
   list-style: none;
