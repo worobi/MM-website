@@ -918,6 +918,7 @@ section {
   display: flex;
   flex-direction: column;
   flex: 1;
+  text-align: center;
 }
 
 .product-category {
@@ -940,6 +941,7 @@ section {
   font-size: 0.83rem;
   color: var(--text-muted);
   line-height: 1.55;
+  text-align: center;
   margin-bottom: 0.85rem;
   flex: 1;
 }
@@ -947,9 +949,11 @@ section {
 .product-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 1rem;
   margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
 }
 
 .product-price {
@@ -2867,7 +2871,10 @@ input.flatpickr-input.form-input {
    ================================================================ */
 
 .label-toggle-btn {
-  display: inline-flex;
+  display: block;
+  width: fit-content;
+  margin: 0.5rem auto 0.75rem;
+  text-align: center;
   align-items: center;
   gap: 0.35rem;
   background: none;
@@ -2993,4 +3000,160 @@ input.flatpickr-input.form-input {
   padding-top: 0.45rem;
   margin-top: 0.35rem;
   line-height: 1.4;
+}
+
+/* ================================================================
+   LABEL INFO SECTION (bottom of shop.html)
+   ================================================================ */
+.label-info-section {
+  background: var(--darker);
+  border-top: 1px solid var(--border);
+  padding: 4rem 1.5rem 3rem;
+}
+
+.label-info-inner {
+  /* override old card-inner styles from the modal era */
+  border-top: none;
+  margin-top: 0;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.label-info-heading {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+  text-align: center;
+}
+
+.label-info-subhead {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 2.5rem;
+}
+
+/* Category heading */
+.label-group {
+  margin-bottom: 1.5rem;
+}
+
+.label-group-heading {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--lavender);
+  padding: 0.4rem 0;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.02em;
+}
+
+/* Individual accordion item */
+.label-item {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.label-item-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.75rem 2rem 0.75rem 0;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s;
+}
+
+.label-item-btn::after {
+  content: '+';
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  transition: transform 0.2s, color 0.15s;
+  line-height: 1;
+}
+
+.label-item-btn[aria-expanded="true"]::after {
+  content: '−';
+  color: var(--pink);
+}
+
+.label-item-btn:hover {
+  color: var(--pink);
+}
+
+/* Collapsible body */
+.label-item-body {
+  display: none;
+  padding: 0 0 1rem 0;
+}
+
+.label-item-body.open {
+  display: block;
+}
+
+/* Three-column-ish rows */
+.label-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0.4rem 1rem;
+  margin-bottom: 0.55rem;
+  align-items: baseline;
+}
+
+.label-key {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  padding-top: 0.05rem;
+}
+
+.label-val {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  line-height: 1.55;
+}
+
+.label-allergen {
+  display: inline-block;
+  background: rgba(232, 69, 122, 0.15);
+  color: var(--pink);
+  border: 1px solid rgba(232, 69, 122, 0.3);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Bottom cottage notice */
+.label-section-notice {
+  margin-top: 2.5rem;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.25);
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .label-info-heading { font-size: 1.5rem; }
+  .label-row { grid-template-columns: 76px 1fr; }
 }

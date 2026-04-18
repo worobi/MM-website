@@ -172,39 +172,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==============================================================
-     SHOP PAGE — Label info modal popup
-     (product-card has overflow:hidden so inline dropdown can't work)
+     SHOP PAGE — Label Info accordion (bottom of page)
+     Clicking "📋 Label Info" on a card scrolls to #label-info.
+     Clicking an accordion button expands/collapses that item.
      ============================================================== */
-  const labelModal      = document.getElementById('label-modal');
-  const labelModalBody  = document.getElementById('label-modal-body');
-  const labelModalTitle = document.getElementById('label-modal-title');
-  const labelModalClose = document.getElementById('label-modal-close');
+  document.querySelectorAll('.label-item-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body     = btn.nextElementSibling;
+      const isOpen   = btn.getAttribute('aria-expanded') === 'true';
 
-  function closeLabelModal() {
-    if (labelModal) {
-      labelModal.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  }
-
-  if (labelModal) {
-    document.querySelectorAll('.label-toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const panel       = btn.nextElementSibling;
-        const productName = btn.closest('.product-info')?.querySelector('.product-name')?.textContent || 'Product';
-        if (labelModalTitle) labelModalTitle.textContent = `📋 ${productName} — Label Info`;
-        if (labelModalBody)  labelModalBody.innerHTML    = panel?.querySelector('.label-info-inner')?.innerHTML || '';
-        labelModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
+      // Collapse all others in the same group for clean UX
+      btn.closest('.label-group')?.querySelectorAll('.label-item-btn').forEach(other => {
+        if (other !== btn) {
+          other.setAttribute('aria-expanded', 'false');
+          other.nextElementSibling?.classList.remove('open');
+        }
       });
-    });
 
-    if (labelModalClose) labelModalClose.addEventListener('click', closeLabelModal);
-    labelModal.addEventListener('click', e => { if (e.target === labelModal) closeLabelModal(); });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && labelModal.classList.contains('open')) closeLabelModal();
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      body.classList.toggle('open', !isOpen);
     });
-  }
+  });
 
 
   /* ==============================================================
