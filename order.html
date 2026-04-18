@@ -207,15 +207,6 @@
               </select>
             </div>
 
-            <!-- Deposit agreement -->
-            <div class="form-group" style="margin-top: 1.25rem;">
-              <label style="display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;">
-                <input type="checkbox" name="deposit-agree" id="deposit-agree" required
-                       style="width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--pink);">
-                <span>I understand a deposit is required to confirm my order. The remaining balance is due at pickup. Deposits are non-refundable if I cancel with less than 48 hours notice. <span class="required">*</span></span>
-              </label>
-            </div>
-
             <!-- Payment Method -->
             <h3 class="form-section-label" style="margin-top: 1.75rem;">How would you like to pay?</h3>
             <div class="payment-method-grid" id="payment-method-grid">
@@ -269,6 +260,38 @@
                 <strong style="color: #FFD700;">No deposit required</strong> — pay the full balance in cash at pickup.
                 Your order will be reserved once submitted.
               </div>
+            </div>
+
+            <!-- How much to pay now (hidden for Cash) -->
+            <div id="payment-amount-section" style="display:none; margin-top: 1.5rem;">
+              <h3 class="form-section-label">How much would you like to pay now?</h3>
+              <div class="amount-choice-grid">
+                <label class="amount-option" data-choice="deposit">
+                  <input type="radio" name="payment-amount-choice" value="deposit" checked>
+                  <div class="amount-option-inner">
+                    <span class="amount-option-title">Deposit Only</span>
+                    <span class="amount-option-price" id="deposit-choice-amt">—</span>
+                    <span class="amount-option-sub">Pay the rest at pickup</span>
+                  </div>
+                </label>
+                <label class="amount-option" data-choice="full">
+                  <input type="radio" name="payment-amount-choice" value="full">
+                  <div class="amount-option-inner">
+                    <span class="amount-option-title">Full Amount</span>
+                    <span class="amount-option-price" id="full-choice-amt">—</span>
+                    <span class="amount-option-sub">Nothing due at pickup</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Deposit / order agreement -->
+            <div class="form-group" style="margin-top: 1.25rem;">
+              <label style="display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; color: var(--text-muted); font-size: 0.9rem;">
+                <input type="checkbox" name="deposit-agree" id="deposit-agree" required
+                       style="width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--pink);">
+                <span id="deposit-agree-text">I understand a deposit is required to confirm my order. The remaining balance is due at pickup. Deposits are non-refundable if I cancel with less than 48 hours notice. <span class="required">*</span></span>
+              </label>
             </div>
 
             <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;" id="submit-btn">

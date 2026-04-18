@@ -73,8 +73,8 @@
     <!-- STRIPE / CARD payment thank you (default) -->
     <div id="thankyou-stripe">
       <div class="thankyou-icon">🎉</div>
-      <h1><span class="text-pink glow-pink">Deposit Received!</span></h1>
-      <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-muted);">Your order is confirmed.</h2>
+      <h1><span class="text-pink glow-pink" id="stripe-heading">Deposit Received!</span></h1>
+      <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-muted);" id="stripe-subheading">Your order is confirmed.</h2>
       <p>Thank you for your order! Monica will review your request and reach out within <strong style="color: var(--yellow);">24 hours</strong> to confirm the details and your pickup time.</p>
       <div id="order-recap" style="margin-bottom: 2rem;"></div>
       <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 480px; width: 100%; margin-bottom: 2.5rem; text-align: left;">
@@ -222,10 +222,19 @@
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>
   <script>
-    // ── Alt-payment (CashApp / Venmo) thank you logic ──────────────
+    // ── Alt-payment (CashApp / Venmo / Cash) and Stripe full-pay logic ──
     (function() {
-      const params  = new URLSearchParams(window.location.search);
-      const payment = params.get('payment'); // 'cashapp' | 'venmo' | null
+      const params     = new URLSearchParams(window.location.search);
+      const payment    = params.get('payment'); // 'cashapp' | 'venmo' | 'cash' | null (stripe)
+      const sessionId  = params.get('session_id');
+
+      // If Stripe and we know it was a full payment (type param from success_url)
+      if (!payment && sessionId) {
+        const heading    = document.getElementById('stripe-heading');
+        const subheading = document.getElementById('stripe-subheading');
+        const type       = params.get('type'); // could add amount_type to success_url later
+        // For now headings stay as-is; future: pass amount_type through success_url
+      }
 
       if (payment === 'cash') {
         // Cash at pickup — swap to altpay panel with cash-specific content
@@ -261,18 +270,45 @@
         const altPanel = document.getElementById('thankyou-altpay');
         altPanel.style.display = 'flex';
 
-        const deposit = params.get('deposit') || '—';
-        const handle  = params.get('handle')  || (payment === 'cashapp' ? '$MonisMunchiesBakery' : '@MonisMunchiesBakery');
-        const appName = payment === 'cashapp' ? 'CashApp' : 'Venmo';
-        const icon    = payment === 'cashapp' ? '💚' : '💙';
+        const deposit    = params.get('deposit')    || '—';
+        const amountType = params.get('amountType') || 'deposit'; // 'deposit' | 'full'
+        const handle     = params.get('handle')  || (payment === 'cashapp' ? '$MonisMunchiesBakery' : '@MonisMunchiesBakery');
+        const appName    = payment === 'cashapp' ? 'CashApp' : 'Venmo';
+        const icon       = payment === 'cashapp' ? '💚' : '💙';
+        const isFullPay  = amountType === 'full';
 
-        document.getElementById('altpay-icon').textContent              = icon;
-        document.getElementById('altpay-method-label').textContent      = `Send via ${appName}`;
-        document.getElementById('altpay-handle').textContent            = handle;
-        document.getElementById('altpay-deposit').textContent           = `$${deposit}`;
-        document.getElementById('altpay-appname').textContent           = appName;
-        document.getElementById('altpay-deposit-step').textContent      = `$${deposit}`;
-        document.getElementById('altpay-handle-step').textContent       = handle;
+        document.getElementById('altpay-icon').textContent         = icon;
+        document.getElementById('altpay-method-label').textContent = `Send via ${appName}`;
+        document.getElementById('altpay-handle').textContent       = handle;
+        document.getElementById('altpay-appname').textContent      = appName;
+        document.getElementById('altpay-deposit-step').textContent = `$${deposit}`;
+        document.getElementById('altpay-handle-step').textContent  = handle;
+
+        // Update deposit label and amount
+        document.getElementById('altpay-deposit').textContent = `$${deposit}`;
+        const depositLabelEl = altPanel.querySelector('[style*="Balance due at pickup"]');
+        if (depositLabelEl) {
+          depositLabelEl.textContent = isFullPay ? 'Full amount — nothing due at pickup' : 'Balance due at pickup';
+        }
+
+        // Update headings for full pay vs deposit
+        const h1 = altPanel.querySelector('h1');
+        const h2 = altPanel.querySelector('h2');
+        if (h1) h1.innerHTML = `Order <span class="text-pink glow-pink">${isFullPay ? 'Paid!' : 'Submitted!'}</span>`;
+        if (h2) h2.textContent = isFullPay
+          ? `One step left — send the full payment.`
+          : `One step left — send your deposit.`;
+
+        // Update step 1 instruction
+        const step1desc = altPanel.querySelector('#altpay-deposit-step')?.closest('div[style]');
+        const step1span = altPanel.querySelector('span:has(#altpay-deposit-step)');
+
+        // Update the 24hr warning box for full pay
+        const warningBox = altPanel.querySelector('div[style*="rgba(255,60,0"]');
+        if (warningBox && isFullPay) {
+          warningBox.innerHTML = `<strong style="color: #ff6b3d; font-size: 1rem;">⚠️ 24-Hour Payment Deadline</strong><br>
+            <span style="color: var(--text-muted);">Your full payment must be received within <strong style="color: var(--yellow);">24 hours</strong> to lock in your order. Orders with unpaid balances are automatically canceled.</span>`;
+        }
 
         // Color the handle card border to match app color
         const card = document.getElementById('altpay-handle-card');

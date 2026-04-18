@@ -171,7 +171,8 @@ function validateCart(clientCart) {
    ================================================================ */
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
-    const { orderType, cart, customerEmail, orderData } = req.body;
+    const { orderType, cart, customerEmail, orderData, amountChoice } = req.body;
+    const payFull = amountChoice === 'full'; // true = charge full cart total, false = deposit only
 
     if (!orderType) {
       return res.status(400).json({ error: 'orderType is required' });
@@ -183,8 +184,9 @@ app.post('/api/create-checkout-session', async (req, res) => {
     let trustedCart  = null;   // populated below for menu orders only
 
     if (orderType === 'custom') {
-      // Custom orders: flat $10 deposit
-      depositCents = 1000;
+      // Custom orders: flat $10 deposit (or full if requested)
+      depositCents = payFull ? 0 : 1000; // custom orders always deposit for now
+      if (depositCents === 0) depositCents = 1000; // safety fallback
       description  = `Custom Order — ${orderData?.['custom-type'] || 'Custom Baked Goods'} · ${orderData?.['custom-occasion'] || ''} · Qty: ${orderData?.['custom-qty'] || 'TBD'}`;
 
       lineItems = [{
@@ -209,17 +211,21 @@ app.post('/api/create-checkout-session', async (req, res) => {
       trustedCart      = check.cart;
       const cartTotal  = check.cartTotal;
       const deposit    = calcDeposit(cartTotal);
-      depositCents     = Math.round(deposit * 100);
 
-      const itemList = trustedCart.map(c => `${c.label} × ${c.qty} ${c.unit}`).join(', ');
-      description    = `Order Deposit · ${itemList}`;
+      // Charge full amount or deposit based on customer choice
+      const chargeAmount = payFull ? cartTotal : deposit;
+      depositCents       = Math.round(chargeAmount * 100);
+
+      const itemList  = trustedCart.map(c => `${c.label} × ${c.qty} ${c.unit}`).join(', ');
+      const chargeLabel = payFull ? 'Full Payment' : 'Deposit';
+      description       = `${chargeLabel} · ${itemList}`;
 
       lineItems = [{
         price_data: {
           currency:     'usd',
           product_data: {
-            name:        "Order Deposit — Moni's Munchies",
-            description: `Items: ${itemList} · Cart Total: $${cartTotal.toFixed(2)} · Deposit: $${deposit.toFixed(2)}`.substring(0, 200),
+            name:        `Order ${chargeLabel} — Moni's Munchies`,
+            description: `Items: ${itemList} · Cart Total: $${cartTotal.toFixed(2)} · ${chargeLabel}: $${chargeAmount.toFixed(2)}`.substring(0, 200),
           },
           unit_amount: depositCents,
         },
@@ -241,6 +247,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
       metadata.cart_summary   = trustedCart.map(c => `${c.qty}×${c.label}`).join(', ').substring(0, 400);
       metadata.cart_total     = String(trustedCart.reduce((s, c) => s + c.line, 0).toFixed(2));
       metadata.deposit_amount = String((depositCents / 100).toFixed(2));
+      metadata.amount_type    = payFull ? 'full' : 'deposit';
       metadata.special_notes  = (orderData?.['special-requests'] || '').substring(0, 400);
     } else {
       metadata.custom_type       = (orderData?.['custom-type']        || '').substring(0, 100);
@@ -287,7 +294,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
    ================================================================ */
 app.post('/api/submit-order', async (req, res) => {
   try {
-    const { orderType, cart, customerEmail, orderData, paymentMethod } = req.body;
+    const { orderType, cart, customerEmail, orderData, paymentMethod, amountChoice } = req.body;
+    const payFull = amountChoice === 'full';
 
     if (!['cashapp', 'venmo', 'cash'].includes(paymentMethod)) {
       return res.status(400).json({ error: 'Invalid payment method for this endpoint.' });
@@ -305,23 +313,23 @@ app.post('/api/submit-order', async (req, res) => {
       if (!check.ok) return res.status(400).json({ error: check.error });
       trustedCart   = check.cart;
       cartTotal     = check.cartTotal;
-      depositAmount = calcDeposit(cartTotal);
+      depositAmount = payFull ? cartTotal : calcDeposit(cartTotal);
     } else {
-      // Custom orders — flat $10 deposit
-      depositAmount = 10;
+      // Custom orders — flat $10 deposit (cash is always full at pickup)
+      depositAmount = paymentMethod === 'cash' ? 0 : 10;
     }
 
     // Notify Monica of the pending order
     try {
       await sendAltPayOrderEmail({
         orderType, trustedCart, cartTotal, customerEmail,
-        orderData, paymentMethod, depositAmount,
+        orderData, paymentMethod, depositAmount, payFull,
       });
     } catch (err) {
       console.error('[submit-order] email error (non-fatal):', err.message);
     }
 
-    res.json({ success: true, depositAmount });
+    res.json({ success: true, depositAmount, cartTotal });
 
   } catch (err) {
     console.error('[submit-order] error:', err.message);
@@ -334,7 +342,7 @@ app.post('/api/submit-order', async (req, res) => {
    sendAltPayOrderEmail
    Notifies Monica of a pending CashApp / Venmo deposit order.
    ================================================================ */
-async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, customerEmail, orderData, paymentMethod, depositAmount }) {
+async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, customerEmail, orderData, paymentMethod, depositAmount, payFull }) {
   const apiKey = process.env.RESEND_API_KEY;
   const to     = process.env.ORDER_NOTIFY_EMAIL || 'orders@monismunchies.com';
   const from   = process.env.ORDER_FROM_EMAIL   || `Moni's Munchies Orders <orders@monismunchies.com>`;
@@ -346,9 +354,10 @@ async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, custome
 
   const m      = orderData || {};
   const method = paymentMethod === 'cashapp' ? 'CashApp' : paymentMethod === 'venmo' ? 'Venmo' : 'Cash at Pickup';
+  const amtLabel = payFull ? 'FULL PAYMENT' : 'DEPOSIT';
   const subject = paymentMethod === 'cash'
-    ? `💵 CASH ORDER — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)} total)`
-    : `⏳ PENDING ${method} DEPOSIT — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)})`;
+    ? `💵 CASH ORDER — ${m['customer-name'] || customerEmail} ($${(cartTotal || depositAmount).toFixed(2)} total)`
+    : `⏳ PENDING ${method} ${amtLabel} — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)})`;
 
   let itemsHtml = '';
   if (orderType === 'menu' && trustedCart) {
@@ -357,13 +366,20 @@ async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, custome
     itemsHtml = `Custom order — ${m['custom-type'] || 'TBD'}`;
   }
 
+  const balanceDue = payFull ? 0 : Math.max(0, (cartTotal || 0) - depositAmount);
+  const confirmNote = paymentMethod === 'cash'
+    ? `<p style="color:#27ae60;"><strong>No deposit collected.</strong> Customer pays the full $${(cartTotal || 0).toFixed(2)} in cash at pickup.</p>`
+    : payFull
+      ? `<p style="color:#e87c22;"><strong>FULL PAYMENT PENDING.</strong> Customer must send the full $${depositAmount.toFixed(2)} to your ${method} within 24 hours.</p>`
+      : `<p style="color:#e87c22;"><strong>DEPOSIT PENDING.</strong> Customer must send the $${depositAmount.toFixed(2)} deposit to your ${method} within 24 hours.</p>`;
+
   const html = `
-    <h2>⏳ Pending ${method} Deposit Order</h2>
-    <p style="color:#e87c22;"><strong>NOT confirmed yet.</strong> Customer must send the $${depositAmount.toFixed(2)} deposit to your ${method} within 24 hours.</p>
+    <h2>${paymentMethod === 'cash' ? '💵 Cash' : `⏳ Pending ${method} ${amtLabel}`} Order</h2>
+    ${confirmNote}
     <hr>
-    <p><strong>Deposit owed:</strong> $${depositAmount.toFixed(2)} via <strong>${method}</strong><br>
+    <p><strong>${payFull || paymentMethod === 'cash' ? 'Amount' : 'Deposit'} owed:</strong> $${depositAmount.toFixed(2)} via <strong>${method}</strong><br>
        <strong>Cart total:</strong> $${(cartTotal || 0).toFixed(2)}<br>
-       <strong>Balance due at pickup:</strong> $${Math.max(0, (cartTotal || 0) - depositAmount).toFixed(2)}</p>
+       <strong>Balance due at pickup:</strong> $${balanceDue.toFixed(2)}</p>
     <hr>
     <p><strong>Customer:</strong> ${m['customer-name'] || ''}<br>
        <strong>Email:</strong> ${customerEmail || ''}<br>
@@ -373,7 +389,7 @@ async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, custome
     <p><strong>Items:</strong><br>${itemsHtml}</p>
     <p><strong>Special notes:</strong><br>${String(m['special-requests'] || '').replace(/\n/g, '<br>')}</p>
     <hr>
-    <p style="color:#888;font-size:12px;">Payment method: ${method} (deposit not yet received — cancel if not paid within 24 hrs)</p>
+    <p style="color:#888;font-size:12px;">Payment method: ${method} | Amount type: ${payFull ? 'Full payment' : 'Deposit only'}</p>
   `;
 
   const r = await fetch('https://api.resend.com/emails', {

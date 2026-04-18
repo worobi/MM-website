@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const qtyUnitNote    = document.getElementById('qty-unit-note');
 
     const PRODUCT_GROUPS = {
-      cookie:  { label: '🍪 Cookies',   keys: ['chocolate-chip','devils-food','sugar-cookie','yin-yang-cookie','kitchen-sink'] },
+      cookie:  { label: '🍪 Cookies',   keys: ['chocolate-chip','devils-food','sugar-cookie','yin-yang-cookie','kitchen-sink','rocky-road'] },
       pastry:  { label: '🥐 Pastries',  keys: ['cinnamon-roll'] },
       brownie: { label: '🍫 Brownies',  keys: ['fudge-brownie','blondie'] },
       muffin:  { label: '🧁 Muffins',   keys: ['blueberry-muffin','choc-chip-muffin','banana-nut-muffin','snickerdoodle-muffin'] },
@@ -588,6 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       renderCart();
       calcCartDeposit();
+      updatePaymentUI();
 
       const btn = document.getElementById('add-to-cart-btn');
       if (btn) {
@@ -606,6 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cart = cart.filter(c => c.key !== key);
       renderCart();
       calcCartDeposit();
+      updatePaymentUI();
     };
 
     window.updateCartQty = function(key, delta) {
@@ -617,6 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
       entry.qty    = (maxQ !== null) ? Math.min(newQty, maxQ) : newQty;
       renderCart();
       calcCartDeposit();
+      updatePaymentUI();
     };
 
     const addBtn = document.getElementById('add-to-cart-btn');
@@ -676,6 +679,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ── CART DEPOSIT CALCULATOR ── */
+    let _cartTotal   = 0;
+    let _depositAmt  = 0;
+
+    function calcDeposit(total) {
+      if (total <= 0) return 0;
+      if (CFG?.deposits?.tiers) {
+        for (const tier of CFG.deposits.tiers) {
+          if (total <= tier.upTo) {
+            return tier.amount ?? Math.round(total * (tier.percent ?? 0.5));
+          }
+        }
+      }
+      if (total < 20)  return 5;
+      if (total <= 50) return 10;
+      return Math.round(total * 0.5);
+    }
+
+    function getAmountChoice() {
+      return document.querySelector('input[name="payment-amount-choice"]:checked')?.value || 'deposit';
+    }
+
     function calcCartDeposit() {
       const total          = cart.reduce((sum, c) => sum + (c.qty * c.item.price), 0);
       const depositDisplay = document.getElementById('deposit-amount');
@@ -684,30 +708,53 @@ document.addEventListener('DOMContentLoaded', () => {
       const totalDisplay   = document.getElementById('order-total');
       const subtotalEl     = document.getElementById('cart-subtotal');
 
-      if (subtotalEl)   subtotalEl.textContent   = total > 0 ? `$${total}` : '$0';
-      if (totalDisplay) totalDisplay.textContent  = total > 0 ? `$${total}` : '—';
+      _cartTotal  = total;
+      _depositAmt = calcDeposit(total);
 
-      let deposit = 0;
-      if (total > 0) {
-        if (CFG?.deposits?.tiers) {
-          for (const tier of CFG.deposits.tiers) {
-            if (total <= tier.upTo) {
-              deposit = tier.amount ?? Math.round(total * (tier.percent ?? 0.5));
-              break;
-            }
-          }
-        } else {
-          if      (total < 20) deposit = 5;
-          else if (total < 50) deposit = 10;
-          else                 deposit = Math.round(total * 0.5);
-        }
+      if (subtotalEl)   subtotalEl.textContent  = total > 0 ? `$${total}` : '$0';
+      if (totalDisplay) totalDisplay.textContent = total > 0 ? `$${total}` : '—';
+
+      // Update the amount-choice panel prices
+      const depChoiceAmt  = document.getElementById('deposit-choice-amt');
+      const fullChoiceAmt = document.getElementById('full-choice-amt');
+      if (depChoiceAmt)  depChoiceAmt.textContent  = _depositAmt > 0 ? `$${_depositAmt}`  : '—';
+      if (fullChoiceAmt) fullChoiceAmt.textContent = total > 0       ? `$${total}` : '—';
+
+      // Sidebar summary reflects chosen amount
+      updateAmountDisplay();
+    }
+
+    function updateAmountDisplay() {
+      const choice         = getAmountChoice();
+      const amountDue      = choice === 'full' ? _cartTotal : _depositAmt;
+      const depositDisplay = document.getElementById('deposit-amount');
+      const depositInline  = document.getElementById('cart-deposit-inline');
+      const depositHidden  = document.getElementById('deposit-hidden');
+      const summaryLabel   = document.querySelector('.summary-total .label');
+      const agreeText      = document.getElementById('deposit-agree-text');
+
+      const amountText = amountDue > 0 ? `$${amountDue}` : '—';
+      if (depositDisplay) depositDisplay.textContent = amountText;
+      if (depositInline)  depositInline.textContent  = amountText;
+      if (depositHidden)  depositHidden.value         = amountDue;
+
+      if (summaryLabel) {
+        summaryLabel.textContent = choice === 'full' ? 'Total Due Today' : 'Deposit Due Today';
       }
 
-      const depositText = deposit > 0 ? `$${deposit}` : '—';
-      if (depositDisplay) depositDisplay.textContent = depositText;
-      if (depositInline)  depositInline.textContent  = depositText;
-      if (depositHidden)  depositHidden.value         = deposit;
+      if (agreeText) {
+        if (choice === 'full') {
+          agreeText.innerHTML = 'I understand the full amount is charged today to confirm my order. Orders are non-refundable if cancelled with less than 48 hours notice. <span class="required">*</span>';
+        } else {
+          agreeText.innerHTML = 'I understand a deposit is required to confirm my order. The remaining balance is due at pickup. Deposits are non-refundable if I cancel with less than 48 hours notice. <span class="required">*</span>';
+        }
+      }
     }
+
+    // Wire up amount-choice radios
+    document.querySelectorAll('input[name="payment-amount-choice"]').forEach(r => {
+      r.addEventListener('change', () => { updateAmountDisplay(); updatePaymentUI(); });
+    });
 
 
     /* ── PAYMENT METHOD SELECTOR ── */
@@ -744,34 +791,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updatePaymentUI() {
       const method    = getSelectedPaymentMethod();
+      const choice    = getAmountChoice();
       const isAlt     = method === 'cashapp' || method === 'venmo';
       const isCash    = method === 'cash';
       const isStripe  = method === 'stripe';
 
+      // Show/hide notices
       if (paymentAltNotice)   paymentAltNotice.style.display  = isAlt   ? 'flex'  : 'none';
       if (cashNotice)         cashNotice.style.display         = isCash  ? 'flex'  : 'none';
       if (stripeSecurityNote) stripeSecurityNote.style.display = isStripe ? 'flex' : 'none';
-      if (cashHandleCard)     cashHandleCard.style.display     = isCash              ? 'block' : 'none';
-      if (cashappHandleCard)  cashappHandleCard.style.display  = method === 'cashapp' ? 'block' : 'none';
-      if (venmoHandleCard)    venmoHandleCard.style.display    = method === 'venmo'   ? 'block' : 'none';
 
+      // Show/hide sidebar handle cards
+      if (cashHandleCard)    cashHandleCard.style.display    = isCash              ? 'block' : 'none';
+      if (cashappHandleCard) cashappHandleCard.style.display = method === 'cashapp' ? 'block' : 'none';
+      if (venmoHandleCard)   venmoHandleCard.style.display   = method === 'venmo'   ? 'block' : 'none';
+
+      // Show amount-choice section only for non-Cash methods when cart has items
+      const amountSection = document.getElementById('payment-amount-section');
+      if (amountSection) {
+        amountSection.style.display = (!isCash && _cartTotal > 0) ? 'block' : 'none';
+      }
+
+      // Update amounts in sidebar handle cards to reflect choice
+      const amountDue = (isCash || choice === 'full') ? _cartTotal : _depositAmt;
+      const amountStr = amountDue > 0 ? `$${amountDue}` : '—';
+      ['cashapp-handle-display','venmo-handle-display'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          // Only update the sibling amount label if it exists
+          const card = el.closest('.pay-handle-card');
+          const amtEl = card?.querySelector('.pay-handle-send-amount');
+          if (amtEl) amtEl.textContent = `Send: ${amountStr}`;
+        }
+      });
+
+      // Update the CashApp/Venmo sidebar warning text for amount
+      document.querySelectorAll('.pay-handle-warning').forEach(el => {
+        if (el.closest('#cashapp-handle-card, #venmo-handle-card')) {
+          const baseText = choice === 'full'
+            ? `Send ${amountStr} — full amount`
+            : `Send ${amountStr} deposit within 24 hrs or order is canceled`;
+          el.textContent = `⚠️ ${baseText}`;
+        }
+      });
+
+      // Submit button label
       if (submitBtn) {
+        const isFull = choice === 'full';
         if (method === 'cashapp') {
-          submitBtn.textContent       = 'Submit Order — Pay via CashApp →';
-          submitBtn.style.background  = 'linear-gradient(135deg,#00c62c,#00a024)';
-          submitBtn.style.boxShadow   = '0 0 18px rgba(0,198,44,0.4)';
+          submitBtn.textContent      = `Submit Order — ${isFull ? 'Pay Full via' : 'Send Deposit via'} CashApp →`;
+          submitBtn.style.background = 'linear-gradient(135deg,#00c62c,#00a024)';
+          submitBtn.style.boxShadow  = '0 0 18px rgba(0,198,44,0.4)';
         } else if (method === 'venmo') {
-          submitBtn.textContent       = 'Submit Order — Pay via Venmo →';
-          submitBtn.style.background  = 'linear-gradient(135deg,#0074de,#005cb3)';
-          submitBtn.style.boxShadow   = '0 0 18px rgba(0,116,222,0.4)';
+          submitBtn.textContent      = `Submit Order — ${isFull ? 'Pay Full via' : 'Send Deposit via'} Venmo →`;
+          submitBtn.style.background = 'linear-gradient(135deg,#0074de,#005cb3)';
+          submitBtn.style.boxShadow  = '0 0 18px rgba(0,116,222,0.4)';
         } else if (method === 'cash') {
-          submitBtn.textContent       = 'Submit Order — Pay Cash at Pickup →';
-          submitBtn.style.background  = 'linear-gradient(135deg,#b8860b,#daa520)';
-          submitBtn.style.boxShadow   = '0 0 18px rgba(218,165,32,0.4)';
+          submitBtn.textContent      = 'Submit Order — Pay Cash at Pickup →';
+          submitBtn.style.background = 'linear-gradient(135deg,#b8860b,#daa520)';
+          submitBtn.style.boxShadow  = '0 0 18px rgba(218,165,32,0.4)';
         } else {
-          submitBtn.textContent       = 'Continue to Pay Deposit →';
-          submitBtn.style.background  = '';
-          submitBtn.style.boxShadow   = '';
+          submitBtn.textContent      = isFull ? 'Pay Full Amount via Card →' : 'Pay Deposit via Card →';
+          submitBtn.style.background = '';
+          submitBtn.style.boxShadow  = '';
         }
       }
     }
@@ -830,6 +912,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const customerEmail = document.getElementById('customer-email')?.value?.trim() || '';
         const customerName  = document.getElementById('customer-name')?.value?.trim()  || '';
         const paymentMethod = getSelectedPaymentMethod();
+        const amountChoice  = getAmountChoice(); // 'deposit' | 'full'
 
         // Email opt-in
         const emailOptin = document.getElementById('email-optin');
@@ -858,6 +941,7 @@ document.addEventListener('DOMContentLoaded', () => {
               body:    JSON.stringify({
                 orderType: 'menu', cart: cartPayload,
                 customerEmail, orderData: formData, paymentMethod: 'cash',
+                amountChoice: 'full', // cash is always full at pickup
               }),
             });
             const data = await res.json();
@@ -883,7 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
               headers: { 'Content-Type': 'application/json' },
               body:    JSON.stringify({
                 orderType: 'menu', cart: cartPayload,
-                customerEmail, orderData: formData, paymentMethod,
+                customerEmail, orderData: formData, paymentMethod, amountChoice,
               }),
             });
             const data = await res.json();
@@ -892,11 +976,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const handle = paymentMethod === 'cashapp'
               ? (CFG?.payments?.cashapp?.handle || '$MonisMunchiesBakery')
               : (CFG?.payments?.venmo?.handle   || '@MonisMunchiesBakery');
+
+            // Show deposit OR full amount on thank-you page
+            const amountDue = amountChoice === 'full'
+              ? (data.cartTotal || 0)
+              : (data.depositAmount || 0);
+
             const params = new URLSearchParams({
-              payment: paymentMethod,
-              deposit: (data.depositAmount || 0).toFixed(2),
+              payment:     paymentMethod,
+              deposit:     amountDue.toFixed(2),
+              amountType:  amountChoice,
               handle,
-              name: customerName,
+              name:        customerName,
             });
             window.location.href = `thankyou.html?${params.toString()}`;
           } catch (err) {
@@ -918,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
               orderType: 'menu', cart: cartPayload,
-              customerEmail, orderData: formData,
+              customerEmail, orderData: formData, amountChoice,
             }),
           });
 
