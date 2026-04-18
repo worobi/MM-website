@@ -119,11 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          // Cap stagger at 120ms so the last card never waits more than ~120ms
+          setTimeout(() => entry.target.classList.add('visible'), Math.min(i * 50, 120));
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, {
+      threshold: 0.05,
+      // Pre-trigger 200px before the element reaches the viewport bottom
+      // so items load before the user has to scroll all the way to them
+      rootMargin: '0px 0px 200px 0px'
+    });
     fadeEls.forEach(el => obs.observe(el));
   }
 
@@ -249,6 +255,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+  }
+
+
+  /* ==============================================================
+     SHOP PAGE — Ensure all product cards are visible after 600ms
+     (fallback in case IntersectionObserver misses any below-fold cards)
+     ============================================================== */
+  if (document.querySelector('.product-grid')) {
+    setTimeout(() => {
+      document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+    }, 600);
   }
 
 
