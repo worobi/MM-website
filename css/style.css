@@ -3510,3 +3510,304 @@ input.flatpickr-input.form-input {
   .notify-fields { flex-direction: column; align-items: stretch; }
   .notify-fields input[type="email"] { min-width: unset; }
 }
+
+
+/* ================================================================
+   LABELS PAGE — food-label-card system
+   ================================================================ */
+
+/* Filter bar */
+.labels-filter-bar {
+  position: sticky;
+  top: 180px;   /* matches nav height */
+  z-index: 90;
+  background: rgba(10, 7, 25, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0;
+}
+
+.labels-filter-inner {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.label-filter-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.35rem 1rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.label-filter-btn:hover {
+  border-color: var(--purple);
+  color: var(--lavender);
+}
+
+.label-filter-btn.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+
+/* Grid */
+.labels-section {
+  padding: 3rem 1.5rem 5rem;
+}
+
+.labels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.labels-no-results {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ── The food label card ── */
+.food-label-card {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.food-label-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--purple);
+}
+
+/* Branded header — colour-coded by category */
+.flc-header {
+  background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 60%, var(--pink) 100%);
+  padding: 1.1rem 1.25rem 1rem;
+  position: relative;
+}
+
+.flc-header--pastry {
+  background: linear-gradient(135deg, #7B52E8 0%, #E8457A 60%, #F07040 100%);
+}
+
+.flc-header--brownie {
+  background: linear-gradient(135deg, #3d1a10 0%, #8B4513 50%, #5B38C8 100%);
+}
+
+.flc-header--muffin {
+  background: linear-gradient(135deg, #1a4a2e 0%, #2E8B57 50%, #7B52E8 100%);
+}
+
+.flc-header--mix {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2563EB 50%, #7B52E8 100%);
+}
+
+.flc-brand {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 0.25rem;
+}
+
+.flc-product-name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.flc-category-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.9);
+  padding: 2px 10px;
+}
+
+/* Label body — mimics a real product label */
+.flc-body {
+  background: #f5f2eb;   /* warm off-white — actual label feel */
+  color: #111;
+  padding: 1rem 1.1rem 0.75rem;
+  flex: 1;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+}
+
+/* Net weight row */
+.flc-netweight {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.flc-nw-label {
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #333;
+  white-space: nowrap;
+}
+
+.flc-nw-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Thick rule — like FDA label separator */
+.flc-divider-thick {
+  height: 6px;
+  background: #111;
+  margin: 0.4rem 0;
+  border-radius: 1px;
+}
+
+.flc-divider {
+  height: 1px;
+  background: #aaa;
+  margin: 0.55rem 0;
+}
+
+/* Ingredients / To Prepare fields */
+.flc-field {
+  margin-bottom: 0.4rem;
+}
+
+.flc-field-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #222;
+  margin-bottom: 0.2rem;
+}
+
+.flc-field-value {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.flc-field--prep .flc-field-label {
+  color: #2563EB;
+}
+
+.flc-field--prep .flc-field-value {
+  color: #1e3a5f;
+  background: rgba(37,99,235,0.06);
+  border-left: 2px solid #2563EB;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Allergen row */
+.flc-allergens {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.flc-allergen-label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #111;
+  white-space: nowrap;
+}
+
+.flc-allergen-pill {
+  display: inline-block;
+  background: #111;
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border-radius: 3px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+.flc-allergen-note {
+  font-size: 0.7rem;
+  color: #555;
+  font-style: italic;
+}
+
+/* Producer + cottage notice */
+.flc-producer {
+  font-size: 0.74rem;
+  color: #222;
+  margin-bottom: 0.3rem;
+}
+
+.flc-producer strong {
+  font-weight: 900;
+}
+
+.flc-cottage {
+  font-size: 0.65rem;
+  color: #666;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Order link footer */
+.flc-footer {
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  padding: 0.65rem 1.1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flc-order-link {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--lavender);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.flc-order-link:hover {
+  color: var(--pink);
+}
+
+/* Hidden cards when filtering */
+.food-label-card.hidden {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .labels-grid { grid-template-columns: 1fr; }
+  .labels-filter-bar { top: 0; }
+  .flc-product-name { font-size: 1.1rem; }
+}

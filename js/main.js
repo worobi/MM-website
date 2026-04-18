@@ -1229,6 +1229,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==============================================================
+     LABELS PAGE — category filter buttons
+     ============================================================== */
+  const filterBtns = document.querySelectorAll('.label-filter-btn');
+  if (filterBtns.length) {
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        const cards  = document.querySelectorAll('.food-label-card');
+        let visible  = 0;
+
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('hidden', !match);
+          if (match) visible++;
+        });
+
+        const noResults = document.getElementById('labels-no-results');
+        if (noResults) noResults.style.display = visible === 0 ? '' : 'none';
+      });
+    });
+  }
+
+
+  /* ==============================================================
      EVENTS PAGE — render event cards from config + notify form
      ============================================================== */
   const eventGrid  = document.getElementById('event-grid');
