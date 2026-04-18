@@ -274,6 +274,120 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
 
 /* ================================================================
+   POST /api/submit-order
+   Used for CashApp / Venmo deposit orders (no Stripe involved).
+   Body: {
+     orderType: 'menu' | 'custom',
+     cart: [...],          // menu orders only
+     customerEmail: string,
+     orderData: {},
+     paymentMethod: 'cashapp' | 'venmo',
+   }
+   Returns: { success: true, depositAmount: number }
+   ================================================================ */
+app.post('/api/submit-order', async (req, res) => {
+  try {
+    const { orderType, cart, customerEmail, orderData, paymentMethod } = req.body;
+
+    if (!['cashapp', 'venmo'].includes(paymentMethod)) {
+      return res.status(400).json({ error: 'Invalid payment method for this endpoint.' });
+    }
+    if (!orderType) {
+      return res.status(400).json({ error: 'orderType is required.' });
+    }
+
+    let depositAmount = 0;
+    let trustedCart   = null;
+    let cartTotal     = 0;
+
+    if (orderType === 'menu') {
+      const check = validateCart(cart);
+      if (!check.ok) return res.status(400).json({ error: check.error });
+      trustedCart   = check.cart;
+      cartTotal     = check.cartTotal;
+      depositAmount = calcDeposit(cartTotal);
+    } else {
+      // Custom orders — flat $10 deposit
+      depositAmount = 10;
+    }
+
+    // Notify Monica of the pending order
+    try {
+      await sendAltPayOrderEmail({
+        orderType, trustedCart, cartTotal, customerEmail,
+        orderData, paymentMethod, depositAmount,
+      });
+    } catch (err) {
+      console.error('[submit-order] email error (non-fatal):', err.message);
+    }
+
+    res.json({ success: true, depositAmount });
+
+  } catch (err) {
+    console.error('[submit-order] error:', err.message);
+    res.status(500).json({ error: 'Could not process order. Please try again.' });
+  }
+});
+
+
+/* ================================================================
+   sendAltPayOrderEmail
+   Notifies Monica of a pending CashApp / Venmo deposit order.
+   ================================================================ */
+async function sendAltPayOrderEmail({ orderType, trustedCart, cartTotal, customerEmail, orderData, paymentMethod, depositAmount }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const to     = process.env.ORDER_NOTIFY_EMAIL || 'orders@monismunchies.com';
+  const from   = process.env.ORDER_FROM_EMAIL   || `Moni's Munchies Orders <orders@monismunchies.com>`;
+
+  if (!apiKey) {
+    console.log(`[submit-order] Resend not configured. Pending ${paymentMethod} order from ${customerEmail} for $${depositAmount}`);
+    return;
+  }
+
+  const m      = orderData || {};
+  const method = paymentMethod === 'cashapp' ? 'CashApp' : 'Venmo';
+  const subject = `⏳ PENDING ${method} DEPOSIT — ${m['customer-name'] || customerEmail} ($${depositAmount.toFixed(2)})`;
+
+  let itemsHtml = '';
+  if (orderType === 'menu' && trustedCart) {
+    itemsHtml = trustedCart.map(c => `${c.qty} × ${c.label} ($${c.line.toFixed(2)})`).join('<br>');
+  } else {
+    itemsHtml = `Custom order — ${m['custom-type'] || 'TBD'}`;
+  }
+
+  const html = `
+    <h2>⏳ Pending ${method} Deposit Order</h2>
+    <p style="color:#e87c22;"><strong>NOT confirmed yet.</strong> Customer must send the $${depositAmount.toFixed(2)} deposit to your ${method} within 24 hours.</p>
+    <hr>
+    <p><strong>Deposit owed:</strong> $${depositAmount.toFixed(2)} via <strong>${method}</strong><br>
+       <strong>Cart total:</strong> $${(cartTotal || 0).toFixed(2)}<br>
+       <strong>Balance due at pickup:</strong> $${Math.max(0, (cartTotal || 0) - depositAmount).toFixed(2)}</p>
+    <hr>
+    <p><strong>Customer:</strong> ${m['customer-name'] || ''}<br>
+       <strong>Email:</strong> ${customerEmail || ''}<br>
+       <strong>Phone:</strong> ${m['customer-phone'] || ''}<br>
+       <strong>Pickup date:</strong> ${m['pickup-date'] || m['custom-date'] || ''}</p>
+    <hr>
+    <p><strong>Items:</strong><br>${itemsHtml}</p>
+    <p><strong>Special notes:</strong><br>${String(m['special-requests'] || '').replace(/\n/g, '<br>')}</p>
+    <hr>
+    <p style="color:#888;font-size:12px;">Payment method: ${method} (deposit not yet received — cancel if not paid within 24 hrs)</p>
+  `;
+
+  const r = await fetch('https://api.resend.com/emails', {
+    method:  'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ from, to: [to], subject, html, reply_to: customerEmail || undefined }),
+  });
+
+  if (!r.ok) {
+    const errText = await r.text();
+    console.error('[submit-order] Resend send failed:', r.status, errText);
+  }
+}
+
+
+/* ================================================================
    POST /api/subscribe
    Subscribe an email to Mailchimp via server-side API call.
    Body: { email: string, fname: string }

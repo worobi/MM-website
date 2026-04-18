@@ -2568,3 +2568,233 @@ input.flatpickr-input.form-input {
   padding: 0;
 }
 .popup-skip:hover { color: var(--text-muted); }
+
+
+/* ================================================================
+   PAYMENT METHOD SELECTOR
+   ================================================================ */
+
+.payment-method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.payment-option {
+  cursor: pointer;
+  position: relative;
+}
+
+.payment-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.payment-option-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.9rem 0.5rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  text-align: center;
+}
+
+.payment-option input[type="radio"]:checked + .payment-option-inner {
+  border-color: var(--pink);
+  background: rgba(255, 45, 120, 0.08);
+  box-shadow: 0 0 0 3px rgba(255, 45, 120, 0.15);
+}
+
+.payment-option[data-method="cashapp"] input[type="radio"]:checked + .payment-option-inner {
+  border-color: #00d632;
+  background: rgba(0, 214, 50, 0.08);
+  box-shadow: 0 0 0 3px rgba(0, 214, 50, 0.15);
+}
+
+.payment-option[data-method="venmo"] input[type="radio"]:checked + .payment-option-inner {
+  border-color: #008cff;
+  background: rgba(0, 140, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(0, 140, 255, 0.15);
+}
+
+.payment-option-inner:hover {
+  border-color: rgba(255,255,255,0.3);
+}
+
+.payment-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.payment-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: var(--white);
+  line-height: 1;
+}
+
+.payment-sub {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  line-height: 1;
+}
+
+/* Alt-payment notice box */
+.payment-alt-notice {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: rgba(255, 200, 0, 0.08);
+  border: 1px solid rgba(255, 200, 0, 0.35);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  transition: opacity 0.25s;
+}
+
+.payment-alt-notice .alt-notice-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.payment-alt-notice strong {
+  color: var(--yellow);
+}
+
+/* CashApp/Venmo handle display panel (in sidebar) */
+.pay-handle-card {
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  display: none;
+}
+
+.pay-handle-card.cashapp-card {
+  background: rgba(0, 214, 50, 0.07);
+  border: 1px solid rgba(0, 214, 50, 0.3);
+}
+
+.pay-handle-card.venmo-card {
+  background: rgba(0, 140, 255, 0.07);
+  border: 1px solid rgba(0, 140, 255, 0.3);
+}
+
+.pay-handle-label {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-bottom: 0.4rem;
+}
+
+.pay-handle-value {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.pay-handle-card.cashapp-card .pay-handle-value { color: #00d632; }
+.pay-handle-card.venmo-card .pay-handle-value { color: #008cff; }
+
+.pay-handle-warning {
+  font-size: 0.78rem;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .payment-method-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .payment-option-inner {
+    padding: 0.7rem 0.25rem;
+  }
+  .payment-icon { font-size: 1.25rem; }
+  .payment-name { font-size: 0.82rem; }
+  .payment-sub  { font-size: 0.65rem; }
+}
+
+
+/* ================================================================
+   PRODUCT LABEL INFO TOGGLE (shop page)
+   ================================================================ */
+
+.label-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  padding: 0.25rem 0.65rem;
+  margin: 0.35rem 0 0;
+  transition: border-color 0.2s, color 0.2s;
+  line-height: 1.4;
+}
+
+.label-toggle-btn:hover {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.label-toggle-btn .toggle-arrow {
+  transition: transform 0.25s;
+  display: inline-block;
+}
+
+.label-toggle-btn.open .toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.label-info-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.label-info-panel.open {
+  max-height: 600px;
+}
+
+.label-info-inner {
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+  padding: 0.75rem 0 0.25rem;
+  font-size: 0.74rem;
+  color: var(--text-faint);
+  line-height: 1.55;
+}
+
+.label-info-inner p {
+  margin: 0 0 0.45rem;
+}
+
+.label-info-inner strong {
+  color: var(--text-muted);
+}
+
+.label-cottage-notice {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.3);
+  border-top: 1px solid var(--border);
+  padding-top: 0.45rem;
+  margin-top: 0.35rem;
+  line-height: 1.4;
+}

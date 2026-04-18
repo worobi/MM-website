@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="images/logo-mmv4.svg">
+  <link rel="shortcut icon" href="images/logo-mmv4.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Order from Moni's Munchies menu — cookies, brownies, muffins, dry mixes. Build your cart and pay a secure deposit. Fresh-baked in Port Huron, MI."/>
   <title>Order from Menu — Moni's Munchies</title>
@@ -26,7 +28,7 @@
 
   <!-- NAV -->
   <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo"><img src="images/logo-mmv2.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
+    <a href="index.html" class="nav-logo"><img src="images/logo-mmv4.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
       <li><a href="about.html">About</a></li>
@@ -215,11 +217,49 @@
               </label>
             </div>
 
+            <!-- Payment Method -->
+            <h3 class="form-section-label" style="margin-top: 1.75rem;">How would you like to pay your deposit?</h3>
+            <div class="payment-method-grid" id="payment-method-grid">
+              <label class="payment-option" data-method="stripe">
+                <input type="radio" name="deposit-payment-method" value="stripe" checked>
+                <div class="payment-option-inner">
+                  <span class="payment-icon">💳</span>
+                  <span class="payment-name">Card</span>
+                  <span class="payment-sub">Stripe · Secure</span>
+                </div>
+              </label>
+              <label class="payment-option" data-method="cashapp" id="payment-opt-cashapp">
+                <input type="radio" name="deposit-payment-method" value="cashapp">
+                <div class="payment-option-inner">
+                  <span class="payment-icon">💚</span>
+                  <span class="payment-name">CashApp</span>
+                  <span class="payment-sub" id="cashapp-handle-sub">$MonisM</span>
+                </div>
+              </label>
+              <label class="payment-option" data-method="venmo" id="payment-opt-venmo">
+                <input type="radio" name="deposit-payment-method" value="venmo">
+                <div class="payment-option-inner">
+                  <span class="payment-icon">💙</span>
+                  <span class="payment-name">Venmo</span>
+                  <span class="payment-sub" id="venmo-handle-sub">@MonisM</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- 24hr warning (shown for CashApp / Venmo) -->
+            <div class="payment-alt-notice" id="payment-alt-notice" style="display:none;">
+              <div class="alt-notice-icon">⚠️</div>
+              <div>
+                <strong>Deposit must be sent within 24 hours</strong> or your order will be automatically canceled.
+                Your payment handle and deposit amount will be shown on the confirmation page.
+              </div>
+            </div>
+
             <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;" id="submit-btn">
               Continue to Pay Deposit &rarr;
             </button>
 
-            <div class="stripe-note" style="justify-content: center; margin-top: 1rem;">
+            <div class="stripe-note" id="stripe-security-note" style="justify-content: center; margin-top: 1rem;">
               <span class="stripe-badge">🔒 Secured by Stripe</span>
               <span>Your payment info is never stored on our servers.</span>
             </div>
@@ -250,6 +290,20 @@
               Remainder collected at pickup. We'll confirm your order within 24 hours.
             </div>
             <a href="faq.html#deposits" class="btn btn-ghost btn-sm btn-block">Questions about deposits?</a>
+          </div>
+
+          <!-- CashApp handle card (shown when CashApp selected) -->
+          <div class="pay-handle-card cashapp-card" id="cashapp-handle-card">
+            <div class="pay-handle-label">Send your deposit to CashApp</div>
+            <div class="pay-handle-value" id="cashapp-handle-display">$MonisM</div>
+            <div class="pay-handle-warning">⚠️ Pay within 24 hrs or order is canceled</div>
+          </div>
+
+          <!-- Venmo handle card (shown when Venmo selected) -->
+          <div class="pay-handle-card venmo-card" id="venmo-handle-card">
+            <div class="pay-handle-label">Send your deposit to Venmo</div>
+            <div class="pay-handle-value" id="venmo-handle-display">@MonisM</div>
+            <div class="pay-handle-warning">⚠️ Pay within 24 hrs or order is canceled</div>
           </div>
 
           <!-- Upcoming pickup dates -->
@@ -297,7 +351,7 @@
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="nav-logo"><img src="images/logo-mmv2.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
+        <a href="index.html" class="nav-logo"><img src="images/logo-mmv4.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
         <p>Homemade baked goods made with love in Port Huron, Michigan.</p>
         <div class="social-links">
           <a href="https://facebook.com/monismunchies" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">f</a>

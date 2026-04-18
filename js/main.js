@@ -143,6 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==============================================================
+     SHOP PAGE — Label info toggle
+     ============================================================== */
+  document.querySelectorAll('.label-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const panel = btn.nextElementSibling;
+      const open  = panel.classList.toggle('open');
+      btn.classList.toggle('open', open);
+    });
+  });
+
+
+  /* ==============================================================
      SHOP PAGE — Inventory sold-out states (reads config.js)
      ============================================================== */
   if (CFG && document.querySelector('.product-grid')) {
@@ -651,6 +663,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    /* ── PAYMENT METHOD SELECTOR ── */
+    const paymentRadios      = document.querySelectorAll('input[name="deposit-payment-method"]');
+    const paymentAltNotice   = document.getElementById('payment-alt-notice');
+    const stripeSecurityNote = document.getElementById('stripe-security-note');
+    const submitBtn          = document.getElementById('submit-btn');
+    const cashappHandleCard  = document.getElementById('cashapp-handle-card');
+    const venmoHandleCard    = document.getElementById('venmo-handle-card');
+
+    // Populate handles from config
+    if (CFG?.payments) {
+      const caHandle = CFG.payments.cashapp?.handle || '$MonisM';
+      const vmHandle = CFG.payments.venmo?.handle   || '@MonisM';
+      ['cashapp-handle-sub', 'cashapp-handle-display'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.textContent = caHandle;
+      });
+      ['venmo-handle-sub', 'venmo-handle-display'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.textContent = vmHandle;
+      });
+      if (CFG.payments.cashapp?.enabled === false) {
+        document.getElementById('payment-opt-cashapp')?.style.setProperty('display','none');
+      }
+      if (CFG.payments.venmo?.enabled === false) {
+        document.getElementById('payment-opt-venmo')?.style.setProperty('display','none');
+      }
+    }
+
+    function getSelectedPaymentMethod() {
+      return document.querySelector('input[name="deposit-payment-method"]:checked')?.value || 'stripe';
+    }
+
+    function updatePaymentUI() {
+      const method = getSelectedPaymentMethod();
+      const isAlt  = method === 'cashapp' || method === 'venmo';
+
+      if (paymentAltNotice)   paymentAltNotice.style.display  = isAlt ? 'flex' : 'none';
+      if (stripeSecurityNote) stripeSecurityNote.style.display = isAlt ? 'none' : 'flex';
+      if (cashappHandleCard)  cashappHandleCard.style.display  = method === 'cashapp' ? 'block' : 'none';
+      if (venmoHandleCard)    venmoHandleCard.style.display    = method === 'venmo'   ? 'block' : 'none';
+
+      if (submitBtn) {
+        if (method === 'cashapp') {
+          submitBtn.textContent       = 'Submit Order — Pay via CashApp →';
+          submitBtn.style.background  = 'linear-gradient(135deg,#00c62c,#00a024)';
+          submitBtn.style.boxShadow   = '0 0 18px rgba(0,198,44,0.4)';
+        } else if (method === 'venmo') {
+          submitBtn.textContent       = 'Submit Order — Pay via Venmo →';
+          submitBtn.style.background  = 'linear-gradient(135deg,#0074de,#005cb3)';
+          submitBtn.style.boxShadow   = '0 0 18px rgba(0,116,222,0.4)';
+        } else {
+          submitBtn.textContent       = 'Continue to Pay Deposit →';
+          submitBtn.style.background  = '';
+          submitBtn.style.boxShadow   = '';
+        }
+      }
+    }
+
+    paymentRadios.forEach(r => r.addEventListener('change', updatePaymentUI));
+    updatePaymentUI();
+
+
     /* ── ORDER FORM SUBMISSION → STRIPE CHECKOUT API ── */
     const orderForm = document.getElementById('order-form');
     if (orderForm) {
@@ -699,12 +771,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData      = Object.fromEntries(new FormData(orderForm));
         const customerEmail = document.getElementById('customer-email')?.value?.trim() || '';
+        const customerName  = document.getElementById('customer-name')?.value?.trim()  || '';
+        const paymentMethod = getSelectedPaymentMethod();
 
         // Email opt-in
         const emailOptin = document.getElementById('email-optin');
         if (emailOptin?.checked && customerEmail) {
-          const fname = (formData['customer-name'] || '').split(' ')[0];
-          subscribeEmail(customerEmail, fname);
+          subscribeEmail(customerEmail, customerName.split(' ')[0]);
         }
 
         // Build cart payload
@@ -717,19 +790,52 @@ document.addEventListener('DOMContentLoaded', () => {
           line:  c.qty * c.item.price,
         }));
 
-        const submitBtn = document.getElementById('submit-btn');
         if (submitBtn) { submitBtn.textContent = 'Securing your order…'; submitBtn.disabled = true; }
 
+        /* ── CashApp / Venmo path ── */
+        if (paymentMethod === 'cashapp' || paymentMethod === 'venmo') {
+          try {
+            const res  = await fetch('/api/submit-order', {
+              method:  'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body:    JSON.stringify({
+                orderType: 'menu', cart: cartPayload,
+                customerEmail, orderData: formData, paymentMethod,
+              }),
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) throw new Error(data.error || 'Order submission failed');
+
+            const handle = paymentMethod === 'cashapp'
+              ? (CFG?.payments?.cashapp?.handle || '$MonisM')
+              : (CFG?.payments?.venmo?.handle   || '@MonisM');
+            const params = new URLSearchParams({
+              payment: paymentMethod,
+              deposit: (data.depositAmount || 0).toFixed(2),
+              handle,
+              name: customerName,
+            });
+            window.location.href = `thankyou.html?${params.toString()}`;
+          } catch (err) {
+            console.error('Alt-pay order error:', err);
+            if (submitBtn) {
+              submitBtn.textContent  = 'Error — please try again';
+              submitBtn.style.background = '#aa0000';
+              setTimeout(() => { updatePaymentUI(); submitBtn.disabled = false; }, 3000);
+            }
+          }
+          return;
+        }
+
+        /* ── Stripe / Card path ── */
         try {
           const endpoint = CFG?.stripe?.checkoutEndpoint || '/api/create-checkout-session';
           const res = await fetch(endpoint, {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
-              orderType:     'menu',
-              cart:          cartPayload,
-              customerEmail,
-              orderData:     formData,
+              orderType: 'menu', cart: cartPayload,
+              customerEmail, orderData: formData,
             }),
           });
 
@@ -744,11 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (submitBtn) {
             submitBtn.textContent = 'Error — please try again';
             submitBtn.style.background = '#aa0000';
-            setTimeout(() => {
-              submitBtn.textContent  = '🍪 Pay Deposit & Confirm Order';
-              submitBtn.style.background = '';
-              submitBtn.disabled     = false;
-            }, 3000);
+            setTimeout(() => { updatePaymentUI(); submitBtn.disabled = false; }, 3000);
           }
         }
       });

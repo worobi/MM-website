@@ -8,6 +8,7 @@
      ✦ Set max quantities per product per weekend
      ✦ Change the order cutoff day/time
      ✦ Change which days customers can pick up
+     ✦ Update CashApp / Venmo handles (payments section)
 
    After editing, save and re-upload this file to the VPS.
    No other files need to change.
@@ -202,6 +203,35 @@ const MM_CONFIG = {
       { upTo: 50,       amount: 10,   label: 'Orders $20 – $50'  },
       { upTo: Infinity, percent: 0.5, label: 'Orders over $50'   },
     ],
+  },
+
+
+  /* ──────────────────────────────────────────────────────────────
+     PAYMENT METHODS
+     ──────────────────────────────────────────────────────────────
+     Customers can pay their deposit via Stripe (card), CashApp,
+     or Venmo. Set enabled: false to hide a method.
+
+     ⚠️  UPDATE THE HANDLES BELOW WITH YOUR REAL ACCOUNTS:
+         CashApp $cashtag  →  what shows after the $ sign on CashApp
+         Venmo username    →  what shows after the @ sign on Venmo
+
+     After updating, save and re-upload this file to the VPS.
+     ────────────────────────────────────────────────────────────── */
+  payments: {
+    stripe: {
+      enabled: true,
+    },
+    cashapp: {
+      enabled: true,
+      handle:  '$MonisM',     // ← Replace with your actual CashApp $cashtag
+    },
+    venmo: {
+      enabled: true,
+      handle:  '@MonisM',     // ← Replace with your actual Venmo username
+    },
+    // Hours customer has to send the deposit before order is auto-canceled
+    depositDeadlineHours: 24,
   },
 
 

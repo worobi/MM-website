@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="images/logo-mmv4.svg">
+  <link rel="shortcut icon" href="images/logo-mmv4.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="robots" content="noindex">
   <title>Order Confirmed — Moni's Munchies</title>
@@ -38,7 +40,7 @@
 
   <!-- NAV -->
   <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo"><img src="images/logo-mmv2.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
+    <a href="index.html" class="nav-logo"><img src="images/logo-mmv4.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
     <ul class="nav-links">
       <li><a href="shop.html">Shop</a></li>
       <li><a href="about.html">About</a></li>
@@ -66,47 +68,77 @@
     <a href="contact.html">📬 Contact</a>
   </nav>
 
-  <!-- THANK YOU CONTENT -->
+  <!-- THANK YOU CONTENT — dynamically adjusted by JS below -->
   <section class="thankyou-center">
-    <div class="thankyou-icon">🎉</div>
-    <h1><span class="text-pink glow-pink">Deposit Received!</span></h1>
-    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-muted);">Your order is confirmed.</h2>
-    <p>
-      Thank you for your order! Monica will review your request and reach out within
-      <strong style="color: var(--yellow);">24 hours</strong> to confirm the details and your pickup time.
-    </p>
 
-    <!-- Order recap (populated by JS) -->
-    <div id="order-recap" style="margin-bottom: 2rem;"></div>
-
-    <!-- What's next -->
-    <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 480px; width: 100%; margin-bottom: 2.5rem; text-align: left;">
-      <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 1.25rem; text-align: center;">What Happens Next</h3>
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; background: var(--pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); flex-shrink: 0; box-shadow: var(--glow-pink);">1</div>
-          <div>
-            <strong>Confirmation email</strong><br>
-            <span style="color: var(--text-muted); font-size: 0.9rem;">Check your inbox for your deposit receipt from Stripe and a confirmation from us.</span>
+    <!-- STRIPE / CARD payment thank you (default) -->
+    <div id="thankyou-stripe">
+      <div class="thankyou-icon">🎉</div>
+      <h1><span class="text-pink glow-pink">Deposit Received!</span></h1>
+      <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-muted);">Your order is confirmed.</h2>
+      <p>Thank you for your order! Monica will review your request and reach out within <strong style="color: var(--yellow);">24 hours</strong> to confirm the details and your pickup time.</p>
+      <div id="order-recap" style="margin-bottom: 2rem;"></div>
+      <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 480px; width: 100%; margin-bottom: 2.5rem; text-align: left;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 1.25rem; text-align: center;">What Happens Next</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; background: var(--pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); flex-shrink: 0; box-shadow: var(--glow-pink);">1</div>
+            <div><strong>Confirmation email</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">Check your inbox for your deposit receipt from Stripe and a confirmation from us.</span></div>
           </div>
-        </div>
-        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); flex-shrink: 0; box-shadow: var(--glow-purple);">2</div>
-          <div>
-            <strong>Monica will reach out</strong><br>
-            <span style="color: var(--text-muted); font-size: 0.9rem;">We'll confirm your pickup date, location, and remaining balance within 24 hours.</span>
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); flex-shrink: 0; box-shadow: var(--glow-purple);">2</div>
+            <div><strong>Monica will reach out</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">We'll confirm your pickup date, location, and remaining balance within 24 hours.</span></div>
           </div>
-        </div>
-        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-          <div style="width: 32px; height: 32px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); color: var(--dark); flex-shrink: 0; box-shadow: var(--glow-yellow);">3</div>
-          <div>
-            <strong>Fresh-baked &amp; ready</strong><br>
-            <span style="color: var(--text-muted); font-size: 0.9rem;">Monica bakes your order fresh. Pick it up, pay the remaining balance, and enjoy!</span>
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); color: var(--dark); flex-shrink: 0; box-shadow: var(--glow-yellow);">3</div>
+            <div><strong>Fresh-baked &amp; ready</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">Monica bakes your order fresh. Pick it up, pay the remaining balance, and enjoy!</span></div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- ALT PAYMENT (CashApp / Venmo) — hidden by default, shown by JS -->
+    <div id="thankyou-altpay" style="display:none; flex-direction:column; align-items:center;">
+      <div class="thankyou-icon" id="altpay-icon">💚</div>
+      <h1>Order <span class="text-pink glow-pink">Submitted!</span></h1>
+      <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-muted);">One step left — send your deposit.</h2>
+      <p style="margin-bottom: 0.5rem;">Your order has been received. To lock it in, send your deposit to:</p>
+
+      <!-- Handle card -->
+      <div id="altpay-handle-card" style="background: var(--card-bg); border: 2px solid var(--yellow); border-radius: var(--radius-lg); padding: 1.5rem 2.5rem; max-width: 380px; width: 100%; margin: 1.25rem auto; text-align: center;">
+        <div style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 0.4rem;" id="altpay-method-label">Send via CashApp</div>
+        <div id="altpay-handle" style="font-family: var(--font-heading); font-size: 2.2rem; color: var(--yellow); margin-bottom: 0.6rem; letter-spacing: 0.03em;">$MonisM</div>
+        <div style="font-size: 1rem; color: var(--white); margin-bottom: 0.25rem;">Deposit amount: <strong id="altpay-deposit" style="color: var(--pink); font-size: 1.2rem;">$—</strong></div>
+        <div style="font-size: 0.8rem; color: var(--text-faint);">Balance due at pickup</div>
+      </div>
+
+      <!-- 24hr warning -->
+      <div style="background: rgba(255,60,0,0.1); border: 1px solid rgba(255,60,0,0.45); border-radius: var(--radius); padding: 1rem 1.25rem; max-width: 420px; width: 100%; margin: 0 auto 2rem; text-align: left; font-size: 0.9rem; line-height: 1.6;">
+        <strong style="color: #ff6b3d; font-size: 1rem;">⚠️ 24-Hour Deposit Deadline</strong><br>
+        <span style="color: var(--text-muted);">Your deposit must be received within <strong style="color: var(--yellow);">24 hours</strong>. Orders with unpaid deposits are automatically canceled. Once we confirm receipt, Monica will reach out to finalize your pickup details.</span>
+      </div>
+
+      <!-- Steps -->
+      <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 480px; width: 100%; margin-bottom: 2.5rem; text-align: left;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 1.25rem; text-align: center;">What Happens Next</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); color: var(--dark); flex-shrink: 0; box-shadow: var(--glow-yellow);">1</div>
+            <div><strong>Send your deposit now</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">Open <span id="altpay-appname">CashApp</span> and send <strong id="altpay-deposit-step" style="color:var(--pink);">$—</strong> to <strong id="altpay-handle-step" style="color:var(--yellow);">$MonisM</strong> within 24 hours.</span></div>
+          </div>
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); flex-shrink: 0; box-shadow: var(--glow-purple);">2</div>
+            <div><strong>Monica confirms receipt</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">Once we see the deposit, your order is locked in. We'll reach out within 24 hours to confirm your pickup details.</span></div>
+          </div>
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; background: var(--pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); flex-shrink: 0; box-shadow: var(--glow-pink);">3</div>
+            <div><strong>Fresh-baked &amp; ready</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">Monica bakes your order fresh. Pick it up, pay the remaining balance, and enjoy!</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared bottom buttons -->
     <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
       <a href="index.html" class="btn btn-primary">Back to Home</a>
       <a href="shop.html" class="btn btn-secondary">Browse More Products</a>
@@ -122,7 +154,7 @@
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="nav-logo"><img src="images/logo-mmv2.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
+        <a href="index.html" class="nav-logo"><img src="images/logo-mmv4.svg" alt="Moni's Munchies" class="nav-logo-img"></a>
         <p>Homemade baked goods made with love in Port Huron, Michigan. Find us at farmers markets, or order directly online.</p>
         <div class="social-links">
           <a href="https://facebook.com/monismunchies" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">f</a>
@@ -190,6 +222,44 @@
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>
   <script>
+    // ── Alt-payment (CashApp / Venmo) thank you logic ──────────────
+    (function() {
+      const params  = new URLSearchParams(window.location.search);
+      const payment = params.get('payment'); // 'cashapp' | 'venmo' | null
+
+      if (payment === 'cashapp' || payment === 'venmo') {
+        // Swap panels
+        document.getElementById('thankyou-stripe').style.display  = 'none';
+        const altPanel = document.getElementById('thankyou-altpay');
+        altPanel.style.display = 'flex';
+
+        const deposit = params.get('deposit') || '—';
+        const handle  = params.get('handle')  || (payment === 'cashapp' ? '$MonisM' : '@MonisM');
+        const appName = payment === 'cashapp' ? 'CashApp' : 'Venmo';
+        const icon    = payment === 'cashapp' ? '💚' : '💙';
+
+        document.getElementById('altpay-icon').textContent              = icon;
+        document.getElementById('altpay-method-label').textContent      = `Send via ${appName}`;
+        document.getElementById('altpay-handle').textContent            = handle;
+        document.getElementById('altpay-deposit').textContent           = `$${deposit}`;
+        document.getElementById('altpay-appname').textContent           = appName;
+        document.getElementById('altpay-deposit-step').textContent      = `$${deposit}`;
+        document.getElementById('altpay-handle-step').textContent       = handle;
+
+        // Color the handle card border to match app color
+        const card = document.getElementById('altpay-handle-card');
+        if (payment === 'cashapp') {
+          card.style.borderColor = '#00d632';
+          document.getElementById('altpay-handle').style.color = '#00d632';
+          document.getElementById('altpay-handle-step').style.color = '#00d632';
+        } else {
+          card.style.borderColor = '#008cff';
+          document.getElementById('altpay-handle').style.color = '#008cff';
+          document.getElementById('altpay-handle-step').style.color = '#008cff';
+        }
+      }
+    })();
+
     // Confetti celebration
     const colors = ['#FF2D78','#FFE600','#9B00FF','#00D4FF','#FFFFFF'];
     for (let i = 0; i < 80; i++) {
