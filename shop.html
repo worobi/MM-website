@@ -9,7 +9,7 @@
   <title>Shop — Moni's Munchies</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -56,11 +56,11 @@
   </nav>
   <nav class="nav-mobile" aria-label="Mobile navigation">
     <a href="shop.html">🍪 Shop</a>
-    <a href="labels.html">📋 Product Labels</a>
     <a href="events.html">📍 Events</a>
+    <a href="about.html">💜 About Us</a>
+    <a href="monis-table.html">🍽️ Moni's Table</a>
     <a href="order.html">📋 Menu Order</a>
     <a href="custom-order.html">✨ Custom Order</a>
-    <a href="about.html">💜 About Us</a>
     <a href="faq.html">❓ FAQ</a>
     <a href="contact.html">📬 Contact</a>
   </nav>
@@ -184,6 +184,24 @@
             <div class="product-footer">
               <span class="product-price">$13 / doz</span>
               <a href="order.html?product=rocky-road" class="btn-order">Order</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grandma's Pocket Cookies -->
+        <div class="product-card fade-up" data-category="cookie">
+          <div class="product-img">
+            <span>👵</span>
+            <div class="product-badge new">New</div>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Cookies</div>
+            <div class="product-name">Grandma's Pocket Cookies</div>
+            <div class="product-desc">That butterscotch candy every grandma kept in her pocket — baked right into our famous sugar cookie. Sweet, nostalgic, impossibly soft.</div>
+            <a href="#label-info" class="label-toggle-btn">📋 Label Info</a>
+            <div class="product-footer">
+              <span class="product-price">$13 / doz</span>
+              <a href="order.html?product=grandmas-pocket" class="btn-order">Order</a>
             </div>
           </div>
         </div>
@@ -469,6 +487,14 @@
             <div class="label-row"><span class="label-key">Contains</span><span class="label-val"><span class="label-allergen">Wheat</span>, <span class="label-allergen">Eggs</span>, <span class="label-allergen">Milk</span>, <span class="label-allergen">Soy</span>, <span class="label-allergen">Tree Nuts (Walnuts)</span>.</span></div>
           </div>
         </div>
+        <div class="label-item">
+          <button class="label-item-btn" aria-expanded="false">Grandma's Pocket Cookies</button>
+          <div class="label-item-body">
+            <div class="label-row"><span class="label-key">Net Wt.</span><span class="label-val">18 oz (510 g) per dozen</span></div>
+            <div class="label-row"><span class="label-key">Ingredients</span><span class="label-val">Enriched flour (wheat flour, niacin, reduced iron, thiamine mononitrate, riboflavin, folic acid), butter (cream, salt), sugar, eggs, butterscotch chips (sugar, palm kernel and palm oils, whey, nonfat milk, natural and artificial flavor), vanilla extract, baking powder, salt.</span></div>
+            <div class="label-row"><span class="label-key">Contains</span><span class="label-val"><span class="label-allergen">Wheat</span>, <span class="label-allergen">Eggs</span>, <span class="label-allergen">Milk</span>.</span></div>
+          </div>
+        </div>
       </div><!-- /.label-group cookies -->
 
       <!-- PASTRIES -->
@@ -620,7 +646,8 @@
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <div class="footer-grid">
+    <div class="footer-body">
+<div class="footer-grid">
       <div class="footer-col">
         <h5>The Basics</h5>
         <ul>
@@ -663,8 +690,9 @@
         </ul>
       </div>
     </div>
-    <div class="cottage-notice">
-      ⚠️ <strong>Michigan Cottage Food Notice:</strong> Products sold by Moni's Munchies are made in a home kitchen not inspected by the Michigan Department of Agriculture and Rural Development. This operation complies with Michigan's Cottage Food Law. Products may contain common allergens including wheat, eggs, dairy, and tree nuts.
+      <div class="cottage-notice">
+        ⚠️ <strong>Michigan Cottage Food Notice:</strong> Products sold by Moni's Munchies are made in a home kitchen not inspected by the Michigan Department of Agriculture and Rural Development. This operation complies with Michigan's Cottage Food Law. Products may contain common allergens including wheat, eggs, dairy, and tree nuts.
+      </div>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 Moni's Munchies &middot; Port Huron, MI</p>
@@ -685,7 +713,7 @@
     </div>
   </div>
 
-  <script src="js/config.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="js/config.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
 </body>
 </html>

@@ -99,6 +99,13 @@ const MM_CONFIG = {
       maxQty:  null,
       soldOut: false,
     },
+    'grandmas-pocket': {
+      label:   "Grandma's Pocket Cookies",
+      price:   13,
+      unit:    'dozen',
+      maxQty:  null,
+      soldOut: false,
+    },
 
     /* ── PASTRIES ── */
     'cinnamon-roll': {
