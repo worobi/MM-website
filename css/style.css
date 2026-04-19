@@ -1627,8 +1627,8 @@ section {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
   max-width: var(--container);
   margin: 0 auto 3rem;
 }
@@ -1695,7 +1695,15 @@ section {
   transition: color 0.2s;
 }
 
-.footer-col ul li a:hover { color: var(--blue); }
+.footer-col ul li a:hover { color: var(--lavender); }
+
+.footer-coming-soon {
+  color: rgba(255,255,255,0.25);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0.6rem;
+  display: block;
+}
 
 .cottage-notice {
   max-width: var(--container);
@@ -1777,7 +1785,7 @@ section {
   .contact-grid     { grid-template-columns: 1fr; gap: 2.5rem; }
   .order-layout     { grid-template-columns: 1fr; }
   .order-summary-card { position: static; }
-  .footer-grid      { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-grid      { grid-template-columns: 1fr 1fr; gap: 1.75rem; }
 }
 
 /* Mobile */
