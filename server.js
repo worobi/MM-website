@@ -21,7 +21,12 @@
 require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
-const stripe  = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripe = stripeSecretKey ? require('stripe')(stripeSecretKey) : null;
+
+if (!stripe) {
+  console.warn('[stripe] STRIPE_SECRET_KEY not configured; card checkout is disabled');
+}
 
 // Server-authoritative menu (same file the browser uses — dual-exported).
 // Any price the client sends is ignored; we look up price from here.
@@ -49,6 +54,11 @@ app.post(
   async (req, res) => {
     const sig           = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!stripe) {
+      console.error('[webhook] STRIPE_SECRET_KEY not configured');
+      return res.status(503).send('Payment service not configured');
+    }
 
     if (!webhookSecret) {
       console.error('[webhook] STRIPE_WEBHOOK_SECRET not configured');
@@ -170,6 +180,12 @@ function validateCart(clientCart) {
    Returns: { url: string }  ← Stripe hosted checkout URL
    ================================================================ */
 app.post('/api/create-checkout-session', async (req, res) => {
+  if (!stripe) {
+    return res.status(503).json({
+      error: 'Online card payment is temporarily unavailable. Please choose another payment method or try again later.',
+    });
+  }
+
   try {
     const { orderType, cart, customerEmail, orderData, amountChoice } = req.body;
     const payFull = amountChoice === 'full'; // true = charge full cart total, false = deposit only
