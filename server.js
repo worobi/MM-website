@@ -21,6 +21,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
+const path    = require('path');
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripe = stripeSecretKey ? require('stripe')(stripeSecretKey) : null;
 
@@ -581,6 +582,40 @@ function buildOrderEmailHtml(session, m) {
     <hr>
     <p style="color:#888;font-size:12px;">Stripe session: ${session.id}</p>
   `;
+}
+
+// Serve the storefront alongside the API in Coolify. Keep the static surface
+// explicit so server source, package metadata, and environment files cannot be
+// downloaded from the web root.
+for (const directory of ['css', 'images', 'js']) {
+  app.use(`/${directory}`, express.static(path.join(__dirname, directory)));
+}
+
+const storefrontPages = [
+  'about.html',
+  'brand.html',
+  'contact.html',
+  'custom-order.html',
+  'events.html',
+  'faq.html',
+  'index.html',
+  'labels.html',
+  'legal.html',
+  'monis-table.html',
+  'order.html',
+  'privacy.html',
+  'shop.html',
+  'thankyou.html',
+];
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+for (const page of storefrontPages) {
+  app.get(`/${page}`, (req, res) => {
+    res.sendFile(path.join(__dirname, page));
+  });
 }
 
 
