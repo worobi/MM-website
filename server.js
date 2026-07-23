@@ -310,6 +310,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
    Returns: { success: true, depositAmount: number }
    ================================================================ */
 app.post('/api/submit-order', async (req, res) => {
+  if (!process.env.RESEND_API_KEY) {
+    return res.status(503).json({
+      error: 'Online order notifications are temporarily unavailable. Please contact Moni’s Munchies directly.',
+    });
+  }
+
   try {
     const { orderType, cart, customerEmail, orderData, paymentMethod, amountChoice } = req.body;
     const payFull = amountChoice === 'full';
@@ -440,9 +446,11 @@ app.post('/api/subscribe', async (req, res) => {
   const serverDC  = process.env.MAILCHIMP_SERVER; // e.g. "us1"
 
   if (!apiKey || !listId || !serverDC) {
-    // Mailchimp not configured — log it and succeed silently
-    console.log(`[subscribe] Mailchimp not configured. Would have subscribed: ${email}`);
-    return res.json({ success: true, message: 'Subscribed!' });
+    console.error('[subscribe] Mailchimp is not configured');
+    return res.status(503).json({
+      success: false,
+      message: 'Newsletter signup is temporarily unavailable. Please try again later.',
+    });
   }
 
   try {
